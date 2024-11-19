@@ -50,7 +50,7 @@ export const hogeAPI = async () => {
 ### POST Request
 ```typescript
 export const hogeAPI = async (hoge : string) => {
-  const response = await axios.post(`${API_URL}/new_api_name`, { message });
+  const response = await axios.post(`${API_URL}/new_api_name`,  { message });
 
   return response.data;
 };
