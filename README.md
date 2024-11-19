@@ -18,7 +18,7 @@
 
 ## Step2 : Dev Container 起動
 - Clone したディレクトリに移動して， `code .` を入力するか VScode 上から clone したディレクトリを開く．
-- `Command(Ctrl) + Shift + P` を入力するとコマンドパレットが開くので `Dev Containers: Rebuild Container Without Cache` を選択．
+- `Command(Ctrl) + Shift + P` を入力するとコマンドパレットが開くので `Dev Containers: Rebuild Container Without Cache` または`Dev Containers: Rebuild Container Without Cache`を選択．
     - VScode を開くと右下に `Reopen ...` のようなボタンが出てくるのでこちらを押しても同様の事が可能
 - コンテナが起動するまでしばらく待つ
 
