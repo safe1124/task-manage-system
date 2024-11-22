@@ -1,6 +1,6 @@
 # Airion Base Chat System
-- 最終更新：2024/11/10
-- 作成者：a-uchino
+- 最終更新：2024/11/22
+- 作成者：Seinosuke
 - 不明点や質問があれば Airion Slackの `#開発` チャンネルまでお願いします．
     - 個別のPJに依存する質問は各クライアントさんチャンネルでお願いします．
 
@@ -59,25 +59,6 @@ postgres=# \dt
 ```bash
 \q
 ```
-
-## Step4 : 環境変数の設定
-- JWT token を生成する際に `secret_key` などが必要となってくる
-- 以下のコマンドを入力して，環境変数サンプルファイルをコピーする
-```bash
-cp /workspace/backend/.env.sample /workspace/backend/.env
-```
-- 以下のコマンドを入力して， `secret key` の生成を行う
-```bash
-node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
-```
-- 出力されたキーを `.env` ファイルに貼り付ける
-```text
-# JWT Secret Key settings
-SECRET_KEY = "ここに貼り付け"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 1440
-```
-- プロジェクトで環境変数(ex. API keyなど)を利用する場合には `.env` ファイルに追記していく
 
 ## Step5 : フロントエンド起動
 - 以下のコマンドを実行してフロントエンドを立ち上げる．
