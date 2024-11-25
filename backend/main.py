@@ -7,7 +7,7 @@ router = APIRouter()
 
 # CORSの設定をより詳細に定義
 origins = [
-    "http://localhost:3000",
+    "http://localhost:4989",
 ]
 
 app.add_middleware(

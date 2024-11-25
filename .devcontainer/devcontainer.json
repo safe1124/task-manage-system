@@ -3,7 +3,7 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspace",
-  "forwardPorts": [3000, 8000, 5432],
+  "forwardPorts": [4989, 8600, 5432],
   "postCreateCommand": "cd frontend && npm install && cd ../backend && pip install -r requirements.txt",
   "customizations": {
     "vscode": {
