@@ -12,8 +12,6 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # モデルのインポート
 from models.user import User
-from models.role import Role
-from models.chat_log import ChatLog
 from database import Base
 
 # this is the Alembic Config object, which provides
