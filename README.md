@@ -9,12 +9,9 @@
 - VScode
 - windowsの場合，wsl
 
-### AWSにデプロイする際の注意点
-- 本システムを AWS の EC2 にデプロイする際には `t2.micro` だとスペック不足でサーバが落ちてしまうので，`t2.medium` を選択するようにしてください．
-
 # 開発環境立ち上げ方法
 ## Step1 : コードの clone or Fork
-- Git Clone を行い，ローカルにコードを落とす．
+- Git Clone/Fork を行い，ローカルにコードを落とす．
 
 ## Step2 : Dev Container 起動
 - Clone したディレクトリに移動して， `code .` を入力するか VScode 上から clone したディレクトリを開く．
