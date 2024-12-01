@@ -35,6 +35,17 @@ alembic revision --autogenerate -m "First Create User Table"
 alembic upgrade head
 ```
 
+### 上記のコマンドでエラーを吐く場合
+以下コマンドで過去の過去のマイグレーションの状態を削除する。
+```bash
+psql -h db -p 5432 -U postgres -d postgres
+# password入力画面が出るので「postgres」と入力
+```
+テーブル内容を削除する
+```bash
+DELETE FROM alembic_version;
+```
+
 - 以上のコマンドを完了させ，データベース内にテーブルが正常作成されているか確認する
 ```bash
 psql -h db -p 5432 -U postgres -d postgres
