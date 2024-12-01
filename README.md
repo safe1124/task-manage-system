@@ -1,12 +1,14 @@
 # Airion Employment Test
-- 最終更新：2024/11/25
+- 最終更新：2024/12/1
 - 作成者：Seinosuke
-- 不明点や質問があれば Airion Slackの `#開発` チャンネルまでお願いします．
-    - 個別のPJに依存する質問は各クライアントさんチャンネルでお願いします．
+- 不明点や質問があれば s-saito@airion.co.jp までご連絡ください。
 
 # 試験概要
 - 期間：1週間
-- 採点基準：[こちらのNotionを参考にしてください](https://www.notion.so/airion/7c2f22a677244af895894e71efd21e3c)
+- 採点基準：[こちらのNotion](https://airion.notion.site/7c2f22a677244af895894e71efd21e3c)を参考にしてください
+- 提出方法：
+Zipファイルを解凍しそれを元に新しいGitHubリポジトリを作成してください。
+そのリポジトリのURLを`s-saito@airion.co.jp`まで提出してください。
 
 
 ## 注意点
