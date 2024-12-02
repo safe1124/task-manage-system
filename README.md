@@ -7,9 +7,14 @@
 - 期間：1週間
 - 採点基準：[こちらのNotion](https://airion.notion.site/7c2f22a677244af895894e71efd21e3c)を参考にしてください
 - 提出方法：
+以下の2つを s-saito@airion.co.jp と t-ohkuma@airion.co.jp までメールで提出してください。
+*1. 作成したGithubレポジトリのURL*
 Zipファイルを解凍しそれを元に新しいprivate GitHubリポジトリを作成してください。
-また、そのレポジトリに共同作業者として`Seinosuke01`を追加してください。 
-最後にリポジトリのURLを s-saito@airion.co.jp と t-ohkuma@airion.co.jp まで提出してください。
+また、そのレポジトリに共同作業者として`Seinosuke01`を追加してください。
+
+*2. 完成品の簡単な動作を示す動画ファイル（またはそれを圧縮したZipファイル）*
+実装したUIや機能を示す簡単な動画を添付してください。
+
 
 
 ## 注意点
