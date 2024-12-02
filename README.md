@@ -7,8 +7,9 @@
 - 期間：1週間
 - 採点基準：[こちらのNotion](https://airion.notion.site/7c2f22a677244af895894e71efd21e3c)を参考にしてください
 - 提出方法：
-Zipファイルを解凍しそれを元に新しいGitHubリポジトリを作成してください。
-そのリポジトリのURLを`s-saito@airion.co.jp`まで提出してください。
+Zipファイルを解凍しそれを元に新しいprivate GitHubリポジトリを作成してください。
+また、そのレポジトリに共同作業者として`Seinosuke01`を追加してください。 
+最後にリポジトリのURLを s-saito@airion.co.jp と t-ohkuma@airion.co.jp まで提出してください。
 
 
 ## 注意点
