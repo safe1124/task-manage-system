@@ -1,7 +1,7 @@
 # Airion Employment Test
 - 最終更新：2024/12/2
 - 作成者：Seinosuke
-- 不明点や質問があれば contact@airion.co.jp までご連絡ください。
+- 不明点や質問があれば s-saito@airion.co.jp までご連絡ください。
 
 # 試験概要
 - 期間：1週間
