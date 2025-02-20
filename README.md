@@ -1,31 +1,7 @@
 # Airion Employment Test
-- 最終更新：2024/12/14
-- 作成者：Seinosuke
+- 最終更新：2025/02/20
+- 作成者：齊藤盛之介
 - 不明点や質問があれば s-saito@airion.co.jp までご連絡ください。
-
-# 試験概要
-- 期間：1週間
-- 採点基準：[こちらのNotion](https://airion.notion.site/7c2f22a677244af895894e71efd21e3c)を参考にしてください
-- 提出方法：
-以下の2つを s-saito@airion.co.jp と t-ohkuma@airion.co.jp までメールで提出してください。
-
-1. **作成したGithubレポジトリのURL**  
-   Zipファイルを解凍しそれを元に新しいprivate GitHubリポジトリを作成してください。  
-   また、そのレポジトリに共同作業者として`AirionContact`を追加してください。
-
-2. **完成品の簡単な動作を示す動画ファイル（またはそれを圧縮したZipファイル）**  
-   実装したUIや機能を示す簡単な動画を添付してください。
-
-
-
-
-## 注意点
-本テストの機能要件は以下の通りです：
-- タスク管理機能：必須要件です。必ず実装してください。
-- ユーザー管理機能：可能であれば実装してください（任意要件）。
-タスク管理機能の実装を優先し、時間やリソースに余裕がある場合はユーザー管理機能の実装を検討してください。
-- Notionの評価項目の5の「課題認識と対処」について、READMEにこちらの内容に該当する文章を記述してください。（文量は問いません。）
-
 
 ## 必要要件
 - docker for mac or windows
@@ -33,11 +9,9 @@
 - windowsの場合，wsl
 
 # 開発環境立ち上げ方法
-## Step1 : コードの clone or Fork
-- Git Clone/Fork を行い，ローカルにコードを落とす．
 
-## Step2 : Dev Container 起動
-- Clone したディレクトリに移動して， `code .` を入力するか VScode 上から clone したディレクトリを開く．
+## Step1 : Dev Container 起動
+- プロジェクトディレクトリに移動して， `code .` を入力するか VScode 上からディレクトリを開く．
 - `Command(Ctrl) + Shift + P` を入力するとコマンドパレットが開くので `Dev Containers: Rebuild Container Without Cache` または`Dev Containers: Rebuild Container Without Cache`を選択．
     - VScode を開くと右下に `Reopen ...` のようなボタンが出てくるのでこちらを押しても同様の事が可能
 - コンテナが起動するまでしばらく待つ
