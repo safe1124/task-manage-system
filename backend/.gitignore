@@ -11,4 +11,4 @@ __pycache__/
 # Database
 *.sqlite
 
-./migrations/
+./migrations/versions/*
