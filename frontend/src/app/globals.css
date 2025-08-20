@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b1b3b; /* deep navy */
+  --foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,8 +14,281 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+body { 
+  color: var(--foreground); 
+  background: var(--background); 
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Starry night background effect with neon glow */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    /* Layer 1 - Main stars */
+    radial-gradient(2px 2px at 20px 30px, #ffeb3b, transparent),
+    radial-gradient(1px 1px at 40px 70px, #ffc107, transparent),
+    radial-gradient(2px 2px at 90px 40px, #ffeb3b, transparent),
+    radial-gradient(1px 1px at 130px 80px, #fff59d, transparent),
+    radial-gradient(2px 2px at 160px 30px, #ffc107, transparent),
+    radial-gradient(1px 1px at 200px 90px, #ffeb3b, transparent),
+    radial-gradient(1px 1px at 250px 50px, #fff59d, transparent),
+    radial-gradient(2px 2px at 300px 20px, #ffc107, transparent),
+    radial-gradient(1px 1px at 350px 100px, #ffeb3b, transparent),
+    radial-gradient(1px 1px at 400px 60px, #fff59d, transparent),
+    /* Layer 2 - More stars */
+    radial-gradient(1px 1px at 80px 15px, #ffeb3b, transparent),
+    radial-gradient(2px 2px at 120px 110px, #ffc107, transparent),
+    radial-gradient(1px 1px at 180px 65px, #fff59d, transparent),
+    radial-gradient(1px 1px at 220px 25px, #ffeb3b, transparent),
+    radial-gradient(2px 2px at 280px 85px, #ffc107, transparent),
+    radial-gradient(1px 1px at 320px 45px, #fff59d, transparent),
+    radial-gradient(1px 1px at 380px 95px, #ffeb3b, transparent),
+    radial-gradient(2px 2px at 420px 35px, #ffc107, transparent),
+    /* Layer 3 - Even more stars */
+    radial-gradient(1px 1px at 60px 120px, #fff59d, transparent),
+    radial-gradient(1px 1px at 100px 75px, #ffeb3b, transparent),
+    radial-gradient(2px 2px at 140px 15px, #ffc107, transparent),
+    radial-gradient(1px 1px at 190px 105px, #fff59d, transparent),
+    radial-gradient(1px 1px at 240px 75px, #ffeb3b, transparent),
+    radial-gradient(2px 2px at 290px 55px, #ffc107, transparent),
+    radial-gradient(1px 1px at 340px 115px, #fff59d, transparent),
+    radial-gradient(1px 1px at 390px 25px, #ffeb3b, transparent),
+    radial-gradient(2px 2px at 430px 85px, #ffc107, transparent),
+    radial-gradient(1px 1px at 50px 55px, #fff59d, transparent),
+    radial-gradient(1px 1px at 110px 125px, #ffeb3b, transparent),
+    radial-gradient(2px 2px at 170px 45px, #ffc107, transparent);
+  background-repeat: repeat;
+  background-size: 450px 150px;
+  animation: twinkleNeon 4s infinite;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+@keyframes twinkleNeon {
+  0% { 
+    opacity: 0.4; 
+    filter: drop-shadow(0 0 2px #ffeb3b) drop-shadow(0 0 4px #ffc107);
+  }
+  25% { 
+    opacity: 0.6; 
+    filter: drop-shadow(0 0 4px #ffeb3b) drop-shadow(0 0 8px #ffc107);
+  }
+  50% { 
+    opacity: 0.2; 
+    filter: drop-shadow(0 0 1px #ffeb3b) drop-shadow(0 0 2px #ffc107);
+  }
+  75% { 
+    opacity: 0.5; 
+    filter: drop-shadow(0 0 3px #ffeb3b) drop-shadow(0 0 6px #ffc107);
+  }
+  100% { 
+    opacity: 0.4; 
+    filter: drop-shadow(0 0 2px #ffeb3b) drop-shadow(0 0 4px #ffc107);
+  }
+}
+
+.card-hover { transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease; }
+.card-hover:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,0,0,.06); background-color: rgba(0,0,0,.02); }
+
+/* Brand gradient text */
+.brand-gradient {
+  background: linear-gradient(90deg, #93c5fd 0%, #c4b5fd 50%, #f9a8d4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Status badges */
+.badge { border-radius: 9999px; font-weight: 600; }
+.badge.todo { background: rgba(107,114,128,0.15); color: #374151; }
+.badge.in_progress { background: rgba(37,99,235,0.15); color: #1d4ed8; }
+.badge.done { background: rgba(16,185,129,0.18); color: #047857; }
+
+/* Clean glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+/* Swipe-to-delete helpers */
+.swipe-wrapper { position: relative; overflow: hidden; border-radius: 14px; }
+.swipe-track { 
+  will-change: transform; 
+  user-select: none; 
+  cursor: grab;
+  transition: transform 0.3s ease;
+}
+.swipe-delete-bg { 
+  position: absolute; 
+  inset: 0; 
+  background: rgba(239, 68, 68, 0.2); 
+  display: flex; 
+  align-items: center; 
+  justify-content: flex-end; 
+  padding-right: 16px; 
+  opacity: 0; 
+  transition: opacity .2s ease;
+  border-radius: 14px;
+}
+.swipe-delete-bg.show { opacity: 1; }
+.swipe-delete-icon { 
+  opacity: 0; 
+  transition: opacity 0.2s ease;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Modern Dropdown Styles */
+:root {
+  --dropdown-bg-color: rgba(255, 255, 255, 0.08);
+  --dropdown-border-color: rgba(255, 255, 255, 0.15);
+  --dropdown-text-color: #ffffff;
+  --dropdown-text-muted: rgba(255, 255, 255, 0.7);
+  --dropdown-hover-bg: rgba(255, 255, 255, 0.12);
+  --dropdown-focus-color: #3b82f6;
+  --dropdown-radius: 12px;
+  --dropdown-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.modern-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  background: var(--dropdown-bg-color);
+  border: none;
+  border-radius: var(--dropdown-radius);
+  color: var(--dropdown-text-color);
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--dropdown-transition);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 140px;
+  backdrop-filter: blur(10px);
+}
+
+.dropdown-button:hover {
+  background: var(--dropdown-hover-bg);
+}
+
+.dropdown-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.dropdown-arrow {
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  transition: transform var(--dropdown-transition);
+  fill: var(--dropdown-text-muted);
+}
+
+.dropdown-button.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--dropdown-bg-color);
+  border: none;
+  border-radius: var(--dropdown-radius);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--dropdown-transition);
+  margin-top: 4px;
+}
+
+.dropdown-list.open {
+  max-height: 300px;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  color: var(--dropdown-text-color);
+  cursor: pointer;
+  transition: var(--dropdown-transition);
+}
+
+.dropdown-item:hover {
+  background: var(--dropdown-hover-bg);
+  color: #ffffff;
+}
+
+.dropdown-item.selected {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+/* Width adjustments for full-width dropdowns */
+.modern-dropdown.w-full .dropdown-button {
+  width: 100%;
+  min-width: auto;
+}
+
+/* Text truncation utility */
+.text-truncate {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Task box status colors */
+.task-box-todo {
+  background: rgba(255, 255, 255, 0.8); /* 미착수 상태 80% 불투명도 */
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.task-box-in_progress {
+  background: rgba(255, 235, 59, 0.9); /* 연한 노란색 90% */
+  border: 1px solid rgba(255, 235, 59, 1);
+}
+
+.task-box-done {
+  background: rgba(139, 195, 74, 0.9); /* 연한 연두색 90% */
+  border: 1px solid rgba(139, 195, 74, 1);
+}
+
+/* Grid view optimizations */
+.grid-view-card {
+  min-height: 200px;
+}
+
+.grid-view-card .swipe-track {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-view-card .swipe-track > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-view-card .swipe-track a {
+  flex: 1;
 }

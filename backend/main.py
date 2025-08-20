@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.endpoints.tasks import router as tasks_router
+from backend.endpoints.users import router as users_router
 
 app = FastAPI()
 
@@ -18,3 +19,4 @@ def health():
     return {"status": "ok"}
 
 app.include_router(tasks_router)
+app.include_router(users_router)

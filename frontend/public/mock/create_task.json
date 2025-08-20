@@ -1,0 +1,10 @@
+{
+  "id": 4,
+  "title": "New task example",
+  "description": "This is a created task sample response",
+  "status": "todo",
+  "priority": 3,
+  "due_date": null,
+  "created_at": "2025-08-20T12:00:00Z",
+  "updated_at": "2025-08-20T12:00:00Z"
+}

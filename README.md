@@ -86,3 +86,10 @@ uvicorn main:app --reload --port=8600
 - FastAPIで作成されたAPIを確認するには `localhost:8600/docs` を参照する．
 - [Frontend開発方法](/public/frontend.md)
 - [Backend開発方法](/public/backend.md)
+
+## 問題意識と対応 (評価項目5)
+
+`docs/awareness.md` に、実装範囲・未実装の課題・改善計画・工数見積を整理しました。
+
+## 実装メモ（フロントエンド中心）
+実装の考慮点・設計判断・今後の改善は `docs/implementation-notes.md` にまとめています。

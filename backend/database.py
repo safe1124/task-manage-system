@@ -2,9 +2,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
 
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/postgres")
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# Default to local SQLite for dev. Override with env var DATABASE_URL when needed.
+DEFAULT_SQLITE_PATH = os.path.join(os.path.dirname(__file__), "app.db")
+DEFAULT_SQLALCHEMY_URL = f"sqlite:///{DEFAULT_SQLITE_PATH}"
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_SQLALCHEMY_URL)
+
+connect_args = {"check_same_thread": False} if SQLALCHEMY_DATABASE_URL.startswith("sqlite") else {}
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
