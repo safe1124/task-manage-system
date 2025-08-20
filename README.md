@@ -1,7 +1,4 @@
-# Airion Employment Test
-- 最終更新：2025/02/20
-- 作成者：齊藤盛之介
-- 不明点や質問があれば s-saito@airion.co.jp までご連絡ください。
+
 
 ## 必要要件
 - docker for mac or windows
