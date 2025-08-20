@@ -11,8 +11,8 @@ from alembic import context
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # モデルのインポート
-from models.user import User
-from database import Base
+import models
+Base = models.Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

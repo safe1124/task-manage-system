@@ -1,29 +1,20 @@
-from fastapi import APIRouter, FastAPI, Depends, HTTPException, Request
-from fastapi.encoders import jsonable_encoder
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from backend.endpoints.tasks import router as tasks_router
 
-app = FastAPI(debug=True)
-router = APIRouter()
+app = FastAPI()
 
-# CORSの設定をより詳細に定義
-origins = [
-    "http://localhost:4989",
-]
-
+# 프론트(4989) 접근 허용
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:4989", "http://127.0.0.1:4989"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["*"],
-    max_age=600,  # Preflightリクエストのキャッシュ時間（秒）
 )
 
 @app.get("/check")
-def check_api():
+def health():
     return {"status": "ok"}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="localhost", port=8000, reload=True)
+app.include_router(tasks_router)
