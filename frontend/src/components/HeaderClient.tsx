@@ -44,7 +44,7 @@ export default function HeaderClient() {
       <header className="sticky top-0 z-20 bg-[#0b1b3b]/90 backdrop-blur border-b border-white/10 text-white">
         <nav className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
           <button className="font-semibold hover:opacity-80" onClick={() => setOpen(true)}>タスク</button>
-          <a href="/tasks" className="text-lg sm:text-xl font-semibold brand-gradient">Airionタスク管理システム</a>
+          <a href="/tasks" className="text-lg sm:text-2xl font-semibold brand-gradient">Airionタスク管理システム</a>
           <div className="w-14" />
         </nav>
       </header>
