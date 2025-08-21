@@ -34,8 +34,8 @@ export default function AuthPage() {
       });
 
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        const detail = data.detail || `エラーコード: ${res.status}`;
+        const errorData = await res.json().catch(() => ({}));
+        const detail = errorData.detail || `エラーコード: ${res.status}`;
         if (res.status === 409) setMsg(`登録失敗: ${detail}`);
         else if (res.status === 422) setMsg("入力形式が正しくありません。");
         else if (res.status === 401) setMsg("ログイン失敗: " + detail);
@@ -50,7 +50,7 @@ export default function AuthPage() {
         setMail("");
         setPassword("");
       } else {
-        const data = await res.json();
+        await res.json(); // Response data not needed for login
         setMsg("ログイン中...");
         const loginSuccess = await login();
         if (!loginSuccess) {
@@ -59,7 +59,7 @@ export default function AuthPage() {
         // Redirect is now handled by the login function's state update triggering
         // the useEffect in this component. No need to call router.replace here.
       }
-    } catch (error: unknown) {
+    } catch {
       setMsg("ネットワークエラーが発生しました。");
     }
   }
