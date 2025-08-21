@@ -8,7 +8,7 @@ import { formatDateTimeJa } from '@/lib/date';
 import { authFetch } from '@/lib/auth';
 import { useAuth } from "@/contexts/AuthContext";
 
-// Use environment variable for API base URL
+// Use environment variable for API base URL - Updated for Vercel deployment
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 export default function TaskListClient() {

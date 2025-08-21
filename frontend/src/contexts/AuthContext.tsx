@@ -1,4 +1,5 @@
 "use client";
+// Updated for Vercel deployment - ESLint errors fixed
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authFetch } from '@/lib/auth';
 interface UserProfile {
@@ -44,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkAuthState();
   }, []);
 
-  const login = async (sessionId: string): Promise<boolean> => {
+  const login = async (): Promise<boolean> => {
     setLoading(true);
     try {
       const res = await authFetch(`${API_BASE}/users/me`);
@@ -53,8 +54,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setLoading(false);
         return true;
       }
-    } catch (error) {
-      console.error("Failed to fetch user after login:", error);
+    } catch {
+      console.error("Failed to fetch user after login");
     }
     // If login process fails, reset to a clean logged-out state.
     setUser(null);

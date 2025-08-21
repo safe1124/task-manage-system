@@ -1,3 +1,4 @@
+// Updated for Vercel deployment - ESLint errors fixed
 export async function authFetch(url: string, options: RequestInit = {}): Promise<Response> {
   const response = await fetch(url, {
     ...options,
