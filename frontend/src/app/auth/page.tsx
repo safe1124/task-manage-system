@@ -32,6 +32,7 @@ export default function AuthPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
+        credentials: 'include',  // CORS credentials 포함
       });
 
       if (!res.ok) {

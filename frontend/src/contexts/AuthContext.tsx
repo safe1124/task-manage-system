@@ -30,13 +30,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkAuthState = async () => {
       setLoading(true);
       try {
-        const res = await authFetch(`${API_BASE}/users/me`);
+        // Don't auto-redirect on initial auth check to prevent infinite loops
+        const res = await authFetch(`${API_BASE}/users/me`, {}, false);
         if (res.ok) {
-          setUser(await res.json());
+          const userData = await res.json();
+          setUser(userData);
         } else {
+          // Clear user state but don't redirect
           setUser(null);
         }
-      } catch {
+      } catch (error) {
+        console.log("Authentication check failed:", error);
         setUser(null);
       } finally {
         setLoading(false);
@@ -48,14 +52,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (): Promise<boolean> => {
     setLoading(true);
     try {
-      const res = await authFetch(`${API_BASE}/users/me`);
+      // Don't auto-redirect during login process
+      const res = await authFetch(`${API_BASE}/users/me`, {}, false);
       if (res.ok) {
-        setUser(await res.json());
+        const userData = await res.json();
+        setUser(userData);
         setLoading(false);
         return true;
       }
-    } catch {
-      console.error("Failed to fetch user after login");
+    } catch (error) {
+      console.error("Failed to fetch user after login:", error);
     }
     // If login process fails, reset to a clean logged-out state.
     setUser(null);
@@ -70,14 +76,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const reloadUser = async () => {
       setLoading(true);
-      const res = await authFetch(`${API_BASE}/users/me`);
-      if (res.ok) {
-        setUser(await res.json());
-      } else {
-        // If reloading user fails (e.g. session expired), log out completely.
-        logout();
+      try {
+        // Allow auto-redirect for manual reload requests
+        const res = await authFetch(`${API_BASE}/users/me`, {}, true);
+        if (res.ok) {
+          const userData = await res.json();
+          setUser(userData);
+        } else {
+          // If reloading user fails (e.g. session expired), clear user state
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Failed to reload user:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
   };
 
   const value = { user, loading, login, logout, reloadUser };
