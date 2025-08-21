@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import ModernDropdown from '@/components/ModernDropdown';
 import SimpleDateTimePicker from '@/components/SimpleDateTimePicker';
 import { Task } from '@/types/task';
-import { parseLocalDateTime, formatDateTimeJa } from '@/lib/date';
+import { formatDateTimeJa } from '@/lib/date';
 import { authFetch } from '@/lib/auth';
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -12,11 +12,10 @@ import { useAuth } from "@/contexts/AuthContext";
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 export default function TaskListClient() {
-  const { user, loading: authLoading } = useAuth();
+  const { loading: authLoading } = useAuth();
 
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [counts, setCounts] = useState<{todo:number; inProgress:number; done:number}>({todo:0, inProgress:0, done:0});
-  const [loading, setLoading] = useState<boolean>(true); // Start with loading true
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   // search/filter/sort
@@ -46,7 +45,6 @@ export default function TaskListClient() {
       const res = await authFetch(url, { cache: "no-store" });
 
       if (!res.ok) {
-        // A 401 here means the token became invalid. The context should handle the redirect.
         if (res.status === 401) {
           setError("認証が切れました。再度ログインしてください。");
           return;
@@ -61,40 +59,12 @@ export default function TaskListClient() {
     } finally {
       setLoading(false);
     }
-  }, [keyword, statusFilter, sort]); // Removed user from dependencies
-
-  // urgent tasks (due within 24h and not done)
-  const urgentTasks = useMemo(() => {
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-    return tasks.filter(t => {
-      if (!t.due_date || t.status === 'done') return false;
-      const dueDate = parseLocalDateTime(t.due_date) ?? new Date(t.due_date);
-      return dueDate <= tomorrow;
-    });
-  }, [tasks]);
-
-  // time until due helper
-  const getTimeUntilDue = (dueDate: string | null) => {
-    if (!dueDate) return null;
-    const now = new Date();
-    const parsed = parseLocalDateTime(dueDate);
-    const due = parsed ?? new Date(dueDate);
-    const diffMs = due.getTime() - now.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    if (diffHours < 0) return { text: "期限切れ", urgent: true, overdue: true } as const;
-    if (diffHours < 24) return { text: `${diffHours}時間後`, urgent: true, overdue: false } as const;
-    const diffDays = Math.floor(diffHours / 24);
-    return { text: `${diffDays}日後`, urgent: false, overdue: false } as const;
-  };
+  }, [keyword, statusFilter, sort]);
 
   useEffect(() => {
-    // Wait until the authentication check is complete.
     if (authLoading) {
       return; 
     }
-    // Load tasks regardless of authentication status (anonymous users get their own tasks)
     load();
   }, [authLoading, load]);
 
@@ -169,14 +139,6 @@ export default function TaskListClient() {
     updateTask(task, { priority: newPriority });
   };
 
-  const handleDueDateChange = (task: Task, newDueDate: string) => {
-    updateTask(task, { due_date: newDueDate || null });
-  };
-
-  const handleSwipeDelete = (taskId: number) => {
-    deleteTask(taskId);
-  };
-
   if (authLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -192,22 +154,6 @@ export default function TaskListClient() {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">タスク管理</h1>
           
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">{counts.todo}</div>
-              <div className="text-sm text-gray-600">未完了</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-yellow-600">{counts.inProgress}</div>
-              <div className="text-sm text-gray-600">進行中</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">{counts.done}</div>
-              <div className="text-sm text-gray-600">完了</div>
-            </div>
-          </div>
-
           {/* Search and Filter */}
           <div className="flex flex-wrap gap-4 mb-6">
             <input
@@ -317,11 +263,7 @@ export default function TaskListClient() {
                   <TaskCard
                     key={task.id}
                     task={task}
-                    onStatusChange={handleStatusChange}
-                    onPriorityChange={handlePriorityChange}
-                    onDueDateChange={handleDueDateChange}
                     onDelete={deleteTask}
-                    onSwipeDelete={handleSwipeDelete}
                   />
                 ))}
               </div>
@@ -333,9 +275,7 @@ export default function TaskListClient() {
                     task={task}
                     onStatusChange={handleStatusChange}
                     onPriorityChange={handlePriorityChange}
-                    onDueDateChange={handleDueDateChange}
                     onDelete={deleteTask}
-                    onSwipeDelete={handleSwipeDelete}
                   />
                 ))}
               </div>
@@ -348,13 +288,9 @@ export default function TaskListClient() {
 }
 
 // Task Card Component
-function TaskCard({ task, onStatusChange, onPriorityChange, onDueDateChange, onDelete, onSwipeDelete }: {
+function TaskCard({ task, onDelete }: {
   task: Task;
-  onStatusChange: (task: Task, status: string) => void;
-  onPriorityChange: (task: Task, priority: number) => void;
-  onDueDateChange: (task: Task, dueDate: string) => void;
   onDelete: (taskId: number) => void;
-  onSwipeDelete: (taskId: number) => void;
 }) {
   const priorityColors = {
     1: "bg-gray-100 text-gray-800",
@@ -398,12 +334,12 @@ function TaskCard({ task, onStatusChange, onPriorityChange, onDueDateChange, onD
 
         {task.due_date && (
           <div className="text-sm text-gray-600">
-            期限: {formatDateTimeJa(task.due_date)}
+            期限: {formatDateTimeJa(new Date(task.due_date))}
           </div>
         )}
 
         <div className="text-xs text-gray-500">
-          作成: {formatDateTimeJa(task.created_at)}
+          作成: {formatDateTimeJa(new Date(task.created_at))}
         </div>
       </div>
     </div>
@@ -411,13 +347,11 @@ function TaskCard({ task, onStatusChange, onPriorityChange, onDueDateChange, onD
 }
 
 // Task Row Component
-function TaskRow({ task, onStatusChange, onPriorityChange, onDueDateChange, onDelete, onSwipeDelete }: {
+function TaskRow({ task, onStatusChange, onPriorityChange, onDelete }: {
   task: Task;
   onStatusChange: (task: Task, status: string) => void;
   onPriorityChange: (task: Task, priority: number) => void;
-  onDueDateChange: (task: Task, dueDate: string) => void;
   onDelete: (taskId: number) => void;
-  onSwipeDelete: (taskId: number) => void;
 }) {
   const priorityColors = {
     1: "bg-gray-100 text-gray-800",
@@ -468,7 +402,7 @@ function TaskRow({ task, onStatusChange, onPriorityChange, onDueDateChange, onDe
 
           {task.due_date && (
             <div className="text-sm text-gray-600">
-              期限: {formatDateTimeJa(task.due_date)}
+              期限: {formatDateTimeJa(new Date(task.due_date))}
             </div>
           )}
 
