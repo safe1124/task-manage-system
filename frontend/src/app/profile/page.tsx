@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import { authFetch } from "@/lib/auth";
 import { useAuth } from "@/contexts/AuthContext";
 
-// Use Railway backend URL for Vercel deployment
-const API_BASE = "https://3minutetasker.up.railway.app";
+// Use same-origin API via Next.js rewrite to Railway
+const API_BASE = "/api";
 
 export default function ProfilePage() {
   const router = useRouter();

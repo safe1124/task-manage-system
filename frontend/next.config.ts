@@ -4,10 +4,10 @@ const nextConfig: NextConfig = {
   // Vercel 배포용 설정 (정적 내보내기 제거)
   trailingSlash: true,
   images: { unoptimized: true },
-  // API routes will work normally on Vercel
+  // Proxy API to Railway backend to keep cookies first-party on Vercel
   async rewrites() {
     return [
-      { source: "/api/:path*", destination: "/api/:path*" },
+      { source: "/api/:path*", destination: "https://3minutetasker.up.railway.app/:path*" },
     ];
   },
 };
