@@ -13,13 +13,18 @@ export function clearToken() {
   fetch('/api/users/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
 }
 
-export async function authFetch(input: RequestInfo | URL, init: RequestInit = {}) {
-  // Include cookies automatically for session-based auth
-  return fetch(input, { 
-    ...init, 
+export async function authFetch(url: string, options: RequestInit = {}): Promise<Response> {
+  const response = await fetch(url, {
+    ...options,
     credentials: 'include',
-    headers: { ...(init.headers as Record<string, string>) }
   });
+
+  if (response.status === 401) {
+    // Redirect to login page on authentication failure
+    window.location.href = '/auth';
+  }
+
+  return response;
 }
 
 

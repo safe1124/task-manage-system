@@ -1,5 +1,6 @@
 import { Task } from '@/types/task';
 import { parseLocalDateTime, formatDateTimeJa } from '@/lib/date';
+import Link from 'next/link';
 
 // Use environment variable for API base URL
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
@@ -17,7 +18,11 @@ export default async function TaskDetail({ params }: { params: Promise<{ id: str
 
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <a href="/tasks" className="text-sm opacity-70 hover:underline">← タスク一覧へ</a>
+      <div className="mt-6">
+        <Link href="/tasks" className="text-blue-600 hover:underline">
+          ← タスク一覧に戻る
+        </Link>
+      </div>
       <h1 className="text-2xl font-semibold mt-4 mb-2">{task.title}</h1>
       <div className="text-sm opacity-80 mb-4">{task.description}</div>
       <div className="grid gap-2 text-sm">

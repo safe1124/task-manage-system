@@ -12,12 +12,6 @@ export default function AuthPage() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
-  const [isClient, setIsClient] = useState(false);
-
-  // Check for client-side
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -64,7 +58,7 @@ export default function AuthPage() {
         // Redirect is now handled by the login function's state update triggering
         // the useEffect in this component. No need to call router.replace here.
       }
-    } catch (e: any) {
+    } catch (error: unknown) {
       setMsg("ネットワークエラーが発生しました。");
     }
   }

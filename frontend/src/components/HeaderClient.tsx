@@ -3,6 +3,7 @@ import { useState } from "react";
 import ModernDropdown from './ModernDropdown';
 import { authFetch } from '@/lib/auth';
 import { useAuth } from "@/contexts/AuthContext";
+import Image from 'next/image';
 
 // Use environment variable for API base URL
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
@@ -67,9 +68,13 @@ export default function HeaderClient() {
             ) : (
               <>
                 <div className="flex items-center gap-2 text-sm opacity-90">
-                  {user.avatar_url && (
-                    <img src={user.avatar_url} alt="avatar" className="w-6 h-6 rounded-full object-cover" />
-                  )}
+                  <Image
+                    src={user.avatar_url || "/default-avatar.png"}
+                    alt="Avatar"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 rounded-full"
+                  />
                   <span>{user.name} さんようこそ</span>
                 </div>
                 <a href="/profile" className="text-sm opacity-80 hover:underline">プロフィール</a>

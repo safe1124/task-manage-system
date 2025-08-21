@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { getToken, setToken as setLocalStorageToken, clearToken, authFetch } from '@/lib/auth';
+import { authFetch } from '@/lib/auth';
 interface UserProfile {
   id: string;
   name: string;
@@ -36,10 +36,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUser(null);
         }
       } catch (error) {
-        console.error("Auth check failed:", error);
         setUser(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     checkAuthState();
   }, []);
@@ -63,8 +63,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    await clearToken(); // This now calls the logout endpoint
-    setUser(null);
     // Use window location to force a full refresh, clearing all states.
     window.location.href = '/auth';
   };

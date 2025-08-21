@@ -6,14 +6,12 @@ import SimpleDateTimePicker from '@/components/SimpleDateTimePicker';
 import { Task } from '@/types/task';
 import { parseLocalDateTime, formatDateTimeJa } from '@/lib/date';
 import { authFetch } from '@/lib/auth';
-import { useRouter } from 'next/navigation';
 import { useAuth } from "@/contexts/AuthContext";
 
 // Use environment variable for API base URL
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 export default function TaskListClient() {
-  const router = useRouter();
   const { user, loading: authLoading } = useAuth();
 
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -57,12 +55,13 @@ export default function TaskListClient() {
       }
       const data = (await res.json()) as Task[];
       setTasks(data);
-    } catch (e: any) {
-      setError(e.message ?? "不明なエラーが発生しました。");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "不明なエラーが発生しました。";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
-  }, [user, keyword, statusFilter, sort]); // Removed router from dependencies
+  }, [keyword, statusFilter, sort]); // Removed user from dependencies
 
   // urgent tasks (due within 24h and not done)
   const urgentTasks = useMemo(() => {
@@ -99,305 +98,387 @@ export default function TaskListClient() {
     load();
   }, [authLoading, load]);
 
-  // Update task counts whenever the tasks array changes.
-  useEffect(() => {
-    const todo = tasks.filter((t) => t.status === 'todo').length;
-    const inProgress = tasks.filter((t) => t.status === 'in_progress').length;
-    const done = tasks.filter((t) => t.status === 'done').length;
-    setCounts({ todo, inProgress, done });
-  }, [tasks]);
-
-  useEffect(() => {
-    const handleReload = () => load();
-    window.addEventListener('tasks:reload', handleReload);
-    return () => window.removeEventListener('tasks:reload', handleReload);
-  }, [load]);
-  
-  // This useEffect handles triggering a search from the header/drawer component
-  useEffect(() => {
-    const handleSearch = () => {
-        load();
-    };
-    window.addEventListener('tasks:search', handleSearch);
-    return () => window.removeEventListener('tasks:search', handleSearch);
-  }, [load]);
-
-  async function createTask() {
-    if (!hasForm) return;
+  const createTask = async () => {
+    if (!newTitle.trim()) return;
     try {
-      const payload = {
-        title: newTitle.trim(),
-        description: newDescription.trim() || null,
-        status: "todo",
-        priority: Number(newPriority) || 3,
-        due_date: newDueDate || null,
-      };
       const res = await authFetch(`${API_BASE}/tasks/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          title: newTitle,
+          description: newDescription,
+          priority: newPriority,
+          due_date: newDueDate || null,
+        }),
       });
-      if (!res.ok) throw new Error(`作成失敗: ${res.status}`);
+
+      if (!res.ok) {
+        throw new Error(`タスクの作成に失敗しました: ${res.status}`);
+      }
+
+      const newTask = await res.json();
+      setTasks(prev => [newTask, ...prev]);
       setNewTitle("");
       setNewDescription("");
       setNewPriority(3);
       setNewDueDate("");
-      await load();
-    } catch (e: any) {
-      alert(e.message ?? "作成失敗");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "不明なエラーが発生しました。";
+      setError(errorMessage);
     }
-  }
+  };
 
-  async function updateStatus(task: Task, next: Task["status"]) {
+  const updateTask = async (task: Task, updates: Partial<Task>) => {
     try {
       const res = await authFetch(`${API_BASE}/tasks/${task.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: next }),
+        body: JSON.stringify(updates),
       });
-      if (!res.ok) throw new Error(`更新失敗: ${res.status}`);
-      await load();
-    } catch (e: any) {
-      alert(e?.message ?? "更新失敗");
-    }
-  }
 
-  async function deleteTaskById(taskId: number, title?: string) {
-    if (!confirm(`タスク "${title ?? ''}" を削除しますか？`)) return;
+      if (!res.ok) {
+        throw new Error(`タスクの更新に失敗しました: ${res.status}`);
+      }
+
+      const updatedTask = await res.json();
+      setTasks(prev => prev.map(t => t.id === task.id ? updatedTask : t));
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "不明なエラーが発生しました。";
+      setError(errorMessage);
+    }
+  };
+
+  const deleteTask = async (taskId: number) => {
     try {
       const res = await authFetch(`${API_BASE}/tasks/${taskId}`, { method: "DELETE" });
-      if (res.status !== 204) throw new Error(`削除失敗: ${res.status}`);
-      await load();
-    } catch (e: any) {
-      alert(e?.message ?? "削除失敗");
-    }
-  }
-
-  // swipe helper
-  function useSwipe(onDelete: () => void) {
-    let startX = 0;
-    let currentX = 0;
-    let isDragging = false;
-    let currentElement: HTMLElement | null = null;
-    const threshold = 100;
-    const reveal = 30;
-
-    function resetElement() {
-      if (!currentElement) return;
-      const track = currentElement.querySelector('.swipe-track') as HTMLElement;
-      if (track) {
-        track.style.transition = 'transform 0.3s ease';
-        track.style.transform = 'translateX(0px)';
+      if (!res.ok) {
+        throw new Error(`タスクの削除に失敗しました: ${res.status}`);
       }
+      setTasks(prev => prev.filter(t => t.id !== taskId));
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "不明なエラーが 발생しました。";
+      setError(errorMessage);
     }
+  };
 
-    function handleStart(clientX: number, element: HTMLElement) {
-      isDragging = true;
-      startX = clientX;
-      currentX = clientX;
-      currentElement = element;
-      const track = element.querySelector('.swipe-track') as HTMLElement;
-      if (track) track.style.transition = 'none';
-      
-      document.addEventListener('mousemove', handleGlobalMouseMove);
-      document.addEventListener('mouseup', handleGlobalMouseUp);
-      document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
-      document.addEventListener('touchend', handleGlobalTouchEnd);
-    }
+  const handleStatusChange = (task: Task, newStatus: string) => {
+    updateTask(task, { status: newStatus as Task['status'] });
+  };
 
-    function handleMove(clientX: number) {
-      if (!isDragging || !currentElement) return;
-      currentX = clientX;
-      const deltaX = Math.min(0, currentX - startX);
-      const track = currentElement.querySelector('.swipe-track') as HTMLElement;
-      if (track) track.style.transform = `translateX(${deltaX}px)`;
-    }
+  const handlePriorityChange = (task: Task, newPriority: number) => {
+    updateTask(task, { priority: newPriority });
+  };
 
-    function handleEnd() {
-      if (!isDragging || !currentElement) return;
-      document.removeEventListener('mousemove', handleGlobalMouseMove);
-      document.removeEventListener('mouseup', handleGlobalMouseUp);
-      document.removeEventListener('touchmove', handleGlobalTouchMove);
-      document.removeEventListener('touchend', handleGlobalTouchEnd);
-      const deltaX = Math.min(0, currentX - startX);
-      if (Math.abs(deltaX) > threshold) onDelete(); else resetElement();
-      isDragging = false;
-      currentElement = null;
-    }
+  const handleDueDateChange = (task: Task, newDueDate: string) => {
+    updateTask(task, { due_date: newDueDate || null });
+  };
 
-    function handleGlobalMouseMove(e: MouseEvent) { handleMove(e.clientX); }
-    function handleGlobalMouseUp(e: MouseEvent) { handleEnd(); }
-    function handleGlobalTouchMove(e: TouchEvent) { if (e.touches.length === 1) handleMove(e.touches[0].clientX); }
-    function handleGlobalTouchEnd(e: TouchEvent) { handleEnd(); }
-    function onMouseDown(e: React.MouseEvent<HTMLDivElement>) { handleStart(e.clientX, e.currentTarget); }
-    function onTouchStart(e: React.TouchEvent<HTMLDivElement>) { if (e.touches.length === 1) handleStart(e.touches[0].clientX, e.currentTarget); }
+  const handleSwipeDelete = (taskId: number) => {
+    deleteTask(taskId);
+  };
 
-    return { onMouseDown, onTouchStart };
-  }
-
-  // Show loading only during authentication check
   if (authLoading) {
-    return <div className="min-h-screen p-8 text-center text-white">認証中...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-2xl font-semibold mb-6 text-center">AiSHタスク管理システム</h1>
-
-      {/* Urgent tasks */}
-      {urgentTasks.length > 0 && (
-        <section className="mb-6 rounded border border-red-500/30 p-4 bg-red-500/10">
-          <h2 className="text-lg font-semibold mb-4 text-red-200 flex items-center gap-2">🚨 緊急タスク (24時間以内に完了しましょう)</h2>
-          <div className={isGridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" : "grid gap-3"}>
-            {urgentTasks.map((t) => {
-              const timeInfo = getTimeUntilDue(t.due_date);
-              return (
-                <div key={`urgent-${t.id}`} className="glass p-3 border border-red-500/20">
-                  <div className="flex items-center justify-between mb-2">
-                    <a href={`/tasks/${t.id}`} className="font-medium text-black hover:underline flex-1">{t.title}</a>
-                    <div className="flex items-center gap-2">
-                      {timeInfo && (
-                        <span className={`text-xs px-2 py-1 rounded ${timeInfo.overdue ? 'bg-red-600 text-white' : 'bg-red-500/30 text-red-200'}`}>{timeInfo.text}</span>
-                      )}
-                      <button className="text-xs px-2 py-1 bg-red-500/20 text-red-200 hover:bg-red-500/30 rounded" onClick={(e) => { e.preventDefault(); e.stopPropagation(); deleteTaskById(t.id, t.title); }} title="緊急タスクを削除">🗑️</button>
-                    </div>
-                  </div>
-                  <p className="text-sm text-black opacity-80">{t.description}</p>
-                </div>
-              );
-            })}
+    <div className="min-h-screen bg-gray-50 p-4">
+      {/* Header */}
+      <div className="max-w-6xl mx-auto">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">タスク管理</h1>
+          
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-600">{counts.todo}</div>
+              <div className="text-sm text-gray-600">未完了</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-yellow-600">{counts.inProgress}</div>
+              <div className="text-sm text-gray-600">進行中</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-600">{counts.done}</div>
+              <div className="text-sm text-gray-600">完了</div>
+            </div>
           </div>
-        </section>
-      )}
 
-      {/* Controls */}
-      <section className="mb-4 rounded border border-white/15 p-4 bg-white/5">
-        <div className="flex items-center gap-4 mb-3 text-sm flex-wrap">
-          <div className="rounded-full px-3 py-1 bg-gray-500/20 text-gray-200">未着手: {counts.todo}</div>
-          <div className="rounded-full px-3 py-1 bg-blue-500/20 text-blue-200">進行中: {counts.inProgress}</div>
-          <div className="rounded-full px-3 py-1 bg-emerald-500/20 text-emerald-200">完了: {counts.done}</div>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-3 mb-3">
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <input className="border rounded p-2 bg-transparent" placeholder="キーワード検索" value={keyword} onChange={(e)=>setKeyword(e.target.value)} />
+          {/* Search and Filter */}
+          <div className="flex flex-wrap gap-4 mb-6">
+            <input
+              type="text"
+              placeholder="タスクを検索..."
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
             <ModernDropdown
+              value={statusFilter}
+              onChange={setStatusFilter}
               options={[
-                { value: "", label: "すべて" },
-                { value: "todo", label: "未着手" },
+                { value: "", label: "すべてのステータス" },
+                { value: "todo", label: "未完了" },
                 { value: "in_progress", label: "進行中" },
                 { value: "done", label: "完了" }
               ]}
-              value={statusFilter}
-              onChange={setStatusFilter}
-              placeholder="ステータス"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <ModernDropdown
-              options={[
-                { value: "created_desc", label: "作成日(新しい順)" },
-                { value: "created_asc", label: "作成日(古い順)" },
-                { value: "due_asc", label: "期限(早い順)" },
-                { value: "due_desc", label: "期限(遅い順)" },
-                { value: "priority_asc", label: "優先度(低→高)" },
-                { value: "priority_desc", label: "優先度(高→低)" }
-              ]}
               value={sort}
               onChange={setSort}
-              placeholder="並び順"
-            />
-          </div>
-          <div className="flex gap-2 justify-end">
-            <button className={`rounded p-2 transition-colors ${isGridView ? 'bg-blue-500/30 text-blue-200' : 'bg-white/10 text-white'}`} onClick={() => setIsGridView(!isGridView)} title={isGridView ? 'リスト表示に切り替え' : 'グリッド表示に切り替え'}>
-              {isGridView ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-              ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-              )}
-            </button>
-            <button className="rounded bg-foreground text-background px-3 py-2" onClick={load}>検索</button>
-          </div>
-        </div>
-      </section>
-
-      {/* Create form */}
-      <section className="mb-8 rounded border border-white/15 p-4 bg-white/5">
-        <h2 className="font-medium mb-3">タスクを追加</h2>
-        <div className="grid sm:grid-cols-6 gap-3 items-stretch">
-          <input className="border rounded-lg h-12 px-3 bg-transparent sm:col-span-1 min-w-0" placeholder="タイトル" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-          <input className="border rounded-lg h-12 px-3 bg-transparent sm:col-span-1 min-w-0" placeholder="詳細" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
-          <div className="sm:col-span-2 min-w-0">
-            <SimpleDateTimePicker value={newDueDate} onChange={setNewDueDate} placeholder="期限(選択)" />
-          </div>
-          <div className="sm:col-span-1 min-w-0">
-            <ModernDropdown
               options={[
-                { value: "1", label: "優先度 1" },
-                { value: "2", label: "優先度 2" },
-                { value: "3", label: "優先度 3" },
-                { value: "4", label: "優先度 4" },
-                { value: "5", label: "優先度 5" }
+                { value: "created_desc", label: "作成日順（新しい）" },
+                { value: "created_asc", label: "作成日順（古い）" },
+                { value: "due_desc", label: "期限順（近い）" },
+                { value: "due_asc", label: "期限順（遠い）" },
+                { value: "priority_desc", label: "優先度順（高い）" },
+                { value: "priority_asc", label: "優先度順（低い）" }
               ]}
-              value={newPriority.toString()}
-              onChange={(value) => setNewPriority(Number(value))}
-              placeholder="優先度"
-              buttonClassName="h-12"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
+            <button
+              onClick={() => setIsGridView(!isGridView)}
+              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              {isGridView ? "リスト表示" : "グリッド表示"}
+            </button>
           </div>
-          <button className="rounded-lg h-12 bg-foreground text-background px-3 disabled:opacity-50 sm:col-span-1" onClick={createTask} disabled={!hasForm}>追加</button>
-        </div>
-      </section>
 
-      {loading && <div className="opacity-70">Loading...</div>}
-      {error && <div className="text-red-500">{error}</div>}
-
-      {/* Tasks */}
-      <div className={isGridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" : "grid gap-4"}>
-        {tasks.map((t) => {
-          const swipe = useSwipe(() => deleteTaskById(t.id, t.title));
-          return (
-            <div key={t.id} className={`swipe-wrapper ${isGridView ? 'grid-view-card' : ''}`} onMouseDown={swipe.onMouseDown} onTouchStart={swipe.onTouchStart}>
-              <div className="swipe-delete-bg">
-                <span className="text-white text-lg swipe-delete-icon">🗑️ 削除</span>
-              </div>
-              <div className={`swipe-track glass text-black task-box-${t.status}`}>
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-1">
-                    <a href={`/tasks/${t.id}`} className="font-medium hover:underline">{t.title}</a>
-                    <div className="flex items-center gap-2">
-                      {t.due_date && (() => {
-                        const timeInfo = getTimeUntilDue(t.due_date);
-                        return timeInfo && (
-                          <span className={`text-xs px-2 py-0.5 rounded ${timeInfo.overdue ? 'bg-red-600 text-white' : timeInfo.urgent ? 'bg-red-500/30 text-red-200' : 'bg-gray-500/20 text-gray-300'}`}>{timeInfo.text}</span>
-                        );
-                      })()}
-                      <span className={`text-xs px-2 py-0.5 rounded badge ${t.status}`}>{t.status === "todo" ? "未着手" : t.status === "in_progress" ? "進行中" : "完了"}</span>
-                    </div>
-                  </div>
-                  <p className="text-sm mb-3">{t.description}</p>
-                  <div className="flex items-center gap-2 text-xs opacity-80 mb-3 flex-wrap">
-                    <div>優先度: {t.priority}</div>
-                    <div>作成日: {new Date(t.created_at).toLocaleString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
-                    {t.due_date && (() => { const d = parseLocalDateTime(t.due_date) ?? new Date(t.due_date); return (<div>期限: {formatDateTimeJa(d)}</div>); })()}
-                  </div>
-                  <div className="flex gap-2 flex-wrap">
-                    {t.status === "todo" && (
-                      <button className="rounded border px-2 py-1 text-xs bg-blue-500/20 text-black hover:bg-blue-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "in_progress"); }}>▶ 開始</button>
-                    )}
-                    {t.status === "in_progress" && (
-                      <>
-                        <button className="rounded border px-2 py-1 text-xs bg-emerald-500/20 text-black hover:bg-emerald-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "done"); }}>✓ 完了</button>
-                        <button className="rounded border px-2 py-1 text-xs bg-gray-500/20 text-black hover:bg-gray-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}>↩ 戻す</button>
-                      </>
-                    )}
-                    {t.status === "done" && (
-                      <button className="rounded border px-2 py-1 text-xs bg-gray-500/20 text-black hover:bg-gray-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}>↩ 未完了に戻す</button>
-                    )}
-                    <button className="rounded border px-2 py-1 text-xs bg-red-500/20 text-black hover:bg-red-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteTaskById(t.id, t.title); }}>🗑️ 削除</button>
-                  </div>
-                </div>
-              </div>
+          {/* Create Task Form */}
+          <div className="bg-gray-50 rounded-lg p-4 mb-6">
+            <h3 className="text-lg font-semibold mb-4">新しいタスク</h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <input
+                type="text"
+                placeholder="タスクのタイトル"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <input
+                type="text"
+                placeholder="説明（オプション）"
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <select
+                value={newPriority}
+                onChange={(e) => setNewPriority(Number(e.target.value))}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value={1}>優先度: 低</option>
+                <option value={2}>優先度: 中</option>
+                <option value={3}>優先度: 高</option>
+                <option value={4}>優先度: 緊急</option>
+                <option value={5}>優先度: 最優先</option>
+              </select>
+              <SimpleDateTimePicker
+                value={newDueDate}
+                onChange={setNewDueDate}
+                placeholder="期限（オプション）"
+              />
             </div>
-          );
-        })}
+            <button
+              onClick={createTask}
+              disabled={!hasForm}
+              className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              タスクを作成
+            </button>
+          </div>
+        </div>
+
+        {/* Error Display */}
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+            {error}
+          </div>
+        )}
+
+        {/* Loading State */}
+        {loading && (
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          </div>
+        )}
+
+        {/* Tasks Display */}
+        {!loading && (
+          <div className="space-y-4">
+            {isGridView ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {tasks.map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    onStatusChange={handleStatusChange}
+                    onPriorityChange={handlePriorityChange}
+                    onDueDateChange={handleDueDateChange}
+                    onDelete={deleteTask}
+                    onSwipeDelete={handleSwipeDelete}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {tasks.map((task) => (
+                  <TaskRow
+                    key={task.id}
+                    task={task}
+                    onStatusChange={handleStatusChange}
+                    onPriorityChange={handlePriorityChange}
+                    onDueDateChange={handleDueDateChange}
+                    onDelete={deleteTask}
+                    onSwipeDelete={handleSwipeDelete}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Task Card Component
+function TaskCard({ task, onStatusChange, onPriorityChange, onDueDateChange, onDelete, onSwipeDelete }: {
+  task: Task;
+  onStatusChange: (task: Task, status: string) => void;
+  onPriorityChange: (task: Task, priority: number) => void;
+  onDueDateChange: (task: Task, dueDate: string) => void;
+  onDelete: (taskId: number) => void;
+  onSwipeDelete: (taskId: number) => void;
+}) {
+  const priorityColors = {
+    1: "bg-gray-100 text-gray-800",
+    2: "bg-blue-100 text-blue-800",
+    3: "bg-yellow-100 text-yellow-800",
+    4: "bg-orange-100 text-orange-800",
+    5: "bg-red-100 text-red-800"
+  };
+
+  const statusColors = {
+    todo: "bg-gray-100 text-gray-800",
+    in_progress: "bg-blue-100 text-blue-800",
+    done: "bg-green-100 text-green-800"
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <div className="flex justify-between items-start mb-3">
+        <h3 className="font-semibold text-gray-900 line-clamp-2">{task.title}</h3>
+        <button
+          onClick={() => onDelete(task.id)}
+          className="text-gray-400 hover:text-red-500 transition-colors"
+        >
+          ×
+        </button>
+      </div>
+      
+      {task.description && (
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{task.description}</p>
+      )}
+
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${priorityColors[task.priority as keyof typeof priorityColors]}`}>
+            優先度 {task.priority}
+          </span>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[task.status as keyof typeof statusColors]}`}>
+            {task.status === 'todo' ? '未完了' : task.status === 'in_progress' ? '進行中' : '完了'}
+          </span>
+        </div>
+
+        {task.due_date && (
+          <div className="text-sm text-gray-600">
+            期限: {formatDateTimeJa(task.due_date)}
+          </div>
+        )}
+
+        <div className="text-xs text-gray-500">
+          作成: {formatDateTimeJa(task.created_at)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Task Row Component
+function TaskRow({ task, onStatusChange, onPriorityChange, onDueDateChange, onDelete, onSwipeDelete }: {
+  task: Task;
+  onStatusChange: (task: Task, status: string) => void;
+  onPriorityChange: (task: Task, priority: number) => void;
+  onDueDateChange: (task: Task, dueDate: string) => void;
+  onDelete: (taskId: number) => void;
+  onSwipeDelete: (taskId: number) => void;
+}) {
+  const priorityColors = {
+    1: "bg-gray-100 text-gray-800",
+    2: "bg-blue-100 text-blue-800",
+    3: "bg-yellow-100 text-yellow-800",
+    4: "bg-orange-100 text-orange-800",
+    5: "bg-red-100 text-red-800"
+  };
+
+  const statusColors = {
+    todo: "bg-gray-100 text-gray-800",
+    in_progress: "bg-blue-100 text-blue-800",
+    done: "bg-green-100 text-green-800"
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <h3 className="font-semibold text-gray-900">{task.title}</h3>
+          {task.description && (
+            <p className="text-gray-600 text-sm mt-1">{task.description}</p>
+          )}
+        </div>
+        
+        <div className="flex items-center gap-3">
+          <select
+            value={task.status}
+            onChange={(e) => onStatusChange(task, e.target.value)}
+            className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[task.status as keyof typeof statusColors]}`}
+          >
+            <option value="todo">未完了</option>
+            <option value="in_progress">進行中</option>
+            <option value="done">完了</option>
+          </select>
+
+          <select
+            value={task.priority}
+            onChange={(e) => onPriorityChange(task, Number(e.target.value))}
+            className={`px-3 py-1 rounded-full text-sm font-medium ${priorityColors[task.priority as keyof typeof priorityColors]}`}
+          >
+            <option value={1}>低</option>
+            <option value={2}>中</option>
+            <option value={3}>高</option>
+            <option value={4}>緊急</option>
+            <option value={5}>最優先</option>
+          </select>
+
+          {task.due_date && (
+            <div className="text-sm text-gray-600">
+              期限: {formatDateTimeJa(task.due_date)}
+            </div>
+          )}
+
+          <button
+            onClick={() => onDelete(task.id)}
+            className="text-gray-400 hover:text-red-500 transition-colors"
+          >
+            ×
+          </button>
+        </div>
       </div>
     </div>
   );
