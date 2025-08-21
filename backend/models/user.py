@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime
+from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from .base import Base
@@ -6,9 +6,13 @@ from .base import Base
 class User(Base):
     __tablename__ = "user_table"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    # Use UUID for postgres, but string for sqlite.
+    # The default lambda ensures a string-based UUID is generated.
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     name = Column(String, nullable=False)
-    mail = Column(String, unique=True, nullable=False)
+    mail = Column(String, unique=True, nullable=False, index=True)
     password = Column(String, nullable=False)
-    token = Column(String)
-    token_expires = Column(DateTime)
+    avatar_url = Column(String, nullable=True)
+    
+    # Session-based authentication
+    session_id = Column(String, nullable=True, unique=True, index=True)

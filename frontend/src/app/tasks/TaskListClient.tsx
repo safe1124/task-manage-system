@@ -1,18 +1,24 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import ModernDropdown from '@/components/ModernDropdown';
 import SimpleDateTimePicker from '@/components/SimpleDateTimePicker';
 import { Task } from '@/types/task';
 import { parseLocalDateTime, formatDateTimeJa } from '@/lib/date';
+import { authFetch } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
+import { useAuth } from "@/contexts/AuthContext";
 
 // Use Next.js rewrite proxy
 const API_BASE = "/api";
 
 export default function TaskListClient() {
+  const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
+
   const [tasks, setTasks] = useState<Task[]>([]);
   const [counts, setCounts] = useState<{todo:number; inProgress:number; done:number}>({todo:0, inProgress:0, done:0});
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true); // Start with loading true
   const [error, setError] = useState<string | null>(null);
 
   // search/filter/sort
@@ -29,7 +35,7 @@ export default function TaskListClient() {
 
   const hasForm = useMemo(() => newTitle.trim().length > 0, [newTitle]);
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -37,22 +43,26 @@ export default function TaskListClient() {
       if (keyword) params.set("q", keyword);
       if (statusFilter) params.set("status_in", statusFilter);
       if (sort) params.set("sort", sort);
-      const sep = params.toString();
-      const url = `${API_BASE}/tasks/${sep ? `?${sep}` : ''}`;
-      const res = await fetch(url, { cache: "no-store" });
-      if (!res.ok) throw new Error(`Failed to load: ${res.status}`);
+      
+      const url = `${API_BASE}/tasks/?${params.toString()}`;
+      const res = await authFetch(url, { cache: "no-store" });
+
+      if (!res.ok) {
+        // A 401 here means the token became invalid. The context should handle the redirect.
+        if (res.status === 401) {
+          setError("認証が切れました。再度ログインしてください。");
+          return;
+        }
+        throw new Error(`タスクの読み込みに失敗しました: ${res.status}`);
+      }
       const data = (await res.json()) as Task[];
       setTasks(data);
-      const todo = data.filter((t)=>t.status==='todo').length;
-      const inProgress = data.filter((t)=>t.status==='in_progress').length;
-      const done = data.filter((t)=>t.status==='done').length;
-      setCounts({todo, inProgress, done});
     } catch (e: any) {
-      setError(e?.message ?? "Unknown error");
+      setError(e.message ?? "不明なエラーが発生しました。");
     } finally {
       setLoading(false);
     }
-  }
+  }, [user, keyword, statusFilter, sort]); // Removed router from dependencies
 
   // urgent tasks (due within 24h and not done)
   const urgentTasks = useMemo(() => {
@@ -81,73 +91,85 @@ export default function TaskListClient() {
   };
 
   useEffect(() => {
+    // Wait until the authentication check is complete.
+    if (authLoading) {
+      return; 
+    }
+    // Load tasks regardless of authentication status (anonymous users get their own tasks)
     load();
-    // listen header events
-    const onReload = () => load();
-    const onSearch = (e: any) => {
-      const d = e.detail || {};
-      setKeyword(d.q ?? keyword);
-      setStatusFilter(d.status ?? statusFilter);
-      setSort(d.sort ?? sort);
-      setTimeout(load, 0);
+  }, [authLoading, load]);
+
+  // Update task counts whenever the tasks array changes.
+  useEffect(() => {
+    const todo = tasks.filter((t) => t.status === 'todo').length;
+    const inProgress = tasks.filter((t) => t.status === 'in_progress').length;
+    const done = tasks.filter((t) => t.status === 'done').length;
+    setCounts({ todo, inProgress, done });
+  }, [tasks]);
+
+  useEffect(() => {
+    const handleReload = () => load();
+    window.addEventListener('tasks:reload', handleReload);
+    return () => window.removeEventListener('tasks:reload', handleReload);
+  }, [load]);
+  
+  // This useEffect handles triggering a search from the header/drawer component
+  useEffect(() => {
+    const handleSearch = () => {
+        load();
     };
-    window.addEventListener('tasks:reload', onReload);
-    window.addEventListener('tasks:search', onSearch as any);
-    return () => {
-      window.removeEventListener('tasks:reload', onReload);
-      window.removeEventListener('tasks:search', onSearch as any);
-    };
-  }, []);
+    window.addEventListener('tasks:search', handleSearch);
+    return () => window.removeEventListener('tasks:search', handleSearch);
+  }, [load]);
 
   async function createTask() {
     if (!hasForm) return;
     try {
-      const payload: any = {
+      const payload = {
         title: newTitle.trim(),
         description: newDescription.trim() || null,
         status: "todo",
         priority: Number(newPriority) || 3,
-        // keep local datetime to avoid tz shift
         due_date: newDueDate || null,
       };
-      const res = await fetch(`${API_BASE}/tasks/`, {
+      const res = await authFetch(`${API_BASE}/tasks/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error(`Failed to create: ${res.status}`);
+      if (!res.ok) throw new Error(`作成失敗: ${res.status}`);
       setNewTitle("");
       setNewDescription("");
       setNewPriority(3);
       setNewDueDate("");
       await load();
     } catch (e: any) {
-      alert(e?.message ?? "Create failed");
+      alert(e.message ?? "作成失敗");
     }
   }
 
   async function updateStatus(task: Task, next: Task["status"]) {
     try {
-      const res = await fetch(`${API_BASE}/tasks/${task.id}`, {
+      const res = await authFetch(`${API_BASE}/tasks/${task.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: next }),
       });
-      if (!res.ok) throw new Error(`Failed to update: ${res.status}`);
+      if (!res.ok) throw new Error(`更新失敗: ${res.status}`);
       await load();
     } catch (e: any) {
-      alert(e?.message ?? "Update failed");
+      alert(e?.message ?? "更新失敗");
     }
   }
 
   async function deleteTaskById(taskId: number, title?: string) {
-    if (!confirm(`Delete task "${title ?? ''}"?`)) return;
+    if (!confirm(`タスク "${title ?? ''}" を削除しますか？`)) return;
     try {
-      const res = await fetch(`${API_BASE}/tasks/${taskId}`, { method: "DELETE" });
-      if (res.status !== 204) throw new Error(`Failed to delete: ${res.status}`);
+      const res = await authFetch(`${API_BASE}/tasks/${taskId}`, { method: "DELETE" });
+      if (res.status !== 204) throw new Error(`削除失敗: ${res.status}`);
       await load();
     } catch (e: any) {
-      alert(e?.message ?? "Delete failed");
+      alert(e?.message ?? "削除失敗");
     }
   }
 
@@ -163,15 +185,10 @@ export default function TaskListClient() {
     function resetElement() {
       if (!currentElement) return;
       const track = currentElement.querySelector('.swipe-track') as HTMLElement;
-      const bg = currentElement.querySelector('.swipe-delete-bg') as HTMLElement;
-      const icon = currentElement.querySelector('.swipe-delete-icon') as HTMLElement;
       if (track) {
         track.style.transition = 'transform 0.3s ease';
         track.style.transform = 'translateX(0px)';
-        track.style.cursor = 'grab';
       }
-      if (bg) bg.style.opacity = '0';
-      if (icon) icon.style.opacity = '0';
     }
 
     function handleStart(clientX: number, element: HTMLElement) {
@@ -180,13 +197,11 @@ export default function TaskListClient() {
       currentX = clientX;
       currentElement = element;
       const track = element.querySelector('.swipe-track') as HTMLElement;
-      if (track) {
-        track.style.transition = 'none';
-        track.style.cursor = 'grabbing';
-      }
+      if (track) track.style.transition = 'none';
+      
       document.addEventListener('mousemove', handleGlobalMouseMove);
       document.addEventListener('mouseup', handleGlobalMouseUp);
-      document.addEventListener('touchmove', handleGlobalTouchMove);
+      document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
       document.addEventListener('touchend', handleGlobalTouchEnd);
     }
 
@@ -195,14 +210,7 @@ export default function TaskListClient() {
       currentX = clientX;
       const deltaX = Math.min(0, currentX - startX);
       const track = currentElement.querySelector('.swipe-track') as HTMLElement;
-      const bg = currentElement.querySelector('.swipe-delete-bg') as HTMLElement;
-      const icon = currentElement.querySelector('.swipe-delete-icon') as HTMLElement;
-      if (track && bg && icon) {
-        track.style.transform = `translateX(${deltaX}px)`;
-        const showDelete = Math.abs(deltaX) > reveal;
-        bg.style.opacity = showDelete ? '1' : '0';
-        icon.style.opacity = showDelete ? '1' : '0';
-      }
+      if (track) track.style.transform = `translateX(${deltaX}px)`;
     }
 
     function handleEnd() {
@@ -217,15 +225,19 @@ export default function TaskListClient() {
       currentElement = null;
     }
 
-    function handleGlobalMouseMove(e: MouseEvent) { e.preventDefault(); handleMove(e.clientX); }
-    function handleGlobalMouseUp(e: MouseEvent) { e.preventDefault(); handleEnd(); }
-    function handleGlobalTouchMove(e: TouchEvent) { e.preventDefault(); if (e.touches.length === 1) handleMove(e.touches[0].clientX); }
-    function handleGlobalTouchEnd(e: TouchEvent) { e.preventDefault(); handleEnd(); }
-
-    function onMouseDown(e: React.MouseEvent<HTMLDivElement>) { e.preventDefault(); handleStart(e.clientX, e.currentTarget); }
-    function onTouchStart(e: React.TouchEvent<HTMLDivElement>) { e.preventDefault(); if (e.touches.length === 1) handleStart(e.touches[0].clientX, e.currentTarget); }
+    function handleGlobalMouseMove(e: MouseEvent) { handleMove(e.clientX); }
+    function handleGlobalMouseUp(e: MouseEvent) { handleEnd(); }
+    function handleGlobalTouchMove(e: TouchEvent) { if (e.touches.length === 1) handleMove(e.touches[0].clientX); }
+    function handleGlobalTouchEnd(e: TouchEvent) { handleEnd(); }
+    function onMouseDown(e: React.MouseEvent<HTMLDivElement>) { handleStart(e.clientX, e.currentTarget); }
+    function onTouchStart(e: React.TouchEvent<HTMLDivElement>) { if (e.touches.length === 1) handleStart(e.touches[0].clientX, e.currentTarget); }
 
     return { onMouseDown, onTouchStart };
+  }
+
+  // Show loading only during authentication check
+  if (authLoading) {
+    return <div className="min-h-screen p-8 text-center text-white">認証中...</div>;
   }
 
   return (

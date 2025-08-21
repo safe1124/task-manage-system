@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import HeaderClient from "@/components/HeaderClient";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,10 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased text-white bg-[#0b1b3b]`}>
-        <HeaderClient />
-        <main className="max-w-5xl mx-auto">{children}</main>
+        <AuthProvider>
+          <HeaderClient />
+          <main className="max-w-5xl mx-auto">{children}</main>
+        </AuthProvider>
       </body>
     </html>
   );

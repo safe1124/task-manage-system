@@ -1,10 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status, Request, Response
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
 from backend.database import get_db
 from backend.models.task import Task
 from backend.schemas.task import TaskCreate, TaskUpdate, TaskOut
+from backend.utils.security import get_current_user_optional, SESSION_COOKIE_NAME
+from backend.models.user import User
 from datetime import datetime
 
 
@@ -18,6 +20,8 @@ def ping():
 
 @router.get("/", response_model=List[TaskOut])
 def list_tasks(
+    request: Request,
+    response: Response,
     db: Session = Depends(get_db),
     skip: int = 0,
     limit: int = 50,
@@ -27,7 +31,18 @@ def list_tasks(
         None, description="created_desc|created_asc|due_desc|due_asc|priority_desc|priority_asc"
     ),
 ):
-    query = db.query(Task)
+    current_user, new_session_id = get_current_user_optional(request, db)
+    
+    # Set session cookie if this is a new anonymous user
+    if new_session_id:
+        response.set_cookie(
+            key=SESSION_COOKIE_NAME,
+            value=new_session_id,
+            max_age=24*60*60,
+            httponly=True,
+            samesite="lax"
+        )
+    query = db.query(Task).filter(Task.user_id == str(current_user.id))
     if status_in:
         statuses = [s.strip() for s in status_in.split(",") if s.strip()]
         if statuses:
@@ -53,7 +68,18 @@ def list_tasks(
 
 
 @router.post("/", response_model=TaskOut, status_code=status.HTTP_201_CREATED)
-def create_task(payload: TaskCreate, db: Session = Depends(get_db)):
+def create_task(payload: TaskCreate, request: Request, response: Response, db: Session = Depends(get_db)):
+    current_user, new_session_id = get_current_user_optional(request, db)
+    
+    # Set session cookie if this is a new anonymous user
+    if new_session_id:
+        response.set_cookie(
+            key=SESSION_COOKIE_NAME,
+            value=new_session_id,
+            max_age=24*60*60,
+            httponly=True,
+            samesite="lax"
+        )
     due = payload.due_date
     if isinstance(due, datetime):
         if due.tzinfo is not None:
@@ -64,6 +90,7 @@ def create_task(payload: TaskCreate, db: Session = Depends(get_db)):
         status=payload.status,
         priority=payload.priority,
         due_date=due,
+        user_id=str(current_user.id),
     )
     db.add(task)
     db.commit()
@@ -72,16 +99,38 @@ def create_task(payload: TaskCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/{task_id}", response_model=TaskOut)
-def get_task(task_id: int, db: Session = Depends(get_db)):
-    task = db.query(Task).filter(Task.id == task_id).first()
+def get_task(task_id: int, request: Request, response: Response, db: Session = Depends(get_db)):
+    current_user, new_session_id = get_current_user_optional(request, db)
+    
+    # Set session cookie if this is a new anonymous user
+    if new_session_id:
+        response.set_cookie(
+            key=SESSION_COOKIE_NAME,
+            value=new_session_id,
+            max_age=24*60*60,
+            httponly=True,
+            samesite="lax"
+        )
+    task = db.query(Task).filter(Task.id == task_id, Task.user_id == str(current_user.id)).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     return task
 
 
 @router.patch("/{task_id}", response_model=TaskOut)
-def update_task(task_id: int, payload: TaskUpdate, db: Session = Depends(get_db)):
-    task = db.query(Task).filter(Task.id == task_id).first()
+def update_task(task_id: int, payload: TaskUpdate, request: Request, response: Response, db: Session = Depends(get_db)):
+    current_user, new_session_id = get_current_user_optional(request, db)
+    
+    # Set session cookie if this is a new anonymous user
+    if new_session_id:
+        response.set_cookie(
+            key=SESSION_COOKIE_NAME,
+            value=new_session_id,
+            max_age=24*60*60,
+            httponly=True,
+            samesite="lax"
+        )
+    task = db.query(Task).filter(Task.id == task_id, Task.user_id == str(current_user.id)).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
 
@@ -98,8 +147,19 @@ def update_task(task_id: int, payload: TaskUpdate, db: Session = Depends(get_db)
 
 
 @router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_task(task_id: int, db: Session = Depends(get_db)):
-    task = db.query(Task).filter(Task.id == task_id).first()
+def delete_task(task_id: int, request: Request, response: Response, db: Session = Depends(get_db)):
+    current_user, new_session_id = get_current_user_optional(request, db)
+    
+    # Set session cookie if this is a new anonymous user
+    if new_session_id:
+        response.set_cookie(
+            key=SESSION_COOKIE_NAME,
+            value=new_session_id,
+            max_age=24*60*60,
+            httponly=True,
+            samesite="lax"
+        )
+    task = db.query(Task).filter(Task.id == task_id, Task.user_id == str(current_user.id)).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     db.delete(task)

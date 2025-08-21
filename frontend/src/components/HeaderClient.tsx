@@ -1,12 +1,12 @@
 "use client";
-
 import { useState } from "react";
 import ModernDropdown from './ModernDropdown';
-
-const API_BASE = "/api";
+import { authFetch } from '@/lib/auth';
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function HeaderClient() {
   const [open, setOpen] = useState(false);
+  const { user, logout, loading } = useAuth();
 
   // Drawer state
   const [q, setQ] = useState("");
@@ -20,7 +20,7 @@ export default function HeaderClient() {
 
   async function createTask() {
     if (!title.trim()) return;
-    const res = await fetch(`${API_BASE}/tasks`, {
+    const res = await authFetch(`/api/tasks/`, { // Use authFetch and /api proxy
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title: title.trim(), description: desc || null, status: "todo", priority }),
@@ -30,6 +30,9 @@ export default function HeaderClient() {
       setDesc("");
       setPriority(3);
       window.dispatchEvent(new Event("tasks:reload"));
+      setOpen(false); // Close the drawer on success
+    } else {
+      alert("タスクの追加に失敗しました。");
     }
   }
 
@@ -42,10 +45,35 @@ export default function HeaderClient() {
   return (
     <>
       <header className="sticky top-0 z-20 bg-[#0b1b3b]/90 backdrop-blur border-b border-white/10 text-white">
-        <nav className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-          <button className="font-semibold hover:opacity-80" onClick={() => setOpen(true)}>タスク</button>
-          <a href="/tasks" className="text-lg sm:text-2xl font-semibold brand-gradient">Airionタスク管理システム</a>
-          <div className="w-14" />
+        <nav className="max-w-5xl mx-auto flex items-center px-4 py-3 relative">
+          <div className="flex items-center">
+            <button className="font-semibold hover:opacity-80" onClick={() => setOpen(true)}>タスク</button>
+          </div>
+          
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <a href={user ? "/tasks" : "/auth"} className="text-lg sm:text-2xl font-semibold brand-gradient">
+              Airionタスク管理システム
+            </a>
+          </div>
+          
+          <div className="flex items-center gap-3 ml-auto">
+            {loading ? (
+              <div className="h-6 w-24 bg-gray-700 animate-pulse rounded"></div>
+            ) : !user ? (
+              <a href="/auth" className="text-sm opacity-80 hover:underline">ログイン/登録</a>
+            ) : (
+              <>
+                <div className="flex items-center gap-2 text-sm opacity-90">
+                  {user.avatar_url && (
+                    <img src={user.avatar_url} alt="avatar" className="w-6 h-6 rounded-full object-cover" />
+                  )}
+                  <span>{user.name} さんようこそ</span>
+                </div>
+                <a href="/profile" className="text-sm opacity-80 hover:underline">プロフィール</a>
+                <button className="text-sm opacity-80 hover:underline" onClick={logout}>ログアウト</button>
+              </>
+            )}
+          </div>
         </nav>
       </header>
 
