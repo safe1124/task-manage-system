@@ -52,7 +52,7 @@ export default function AuthPage() {
       } else {
         const data = await res.json();
         setMsg("ログイン中...");
-        const loginSuccess = await login(data.session_id || "success");
+        const loginSuccess = await login();
         if (!loginSuccess) {
           setMsg("ログインに成功しましたが、プロファイル取得に失敗しました。");
         }

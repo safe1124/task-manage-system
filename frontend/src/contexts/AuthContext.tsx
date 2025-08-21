@@ -12,7 +12,7 @@ interface UserProfile {
 interface AuthContextType {
   user: UserProfile | null;
   loading: boolean;
-  login: (token: string) => Promise<boolean>;
+  login: () => Promise<boolean>;
   logout: () => void;
   reloadUser: () => Promise<void>;
 }

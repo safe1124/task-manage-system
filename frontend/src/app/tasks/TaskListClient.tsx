@@ -98,25 +98,6 @@ export default function TaskListClient() {
     }
   };
 
-  const updateTask = async (task: Task, updates: Partial<Task>) => {
-    try {
-      const res = await authFetch(`${API_BASE}/tasks/${task.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updates),
-      });
-
-      if (!res.ok) {
-        throw new Error(`タスクの更新に失敗しました: ${res.status}`);
-      }
-
-      const updatedTask = await res.json();
-      setTasks(prev => prev.map(t => t.id === task.id ? updatedTask : t));
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "不明なエラーが発生しました。";
-      setError(errorMessage);
-    }
-  };
 
   const deleteTask = async (taskId: number) => {
     try {
@@ -131,13 +112,6 @@ export default function TaskListClient() {
     }
   };
 
-  const handleStatusChange = (task: Task, newStatus: string) => {
-    updateTask(task, { status: newStatus as Task['status'] });
-  };
-
-  const handlePriorityChange = (task: Task, newPriority: number) => {
-    updateTask(task, { priority: newPriority });
-  };
 
   if (authLoading) {
     return (
@@ -273,8 +247,6 @@ export default function TaskListClient() {
                   <TaskRow
                     key={task.id}
                     task={task}
-                    onStatusChange={handleStatusChange}
-                    onPriorityChange={handlePriorityChange}
                     onDelete={deleteTask}
                   />
                 ))}
@@ -347,10 +319,8 @@ function TaskCard({ task, onDelete }: {
 }
 
 // Task Row Component
-function TaskRow({ task, onStatusChange, onPriorityChange, onDelete }: {
+function TaskRow({ task, onDelete }: {
   task: Task;
-  onStatusChange: (task: Task, status: string) => void;
-  onPriorityChange: (task: Task, priority: number) => void;
   onDelete: (taskId: number) => void;
 }) {
   const priorityColors = {
@@ -380,7 +350,7 @@ function TaskRow({ task, onStatusChange, onPriorityChange, onDelete }: {
         <div className="flex items-center gap-3">
           <select
             value={task.status}
-            onChange={(e) => onStatusChange(task, e.target.value)}
+            disabled
             className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[task.status as keyof typeof statusColors]}`}
           >
             <option value="todo">未完了</option>
@@ -390,7 +360,7 @@ function TaskRow({ task, onStatusChange, onPriorityChange, onDelete }: {
 
           <select
             value={task.priority}
-            onChange={(e) => onPriorityChange(task, Number(e.target.value))}
+            disabled
             className={`px-3 py-1 rounded-full text-sm font-medium ${priorityColors[task.priority as keyof typeof priorityColors]}`}
           >
             <option value={1}>低</option>
