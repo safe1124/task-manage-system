@@ -23,7 +23,8 @@ export default function AuthPage() {
 
   async function submit() {
     setMsg(null);
-    const endpoint = mode === 'register' ? '/api/users/register' : '/api/users/login';
+    const API_BASE = "https://3minutetasker.up.railway.app";
+    const endpoint = mode === 'register' ? `${API_BASE}/users/register` : `${API_BASE}/users/login`;
     const body = mode === 'register' ? { name, mail, password } : { mail, password };
 
     try {

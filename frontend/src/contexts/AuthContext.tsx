@@ -19,8 +19,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Use environment variable for API base URL
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+// Use Railway backend URL for Vercel deployment
+const API_BASE = "https://3minutetasker.up.railway.app";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);

@@ -14,12 +14,17 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# CORS 설정 - 배포환경에서 모든 origin 허용
+# CORS 설정 - Vercel 프론트엔드와 Railway 백엔드 간 통신 허용
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 배포환경에서는 모든 origin 허용
+    allow_origins=[
+        "https://3minutetasker.vercel.app",  # Vercel 배포 도메인
+        "https://3minutetasker-git-main-safe1124.vercel.app",  # Vercel 프리뷰 도메인
+        "http://localhost:3000",  # 로컬 개발 환경
+        "http://127.0.0.1:3000",  # 로컬 개발 환경 (IPv4)
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 

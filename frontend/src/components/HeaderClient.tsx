@@ -5,8 +5,8 @@ import { authFetch } from '@/lib/auth';
 import { useAuth } from "@/contexts/AuthContext";
 import Image from 'next/image';
 
-// Use environment variable for API base URL
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+// Use Railway backend URL for Vercel deployment
+const API_BASE = "https://3minutetasker.up.railway.app";
 
 export default function HeaderClient() {
   const [open, setOpen] = useState(false);

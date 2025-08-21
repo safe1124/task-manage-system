@@ -2,8 +2,8 @@ import { Task } from '@/types/task';
 import { parseLocalDateTime, formatDateTimeJa } from '@/lib/date';
 import Link from 'next/link';
 
-// Use environment variable for API base URL
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+// Use Railway backend URL for Vercel deployment
+const API_BASE = "https://3minutetasker.up.railway.app";
 
 async function loadTask(id: string): Promise<Task | null> {
   const res = await fetch(`${API_BASE}/tasks/${id}`, { cache: "no-store" });
