@@ -24,6 +24,10 @@ app.add_middleware(
 def health():
     return {"status": "ok"}
 
+@app.get("/health")
+def health_check():
+    return {"status": "healthy", "timestamp": "2024-01-01T00:00:00Z"}
+
 # 一般化されたエラーハンドラ（人間に分かりやすいメッセージ）
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError

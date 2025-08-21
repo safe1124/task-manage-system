@@ -1,33 +1,33 @@
-# Next.js + FastAPI 풀스택 애플리케이션을 위한 Dockerfile
+# Next.js + FastAPI 풀스택 애플리케이션을 위한 최적화된 Dockerfile
 FROM node:18-alpine AS frontend-build
 
 # 프론트엔드 빌드
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
-RUN npm ci --only=production
+RUN npm ci --only=production --no-audit --no-fund
 COPY frontend/ ./
 RUN npm run build
 
-# Python 백엔드 + Nginx 실행 환경
-FROM python:3.11-slim
+# Python 백엔드 + Nginx 실행 환경 (가벼운 베이스 이미지 사용)
+FROM python:3.11-alpine
 
-# 시스템 패키지 설치 (Nginx 포함) - 메모리 효율적으로
-RUN apt-get update && apt-get install -y \
+# 시스템 패키지 설치 (메모리 효율적으로)
+RUN apk add --no-cache \
     gcc \
+    musl-dev \
     nginx \
     supervisor \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/*
-
-# 백엔드 설정
-WORKDIR /app
+    && rm -rf /var/cache/apk/*
 
 # Python 환경 최적화
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PIP_NO_CACHE_DIR=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PYTHONHASHSEED=random
+
+# 백엔드 설정
+WORKDIR /app
 
 # requirements.txt 복사 및 설치 (메모리 효율적으로)
 COPY backend/requirements.txt ./
@@ -44,7 +44,7 @@ COPY --from=frontend-build /app/frontend/out ./frontend/out
 # Nginx 설정 복사
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Supervisor 설정 (백엔드와 Nginx 동시 실행)
+# Supervisor 설정
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
@@ -52,7 +52,8 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 8080
 
 # 메모리 사용량 최적화
-ENV PYTHONHASHSEED=random
+RUN find /usr/local/lib/python3.11 -name '*.pyc' -delete && \
+    find /usr/local/lib/python3.11 -name '__pycache__' -delete
 
 # Supervisor로 백엔드와 Nginx 동시 실행
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
