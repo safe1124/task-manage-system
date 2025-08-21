@@ -1,3 +1,52 @@
+<h1> 8月21日最終ベーターバージョン完成。</h1>
+
+- ✨主な変更点:
+- JWTトークンシステムを削除し、セッションクッキーベースの認証に変更
+- ユーザごとのタスク隔離の実装（すべてのユーザが同じタスクを表示しなくなった）
+- 匿名ユーザーも個別セッションでタスク管理可能
+- タスク削除バグ修正
+- フロントエンド Invalid Hook Call エラー解決
+- 無限リダイレクトループ問題解決
+- ウェブサイトのタイトルの中でソート
+
+🛠️技術的改善:
+- Userモデルにsession_idカラムを追加
+- セッションベースの認証で12時間トークンの再発行は不要
+- データベース管理ツール(db_manager.py)追加
+- Docker Compose設定追加
+
+🐛バグ修正:
+- タスク作成/削除 正常作動
+- ユーザー別タスク完全隔離
+- React hooksの使用パターンを改善」
+- フロントエンド Invalid Hook Call エラー解決
+- 無限リダイレクトループ問題解決
+- ウェブサイトのタイトルの中でソート
+
+🛠️技術的改善:
+- Userモデルにsession_idカラムを追加
+- セッションベースの認証で12時間トークンの再発行は不要
+- データベース管理ツール(db_manager.py)追加
+- Docker Compose設定追加
+
+🐛バグ修正:
+- タスク作成/削除 正常作動
+- ユーザー別タスク完全隔離
+- React hooksの使用パターンを改善」
+[main 4d7d5d2] 🔧 JWTからセッション基盤認証に変更及びユーザー別タスク隔離
+18 files changed, 1000 insertions(+), 130 deletions(-)
+create mode 100644 backend/init_db.py
+create mode 100644 backend/migrations/versions/20250821_000000_add_user_table_pg.py
+create mode 100644 backend/migrations/versions/20250821_100000_add_session_id_to_user.py
+create mode 100644 backend/migrations/versions/20250821_185837_a0a3184272ac_merge_heads.py
+create mode 100755 db_manager.py
+create mode 100644 docker-compose.yml
+create mode 100644 frontend/src/app/auth/page.tsx
+create mode 100644 frontend/src/app/profile/page.tsx
+create mode 100644 frontend/src/contexts/AuthContext.tsx
+create mode 100644 frontend/src/lib/auth.ts
+---
+
 ## 実装メモ（フロントエンド中心の考慮点と振り返り）
 
 ### 目的と方針
@@ -89,5 +138,4 @@
 - モバイル最適化（タッチ領域/レイアウトの最終調整）
 - CI で Lint/TypeCheck/E2E を自動化
 
----
 
