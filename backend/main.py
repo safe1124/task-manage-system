@@ -14,25 +14,71 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# CORS 설정 - 환경 변수로 origin 관리
+# CORS 설정 - 동적 origin 확인을 위한 커스텀 미들웨어
 import os
+import re
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
 
-# 환경 변수에서 CORS origins 가져오기 (쉼표로 구분)
-cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
-# Vercel 도메인 추가
-cors_origins.extend([
-    "https://3minutetasker.vercel.app",
-    "https://3minutetasker-git-main-safe1124.vercel.app",
-    "https://coding-test-t66p.vercel.app"  # 새로운 Vercel 도메인
-])
+class CustomCORSMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app, allow_credentials: bool = False):
+        super().__init__(app)
+        self.allow_credentials = allow_credentials
+        
+        # 기본 허용 origins
+        self.base_origins = [
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "https://3minutetasker.vercel.app",
+        ]
+        
+        # 패턴 기반 origin 허용
+        self.allowed_patterns = [
+            r"^https://coding-test-[a-z0-9]+\.vercel\.app$",
+            r"^https://3minutetasker.*\.vercel\.app$"
+        ]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=cors_origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
-)
+    def is_allowed_origin(self, origin: str) -> bool:
+        # 기본 origins 체크
+        if origin in self.base_origins:
+            return True
+            
+        # 패턴 기반 체크
+        for pattern in self.allowed_patterns:
+            if re.match(pattern, origin):
+                return True
+                
+        return False
+
+    async def dispatch(self, request: Request, call_next):
+        # CORS preflight 요청 처리
+        if request.method == "OPTIONS":
+            origin = request.headers.get("origin")
+            if origin and self.is_allowed_origin(origin):
+                response = Response()
+                response.headers["Access-Control-Allow-Origin"] = origin
+                response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+                response.headers["Access-Control-Allow-Headers"] = "*"
+                if self.allow_credentials:
+                    response.headers["Access-Control-Allow-Credentials"] = "true"
+                return response
+            else:
+                return Response(status_code=403)
+
+        # 일반 요청 처리
+        response = await call_next(request)
+        
+        origin = request.headers.get("origin")
+        if origin and self.is_allowed_origin(origin):
+            response.headers["Access-Control-Allow-Origin"] = origin
+            if self.allow_credentials:
+                response.headers["Access-Control-Allow-Credentials"] = "true"
+        
+        return response
+
+# 커스텀 CORS 미들웨어 적용
+app.add_middleware(CustomCORSMiddleware, allow_credentials=True)
 
 @app.get("/check")
 def health():
