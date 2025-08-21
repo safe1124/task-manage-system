@@ -1,0 +1,72 @@
+# Next.js + FastAPI 풀스택 애플리케이션을 위한 초경량 Dockerfile
+FROM node:18-alpine AS frontend-build
+
+# 프론트엔드 빌드 (메모리 최소화)
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm ci --only=production --no-audit --no-fund --prefer-offline
+COPY frontend/ ./
+RUN npm run build
+
+# Python 백엔드 (가장 가벼운 베이스 이미지)
+FROM python:3.11-alpine
+
+# 시스템 패키지 최소 설치
+RUN apk add --no-cache \
+    gcc \
+    musl-dev \
+    nginx \
+    supervisor \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/*
+
+# Python 환경 최적화 (메모리 절약)
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PIP_NO_CACHE_DIR=1
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PYTHONHASHSEED=random
+ENV PYTHONOPTIMIZE=1
+
+# 백엔드 설정
+WORKDIR /app
+
+# requirements.txt 복사 및 단계별 설치 (메모리 절약)
+COPY backend/requirements.txt ./
+
+# 핵심 패키지만 먼저 설치
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir setuptools wheel
+
+# 패키지를 작은 그룹으로 나누어 설치
+RUN pip install --no-cache-dir fastapi uvicorn pydantic starlette && \
+    pip install --no-cache-dir SQLAlchemy alembic && \
+    pip install --no-cache-dir python-jose passlib python-multipart && \
+    pip install --no-cache-dir python-dotenv email-validator && \
+    pip install --no-cache-dir typing-extensions annotated-types && \
+    pip install --no-cache-dir anyio certifi click greenlet h11 idna packaging pyasn1 rsa six sniffio
+
+# 백엔드 코드 복사
+COPY backend/ ./backend/
+COPY db_manager.py ./
+
+# 프론트엔드 정적 빌드 결과 복사
+COPY --from=frontend-build /app/frontend/out ./frontend/out
+
+# Nginx 설정 복사
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Supervisor 설정
+RUN mkdir -p /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# 포트 설정
+EXPOSE 8080
+
+# 메모리 사용량 최적화
+RUN find /usr/local/lib/python3.11 -name '*.pyc' -delete && \
+    find /usr/local/lib/python3.11 -name '__pycache__' -delete && \
+    find /usr/local/lib/python3.11 -name '*.pyo' -delete
+
+# Supervisor로 실행
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
