@@ -1,17 +1,16 @@
-# 핵심 FastAPI 패키지들 (최소한만)
+# 핵심 FastAPI 패키지들 (극한 최소화)
 fastapi==0.115.2
-uvicorn[standard]==0.32.0
+uvicorn==0.32.0
 pydantic==2.9.2
-pydantic_core==2.23.4
 starlette==0.40.0
 
-# 데이터베이스 관련 (SQLite 사용으로 변경)
+# 데이터베이스 관련 (SQLite만)
 SQLAlchemy==2.0.36
 alembic==1.13.3
 
-# 인증 및 보안 (가벼운 버전)
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
+# 인증 및 보안 (가장 가벼운 버전)
+python-jose==3.3.0
+passlib==1.7.4
 python-multipart
 
 # 유틸리티 (최소한만)
@@ -20,7 +19,6 @@ email-validator==2.2.0
 
 # 타입 힌트
 typing-extensions==4.12.2
-annotated-types==0.7.0
 
 # 기타 필수 패키지들 (최소한만)
 anyio==4.6.2.post1

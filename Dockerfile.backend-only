@@ -1,67 +1,83 @@
-# FastAPI 백엔드만 배포용 Dockerfile (메모리 최소화)
+# FastAPI 백엔드만 배포용 Dockerfile (극한 메모리 최소화)
 FROM python:3.11-alpine
 
 # 시스템 패키지 최소 설치
 RUN apk add --no-cache \
     gcc \
     musl-dev \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/*
 
-# Python 환경 최적화
+# Python 환경 최적화 (메모리 절약)
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PIP_NO_CACHE_DIR=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV PYTHONHASHSEED=random
 ENV PYTHONOPTIMIZE=1
+ENV PIP_TIMEOUT=600
 
 # 작업 디렉토리 설정
 WORKDIR /app
 
-# requirements.txt 복사 및 단계별 설치
+# requirements.txt 복사 및 극한 단계별 설치 (메모리 절약)
 COPY backend/requirements.txt ./
 
-# 1단계: 기본 도구
-RUN pip install --no-cache-dir --upgrade pip
+# 1단계: 기본 도구만
+RUN pip install --no-cache-dir --upgrade pip && \
+    rm -rf /root/.cache/pip/*
 
-# 2단계: 핵심 패키지들 (가장 중요한 것부터)
-RUN pip install --no-cache-dir fastapi==0.115.2
+# 2단계: 핵심 FastAPI (가장 중요한 것부터)
+RUN pip install --no-cache-dir fastapi==0.115.2 && \
+    rm -rf /root/.cache/pip/*
 
-# 3단계: 웹 서버
-RUN pip install --no-cache-dir uvicorn[standard]==0.32.0
+# 3단계: 웹 서버 (기본 버전만)
+RUN pip install --no-cache-dir uvicorn==0.32.0 && \
+    rm -rf /root/.cache/pip/*
 
 # 4단계: 데이터 검증
-RUN pip install --no-cache-dir pydantic==2.9.2 pydantic_core==2.23.4
+RUN pip install --no-cache-dir pydantic==2.9.2 && \
+    rm -rf /root/.cache/pip/*
 
 # 5단계: 웹 프레임워크
-RUN pip install --no-cache-dir starlette==0.40.0
+RUN pip install --no-cache-dir starlette==0.40.0 && \
+    rm -rf /root/.cache/pip/*
 
 # 6단계: 데이터베이스
-RUN pip install --no-cache-dir SQLAlchemy==2.0.36
+RUN pip install --no-cache-dir SQLAlchemy==2.0.36 && \
+    rm -rf /root/.cache/pip/*
 
 # 7단계: 마이그레이션
-RUN pip install --no-cache-dir alembic==1.13.3
+RUN pip install --no-cache-dir alembic==1.13.3 && \
+    rm -rf /root/.cache/pip/*
 
-# 8단계: 인증
-RUN pip install --no-cache-dir python-jose[cryptography]==3.3.0
+# 8단계: 인증 (가벼운 버전)
+RUN pip install --no-cache-dir python-jose==3.3.0 && \
+    rm -rf /root/.cache/pip/*
 
-# 9단계: 비밀번호 해싱
-RUN pip install --no-cache-dir passlib[bcrypt]==1.7.4
+# 9단계: 비밀번호 해싱 (가벼운 버전)
+RUN pip install --no-cache-dir passlib==1.7.4 && \
+    rm -rf /root/.cache/pip/*
 
 # 10단계: 폼 처리
-RUN pip install --no-cache-dir python-multipart
+RUN pip install --no-cache-dir python-multipart && \
+    rm -rf /root/.cache/pip/*
 
 # 11단계: 환경변수
-RUN pip install --no-cache-dir python-dotenv==1.0.1
+RUN pip install --no-cache-dir python-dotenv==1.0.1 && \
+    rm -rf /root/.cache/pip/*
 
 # 12단계: 이메일 검증
-RUN pip install --no-cache-dir email-validator==2.2.0
+RUN pip install --no-cache-dir email-validator==2.2.0 && \
+    rm -rf /root/.cache/pip/*
 
 # 13단계: 타입 힌트
-RUN pip install --no-cache-dir typing-extensions==4.12.2 annotated-types==0.7.0
+RUN pip install --no-cache-dir typing-extensions==4.12.2 && \
+    rm -rf /root/.cache/pip/*
 
-# 14단계: 기타 필수 패키지들
-RUN pip install --no-cache-dir anyio==4.6.2.post1 certifi==2024.8.30 click==8.1.7 greenlet==3.1.1 h11==0.14.0 idna==3.10 packaging==24.1 pyasn1==0.6.1 rsa==4.9 six==1.16.0 sniffio==1.3.1
+# 14단계: 기타 필수 패키지들 (한 번에, 메모리 정리 포함)
+RUN pip install --no-cache-dir anyio==4.6.2.post1 certifi==2024.8.30 click==8.1.7 greenlet==3.1.1 h11==0.14.0 idna==3.10 packaging==24.1 pyasn1==0.6.1 rsa==4.9 six==1.16.0 sniffio==1.3.1 && \
+    rm -rf /root/.cache/pip/*
 
 # 백엔드 코드 복사
 COPY backend/ ./backend/
@@ -70,10 +86,13 @@ COPY db_manager.py ./
 # 포트 설정
 EXPOSE 8080
 
-# 메모리 사용량 최적화
+# 메모리 사용량 극한 최적화
 RUN find /usr/local/lib/python3.11 -name '*.pyc' -delete && \
     find /usr/local/lib/python3.11 -name '__pycache__' -delete && \
-    find /usr/local/lib/python3.11 -name '*.pyo' -delete
+    find /usr/local/lib/python3.11 -name '*.pyo' -delete && \
+    find /usr/local/lib/python3.11 -name '*.so' -exec strip {} \; 2>/dev/null || true && \
+    rm -rf /tmp/* && \
+    rm -rf /var/tmp/*
 
 # 서버 실행
 CMD ["python", "backend/run_server.py"]
