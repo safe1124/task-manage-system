@@ -20,7 +20,7 @@ Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
  [2m243[0m |   return (
  [2m244[0m |     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
      : [35;1m     ^^^[0m
- [2m245[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+ [2m245[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">3Mタスク管理システム</h1>
  [2m246[0m | 
  [2m247[0m |       {/* Urgent tasks */}
      `----
@@ -41,7 +41,7 @@ Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
  [2m243[0m |   return (
  [2m244[0m |     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
      : [35;1m     ^^^[0m
- [2m245[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+ [2m245[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">3Mタスク管理システム</h1>
  [2m246[0m | 
  [2m247[0m |       {/* Urgent tasks */}
      `----
@@ -60,7 +60,7 @@ Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
  [2m243[0m |   return (
  [2m244[0m |     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
      : [35;1m     ^^^[0m
- [2m245[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+ [2m245[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">3Mタスク管理システム</h1>
  [2m246[0m | 
  [2m247[0m |       {/* Urgent tasks */}
      `----
