@@ -1,6 +1,6 @@
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "Dockerfile.backend-only"
+dockerfilePath = "./Dockerfile.backend-only"
 
 [deploy]
 startCommand = "python backend/run_server.py"
@@ -17,6 +17,7 @@ PYTHONOPTIMIZE = "1"
 PYTHONDONTWRITEBYTECODE = "1"
 PIP_NO_CACHE_DIR = "1"
 PIP_DISABLE_PIP_VERSION_CHECK = "1"
+RAILWAY_DOCKERFILE = "Dockerfile.backend-only"
 
 [deploy.environment]
 PYTHONOPTIMIZE = "1"
