@@ -92,13 +92,14 @@ def login(payload: LoginPayload, response: Response, db: Session = Depends(get_d
     user.session_id = session_id
     db.commit()
     
-    # Set session cookie
+    # Set session cookie (cross-site)
     response.set_cookie(
         key=SESSION_COOKIE_NAME,
         value=session_id,
         max_age=24*60*60,  # 24 hours
         httponly=True,
-        samesite="lax"
+        samesite="none",
+        secure=True
     )
     
     return {"message": "로그인 성공", "session_id": session_id}

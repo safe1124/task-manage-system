@@ -33,10 +33,9 @@ class CustomCORSMiddleware(BaseHTTPMiddleware):
             "https://3minutetasker.vercel.app",
         ]
         
-        # 패턴 기반 origin 허용
+        # 패턴 기반 origin 허용 (모든 vercel.app 서브도메인 허용)
         self.allowed_patterns = [
-            r"^https://coding-test-[a-z0-9]+\.vercel\.app$",
-            r"^https://3minutetasker.*\.vercel\.app$"
+            r"^https://[a-z0-9-]+\.vercel\.app$"
         ]
 
     def is_allowed_origin(self, origin: str) -> bool:
@@ -56,10 +55,12 @@ class CustomCORSMiddleware(BaseHTTPMiddleware):
         if request.method == "OPTIONS":
             origin = request.headers.get("origin")
             if origin and self.is_allowed_origin(origin):
+                allow_request_headers = request.headers.get("access-control-request-headers", "content-type, authorization")
                 response = Response()
                 response.headers["Access-Control-Allow-Origin"] = origin
+                response.headers["Vary"] = "Origin"
                 response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-                response.headers["Access-Control-Allow-Headers"] = "*"
+                response.headers["Access-Control-Allow-Headers"] = allow_request_headers
                 if self.allow_credentials:
                     response.headers["Access-Control-Allow-Credentials"] = "true"
                 return response
@@ -72,6 +73,7 @@ class CustomCORSMiddleware(BaseHTTPMiddleware):
         origin = request.headers.get("origin")
         if origin and self.is_allowed_origin(origin):
             response.headers["Access-Control-Allow-Origin"] = origin
+            response.headers["Vary"] = "Origin"
             if self.allow_credentials:
                 response.headers["Access-Control-Allow-Credentials"] = "true"
         

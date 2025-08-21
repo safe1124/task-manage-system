@@ -40,7 +40,8 @@ def list_tasks(
             value=new_session_id,
             max_age=24*60*60,
             httponly=True,
-            samesite="lax"
+            samesite="none",
+            secure=True
         )
     query = db.query(Task).filter(Task.user_id == str(current_user.id))
     if status_in:
@@ -78,7 +79,8 @@ def create_task(payload: TaskCreate, request: Request, response: Response, db: S
             value=new_session_id,
             max_age=24*60*60,
             httponly=True,
-            samesite="lax"
+            samesite="none",
+            secure=True
         )
     due = payload.due_date
     if isinstance(due, datetime):
@@ -109,7 +111,8 @@ def get_task(task_id: int, request: Request, response: Response, db: Session = D
             value=new_session_id,
             max_age=24*60*60,
             httponly=True,
-            samesite="lax"
+            samesite="none",
+            secure=True
         )
     task = db.query(Task).filter(Task.id == task_id, Task.user_id == str(current_user.id)).first()
     if not task:
@@ -128,7 +131,8 @@ def update_task(task_id: int, payload: TaskUpdate, request: Request, response: R
             value=new_session_id,
             max_age=24*60*60,
             httponly=True,
-            samesite="lax"
+            samesite="none",
+            secure=True
         )
     task = db.query(Task).filter(Task.id == task_id, Task.user_id == str(current_user.id)).first()
     if not task:
