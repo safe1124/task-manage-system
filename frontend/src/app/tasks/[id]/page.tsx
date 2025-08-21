@@ -2,19 +2,15 @@ import { Task } from '@/types/task';
 import { parseLocalDateTime, formatDateTimeJa } from '@/lib/date';
 
 async function loadTask(id: string): Promise<Task | null> {
-  // Use task_1.json as a generic example; in real app, fetch(`/api/tasks/${id}`)
-  const fallback = "http://localhost:4989/mock/task_1.json";
-  const res = await fetch(fallback, { cache: "no-store" });
+  const res = await fetch(`/api/tasks/${id}`, { cache: "no-store" });
   if (!res.ok) return null;
   return res.json();
 }
 
-export default async function TaskDetail({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const res = await fetch(`http://localhost:8600/tasks/${id}`, { cache: "no-store" });
-  const task: Task | null = res.ok ? await res.json() : null;
+export default async function TaskDetail({ params }: { params: { id: string } }) {
+  const { id } = params;
+  const task = await loadTask(id);
   if (!task) return <div className="p-8">タスクが見つかりません</div>;
-
 
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">

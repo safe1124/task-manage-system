@@ -1,0 +1,55 @@
+
+> frontend@0.1.0 dev
+> next dev -p 3000 -H 0.0.0.0
+
+   ▲ Next.js 15.0.3
+   - Local:        http://localhost:3000
+   - Network:      http://0.0.0.0:3000
+
+ ✓ Starting...
+ ✓ Ready in 747ms
+ ○ Compiling /tasks ...
+ ✓ Compiled /tasks in 571ms (594 modules)
+ GET /tasks 200 in 741ms
+ ✓ Compiled in 56ms (285 modules)
+(node:24201) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ Compiled / in 369ms (594 modules)
+ GET / 307 in 443ms
+ GET /tasks 200 in 9ms
+ ✓ Compiled in 85ms (286 modules)
+ GET /tasks 200 in 10ms
+ GET /tasks 200 in 8ms
+ GET /tasks 200 in 13ms
+ ✓ Compiled /favicon.ico in 183ms (626 modules)
+ ✓ Compiled in 0ms (338 modules)
+ ✓ Compiled in 70ms (612 modules)
+ GET /favicon.ico 200 in 370ms
+ GET /favicon.ico 200 in 361ms
+ GET /apple-touch-icon-precomposed.png 404 in 386ms
+ GET /apple-touch-icon.png 404 in 381ms
+ GET /tasks 200 in 204ms
+ GET /tasks 200 in 205ms
+ GET /tasks 200 in 15ms
+ GET /tasks 200 in 8ms
+ GET /tasks 200 in 22ms
+ GET / 307 in 21ms
+ GET /tasks 200 in 9ms
+ GET / 307 in 19ms
+ GET /tasks 200 in 11ms
+ GET /tasks 200 in 35ms
+ GET /tasks 200 in 9ms
+ GET /tasks 200 in 21ms
+ GET /apple-touch-icon.png 404 in 25ms
+ GET /apple-touch-icon-precomposed.png 404 in 30ms
+ GET /favicon.ico 200 in 35ms
+ GET /favicon.ico 200 in 30ms
+ GET /tasks 200 in 19ms
+ GET /favicon.ico 200 in 7ms
+ ✓ Compiled in 367ms (617 modules)
+ GET /tasks 200 in 52ms
+ ✓ Compiled in 146ms (617 modules)
+ GET /tasks 200 in 45ms
+ GET /tasks 200 in 39ms
+ ✓ Compiled in 371ms (599 modules)
+ GET /tasks 200 in 61ms

@@ -5,6 +5,7 @@ from typing import List, Optional
 from backend.database import get_db
 from backend.models.task import Task
 from backend.schemas.task import TaskCreate, TaskUpdate, TaskOut
+from datetime import datetime
 
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
@@ -53,12 +54,16 @@ def list_tasks(
 
 @router.post("/", response_model=TaskOut, status_code=status.HTTP_201_CREATED)
 def create_task(payload: TaskCreate, db: Session = Depends(get_db)):
+    due = payload.due_date
+    if isinstance(due, datetime):
+        if due.tzinfo is not None:
+            due = due.astimezone(tz=None).replace(tzinfo=None)
     task = Task(
         title=payload.title,
         description=payload.description,
-        status=payload.status,  # TaskStatus is a str Enum; assignment works
+        status=payload.status,
         priority=payload.priority,
-        due_date=payload.due_date,
+        due_date=due,
     )
     db.add(task)
     db.commit()
@@ -82,6 +87,8 @@ def update_task(task_id: int, payload: TaskUpdate, db: Session = Depends(get_db)
 
     updates = payload.model_dump(exclude_unset=True)
     for field_name, value in updates.items():
+        if field_name == 'due_date' and value is not None and getattr(value, 'tzinfo', None) is not None:
+            value = value.astimezone(tz=None).replace(tzinfo=None)
         setattr(task, field_name, value)
 
     db.add(task)

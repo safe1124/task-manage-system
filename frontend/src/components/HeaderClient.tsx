@@ -3,7 +3,7 @@
 import { useState } from "react";
 import ModernDropdown from './ModernDropdown';
 
-const API_BASE = "http://localhost:8600";
+const API_BASE = "/api";
 
 export default function HeaderClient() {
   const [open, setOpen] = useState(false);

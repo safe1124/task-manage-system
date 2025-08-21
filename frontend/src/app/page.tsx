@@ -1,6 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function Home() {
-  if (typeof window !== "undefined") {
-    window.location.replace("/tasks");
-  }
-  return null;
+  redirect("/tasks");
 }

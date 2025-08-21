@@ -1,0 +1,110 @@
+INFO:     Started server process [23698]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8600 (Press CTRL+C to quit)
+INFO:     127.0.0.1:62399 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62401 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62560 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62562 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62606 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62562 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62627 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62562 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62664 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62562 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62795 - "GET /check HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62797 - "HEAD /tasks/ HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:64549 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64551 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64657 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64551 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64659 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64551 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64765 - "POST /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64551 - "OPTIONS /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64551 - "POST /tasks/ HTTP/1.1" 201 Created
+INFO:     127.0.0.1:65214 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65216 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49833 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49835 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50009 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50011 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50121 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50011 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50343 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50345 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53341 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53343 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53445 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53343 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55699 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55701 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55701 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55701 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55915 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55701 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57890 - "GET /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57892 - "GET /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58427 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58429 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58928 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58930 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59083 - "DELETE /tasks/13 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:59085 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:59087 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59193 - "POST /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:59087 - "OPTIONS /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59087 - "POST /tasks/ HTTP/1.1" 201 Created
+INFO:     127.0.0.1:59200 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:59087 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63460 - "DELETE /tasks/18 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:63464 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63466 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63521 - "DELETE /tasks/19 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:63524 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63466 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63579 - "DELETE /tasks/17 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:63582 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63466 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63637 - "DELETE /tasks/16 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:63640 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63466 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63683 - "DELETE /tasks/15 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:63686 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63466 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63739 - "DELETE /tasks/14 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:63742 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63466 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64263 - "POST /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64265 - "POST /tasks/ HTTP/1.1" 201 Created
+INFO:     127.0.0.1:64268 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64265 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64343 - "PATCH /tasks/22 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64346 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64265 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64349 - "PATCH /tasks/22 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64352 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64265 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64355 - "PATCH /tasks/22 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64358 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64265 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64413 - "DELETE /tasks/22 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:64420 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64265 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52092 - "POST /tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52094 - "OPTIONS /tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52094 - "POST /tasks/ HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52099 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52094 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52197 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52094 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52298 - "DELETE /tasks/22 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:52301 - "GET /tasks?q=%E3%83%80%E3%82%A4%E3%82%A8%E3%83%83%E3%83%88&sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52094 - "GET /tasks/?q=%E3%83%80%E3%82%A4%E3%82%A8%E3%83%83%E3%83%88&sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52363 - "GET /tasks?q=%E3%83%80%E3%82%A4%E3%82%A8%E3%83%83%E3%83%88&sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52094 - "GET /tasks/?q=%E3%83%80%E3%82%A4%E3%82%A8%E3%83%83%E3%83%88&sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52412 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52094 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53470 - "DELETE /tasks/21 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:53479 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53481 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK

@@ -6,17 +6,21 @@ import SimpleDateTimePicker from '@/components/SimpleDateTimePicker';
 import { Task } from '@/types/task';
 import { parseLocalDateTime, formatDateTimeJa } from '@/lib/date';
 
-const API_BASE = "http://localhost:8600";
+// Use Next.js rewrite proxy
+const API_BASE = "/api";
 
 export default function TaskListClient() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [counts, setCounts] = useState<{todo:number; inProgress:number; done:number}>({todo:0, inProgress:0, done:0});
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  // search/filter/sort
   const [keyword, setKeyword] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [sort, setSort] = useState<string>("created_desc");
 
+  // create form
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [newPriority, setNewPriority] = useState<number>(3);
@@ -33,7 +37,9 @@ export default function TaskListClient() {
       if (keyword) params.set("q", keyword);
       if (statusFilter) params.set("status_in", statusFilter);
       if (sort) params.set("sort", sort);
-      const res = await fetch(`${API_BASE}/tasks?${params.toString()}`, { cache: "no-store" });
+      const sep = params.toString();
+      const url = `${API_BASE}/tasks/${sep ? `?${sep}` : ''}`;
+      const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error(`Failed to load: ${res.status}`);
       const data = (await res.json()) as Task[];
       setTasks(data);
@@ -48,12 +54,11 @@ export default function TaskListClient() {
     }
   }
 
-  // 긴급 태스크 (오늘 마감 또는 24시간 이내)
+  // urgent tasks (due within 24h and not done)
   const urgentTasks = useMemo(() => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-    
     return tasks.filter(t => {
       if (!t.due_date || t.status === 'done') return false;
       const dueDate = parseLocalDateTime(t.due_date) ?? new Date(t.due_date);
@@ -61,7 +66,7 @@ export default function TaskListClient() {
     });
   }, [tasks]);
 
-  // 마감일까지 남은 시간 계산
+  // time until due helper
   const getTimeUntilDue = (dueDate: string | null) => {
     if (!dueDate) return null;
     const now = new Date();
@@ -69,16 +74,15 @@ export default function TaskListClient() {
     const due = parsed ?? new Date(dueDate);
     const diffMs = due.getTime() - now.getTime();
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    
-    if (diffHours < 0) return { text: "期限切れ", urgent: true, overdue: true };
-    if (diffHours < 24) return { text: `${diffHours}時間後`, urgent: true, overdue: false };
-    
+    if (diffHours < 0) return { text: "期限切れ", urgent: true, overdue: true } as const;
+    if (diffHours < 24) return { text: `${diffHours}時間後`, urgent: true, overdue: false } as const;
     const diffDays = Math.floor(diffHours / 24);
-    return { text: `${diffDays}日後`, urgent: false, overdue: false };
+    return { text: `${diffDays}日後`, urgent: false, overdue: false } as const;
   };
 
   useEffect(() => {
     load();
+    // listen header events
     const onReload = () => load();
     const onSearch = (e: any) => {
       const d = e.detail || {};
@@ -103,11 +107,10 @@ export default function TaskListClient() {
         description: newDescription.trim() || null,
         status: "todo",
         priority: Number(newPriority) || 3,
-        // Keep local datetime string as-is to avoid timezone shifts
+        // keep local datetime to avoid tz shift
         due_date: newDueDate || null,
       };
-      
-      const res = await fetch(`${API_BASE}/tasks`, {
+      const res = await fetch(`${API_BASE}/tasks/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -148,7 +151,7 @@ export default function TaskListClient() {
     }
   }
 
-  // Enhanced swipe handling with mouse and touch support
+  // swipe helper
   function useSwipe(onDelete: () => void) {
     let startX = 0;
     let currentX = 0;
@@ -156,14 +159,12 @@ export default function TaskListClient() {
     let currentElement: HTMLElement | null = null;
     const threshold = 100;
     const reveal = 30;
-    
+
     function resetElement() {
       if (!currentElement) return;
-      
       const track = currentElement.querySelector('.swipe-track') as HTMLElement;
       const bg = currentElement.querySelector('.swipe-delete-bg') as HTMLElement;
       const icon = currentElement.querySelector('.swipe-delete-icon') as HTMLElement;
-      
       if (track) {
         track.style.transition = 'transform 0.3s ease';
         track.style.transform = 'translateX(0px)';
@@ -172,163 +173,84 @@ export default function TaskListClient() {
       if (bg) bg.style.opacity = '0';
       if (icon) icon.style.opacity = '0';
     }
-    
+
     function handleStart(clientX: number, element: HTMLElement) {
       isDragging = true;
       startX = clientX;
       currentX = clientX;
       currentElement = element;
-      
       const track = element.querySelector('.swipe-track') as HTMLElement;
       if (track) {
         track.style.transition = 'none';
         track.style.cursor = 'grabbing';
       }
-      
-      // Add global event listeners
       document.addEventListener('mousemove', handleGlobalMouseMove);
       document.addEventListener('mouseup', handleGlobalMouseUp);
       document.addEventListener('touchmove', handleGlobalTouchMove);
       document.addEventListener('touchend', handleGlobalTouchEnd);
     }
-    
+
     function handleMove(clientX: number) {
       if (!isDragging || !currentElement) return;
-      
       currentX = clientX;
       const deltaX = Math.min(0, currentX - startX);
-      
       const track = currentElement.querySelector('.swipe-track') as HTMLElement;
       const bg = currentElement.querySelector('.swipe-delete-bg') as HTMLElement;
       const icon = currentElement.querySelector('.swipe-delete-icon') as HTMLElement;
-      
       if (track && bg && icon) {
         track.style.transform = `translateX(${deltaX}px)`;
-        
         const showDelete = Math.abs(deltaX) > reveal;
         bg.style.opacity = showDelete ? '1' : '0';
         icon.style.opacity = showDelete ? '1' : '0';
       }
     }
-    
+
     function handleEnd() {
       if (!isDragging || !currentElement) return;
-      
-      // Remove global event listeners
       document.removeEventListener('mousemove', handleGlobalMouseMove);
       document.removeEventListener('mouseup', handleGlobalMouseUp);
       document.removeEventListener('touchmove', handleGlobalTouchMove);
       document.removeEventListener('touchend', handleGlobalTouchEnd);
-      
       const deltaX = Math.min(0, currentX - startX);
-      
-      if (Math.abs(deltaX) > threshold) {
-        onDelete();
-      } else {
-        resetElement();
-      }
-      
+      if (Math.abs(deltaX) > threshold) onDelete(); else resetElement();
       isDragging = false;
       currentElement = null;
     }
-    
-    // Global event handlers
-    function handleGlobalMouseMove(e: MouseEvent) {
-      e.preventDefault();
-      handleMove(e.clientX);
-    }
-    
-    function handleGlobalMouseUp(e: MouseEvent) {
-      e.preventDefault();
-      handleEnd();
-    }
-    
-    function handleGlobalTouchMove(e: TouchEvent) {
-      e.preventDefault();
-      if (e.touches.length === 1) {
-        handleMove(e.touches[0].clientX);
-      }
-    }
-    
-    function handleGlobalTouchEnd(e: TouchEvent) {
-      e.preventDefault();
-      handleEnd();
-    }
-    
-    // Local event handlers
-    function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
-      e.preventDefault();
-      handleStart(e.clientX, e.currentTarget);
-    }
-    
-    function onTouchStart(e: React.TouchEvent<HTMLDivElement>) {
-      e.preventDefault();
-      if (e.touches.length === 1) {
-        handleStart(e.touches[0].clientX, e.currentTarget);
-      }
-    }
-    
-    return { 
-      onMouseDown,
-      onTouchStart
-    };
+
+    function handleGlobalMouseMove(e: MouseEvent) { e.preventDefault(); handleMove(e.clientX); }
+    function handleGlobalMouseUp(e: MouseEvent) { e.preventDefault(); handleEnd(); }
+    function handleGlobalTouchMove(e: TouchEvent) { e.preventDefault(); if (e.touches.length === 1) handleMove(e.touches[0].clientX); }
+    function handleGlobalTouchEnd(e: TouchEvent) { e.preventDefault(); handleEnd(); }
+
+    function onMouseDown(e: React.MouseEvent<HTMLDivElement>) { e.preventDefault(); handleStart(e.clientX, e.currentTarget); }
+    function onTouchStart(e: React.TouchEvent<HTMLDivElement>) { e.preventDefault(); if (e.touches.length === 1) handleStart(e.touches[0].clientX, e.currentTarget); }
+
+    return { onMouseDown, onTouchStart };
   }
 
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-2xl font-semibold mb-6">タスク</h1>
+      <h1 className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
 
-      {/* 긴급 태스크 섹션 */}
+      {/* Urgent tasks */}
       {urgentTasks.length > 0 && (
         <section className="mb-6 rounded border border-red-500/30 p-4 bg-red-500/10">
-          <h2 className="text-lg font-semibold mb-4 text-red-200 flex items-center gap-2">
-            🚨 緊急タスク (24時間以内に完了しましょう)
-          </h2>
+          <h2 className="text-lg font-semibold mb-4 text-red-200 flex items-center gap-2">🚨 緊急タスク (24時間以内に完了しましょう)</h2>
           <div className={isGridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" : "grid gap-3"}>
             {urgentTasks.map((t) => {
               const timeInfo = getTimeUntilDue(t.due_date);
               return (
                 <div key={`urgent-${t.id}`} className="glass p-3 border border-red-500/20">
                   <div className="flex items-center justify-between mb-2">
-                    <a href={`/tasks/${t.id}`} className="font-medium text-black hover:underline flex-1">
-                      {t.title}
-                    </a>
+                    <a href={`/tasks/${t.id}`} className="font-medium text-black hover:underline flex-1">{t.title}</a>
                     <div className="flex items-center gap-2">
                       {timeInfo && (
-                        <span className={`text-xs px-2 py-1 rounded ${
-                          timeInfo.overdue ? 'bg-red-600 text-white' : 'bg-red-500/30 text-red-200'
-                        }`}>
-                          {timeInfo.text}
-                        </span>
+                        <span className={`text-xs px-2 py-1 rounded ${timeInfo.overdue ? 'bg-red-600 text-white' : 'bg-red-500/30 text-red-200'}`}>{timeInfo.text}</span>
                       )}
-                      <button 
-                        className="text-xs px-2 py-1 bg-red-500/20 text-red-200 hover:bg-red-500/30 rounded"
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); deleteTaskById(t.id, t.title); }}
-                        title="緊急タスクを削除"
-                      >
-                        🗑️
-                      </button>
+                      <button className="text-xs px-2 py-1 bg-red-500/20 text-red-200 hover:bg-red-500/30 rounded" onClick={(e) => { e.preventDefault(); e.stopPropagation(); deleteTaskById(t.id, t.title); }} title="緊急タスクを削除">🗑️</button>
                     </div>
                   </div>
                   <p className="text-sm text-black opacity-80">{t.description}</p>
-                  <div className="flex gap-2 mt-2">
-                    {t.status === "todo" && (
-                      <button 
-                        className="text-xs px-2 py-1 bg-blue-500/20 text-black hover:bg-blue-500/30 rounded"
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); updateStatus(t, "in_progress"); }}
-                      >
-                        ▶ 開始
-                      </button>
-                    )}
-                    {t.status === "in_progress" && (
-                      <button 
-                        className="text-xs px-2 py-1 bg-emerald-500/20 text-black hover:bg-emerald-500/30 rounded"
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); updateStatus(t, "done"); }}
-                      >
-                        ✓ 完了
-                      </button>
-                    )}
-                  </div>
                 </div>
               );
             })}
@@ -336,6 +258,7 @@ export default function TaskListClient() {
         </section>
       )}
 
+      {/* Controls */}
       <section className="mb-4 rounded border border-white/15 p-4 bg-white/5">
         <div className="flex items-center gap-4 mb-3 text-sm flex-wrap">
           <div className="rounded-full px-3 py-1 bg-gray-500/20 text-gray-200">未着手: {counts.todo}</div>
@@ -371,27 +294,11 @@ export default function TaskListClient() {
             />
           </div>
           <div className="flex gap-2 justify-end">
-            <button 
-              className={`rounded p-2 transition-colors ${isGridView ? 'bg-blue-500/30 text-blue-200' : 'bg-white/10 text-white'}`}
-              onClick={() => setIsGridView(!isGridView)}
-              title={isGridView ? 'リスト表示に切り替え' : 'グリッド表示に切り替え'}
-            >
+            <button className={`rounded p-2 transition-colors ${isGridView ? 'bg-blue-500/30 text-blue-200' : 'bg-white/10 text-white'}`} onClick={() => setIsGridView(!isGridView)} title={isGridView ? 'リスト表示に切り替え' : 'グリッド表示に切り替え'}>
               {isGridView ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="8" y1="6" x2="21" y2="6"></line>
-                  <line x1="8" y1="12" x2="21" y2="12"></line>
-                  <line x1="8" y1="18" x2="21" y2="18"></line>
-                  <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                  <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                  <line x1="3" y1="18" x2="3.01" y2="18"></line>
-                </svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
               ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="14" width="7" height="7"></rect>
-                  <rect x="3" y="14" width="7" height="7"></rect>
-                </svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
               )}
             </button>
             <button className="rounded bg-foreground text-background px-3 py-2" onClick={load}>検索</button>
@@ -399,27 +306,14 @@ export default function TaskListClient() {
         </div>
       </section>
 
+      {/* Create form */}
       <section className="mb-8 rounded border border-white/15 p-4 bg-white/5">
         <h2 className="font-medium mb-3">タスクを追加</h2>
         <div className="grid sm:grid-cols-6 gap-3 items-stretch">
-          <input
-            className="border rounded-lg h-12 px-3 bg-transparent sm:col-span-1 min-w-0"
-            placeholder="タイトル"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-          />
-          <input
-            className="border rounded-lg h-12 px-3 bg-transparent sm:col-span-1 min-w-0"
-            placeholder="詳細"
-            value={newDescription}
-            onChange={(e) => setNewDescription(e.target.value)}
-          />
+          <input className="border rounded-lg h-12 px-3 bg-transparent sm:col-span-1 min-w-0" placeholder="タイトル" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+          <input className="border rounded-lg h-12 px-3 bg-transparent sm:col-span-1 min-w-0" placeholder="詳細" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
           <div className="sm:col-span-2 min-w-0">
-            <SimpleDateTimePicker
-              value={newDueDate}
-              onChange={setNewDueDate}
-              placeholder="期限(選択)"
-            />
+            <SimpleDateTimePicker value={newDueDate} onChange={setNewDueDate} placeholder="期限(選択)" />
           </div>
           <div className="sm:col-span-1 min-w-0">
             <ModernDropdown
@@ -436,105 +330,57 @@ export default function TaskListClient() {
               buttonClassName="h-12"
             />
           </div>
-          <button
-            className="rounded-lg h-12 bg-foreground text-background px-3 disabled:opacity-50 sm:col-span-1"
-            onClick={createTask}
-            disabled={!hasForm}
-          >
-            追加
-          </button>
+          <button className="rounded-lg h-12 bg-foreground text-background px-3 disabled:opacity-50 sm:col-span-1" onClick={createTask} disabled={!hasForm}>追加</button>
         </div>
       </section>
 
       {loading && <div className="opacity-70">Loading...</div>}
       {error && <div className="text-red-500">{error}</div>}
 
+      {/* Tasks */}
       <div className={isGridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" : "grid gap-4"}>
         {tasks.map((t) => {
           const swipe = useSwipe(() => deleteTaskById(t.id, t.title));
           return (
-            <div 
-              key={t.id} 
-              className={`swipe-wrapper ${isGridView ? 'grid-view-card' : ''}`}
-              onMouseDown={swipe.onMouseDown}
-              onTouchStart={swipe.onTouchStart}
-            >
+            <div key={t.id} className={`swipe-wrapper ${isGridView ? 'grid-view-card' : ''}`} onMouseDown={swipe.onMouseDown} onTouchStart={swipe.onTouchStart}>
               <div className="swipe-delete-bg">
                 <span className="text-white text-lg swipe-delete-icon">🗑️ 削除</span>
               </div>
               <div className={`swipe-track glass text-black task-box-${t.status}`}>
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-1">
-                    <a href={`/tasks/${t.id}`} className="font-medium hover:underline">
-                      {t.title}
-                    </a>
+                    <a href={`/tasks/${t.id}`} className="font-medium hover:underline">{t.title}</a>
                     <div className="flex items-center gap-2">
                       {t.due_date && (() => {
                         const timeInfo = getTimeUntilDue(t.due_date);
                         return timeInfo && (
-                          <span className={`text-xs px-2 py-0.5 rounded ${
-                            timeInfo.overdue ? 'bg-red-600 text-white' :
-                            timeInfo.urgent ? 'bg-red-500/30 text-red-200' :
-                            'bg-gray-500/20 text-gray-300'
-                          }`}>
-                            {timeInfo.text}
-                          </span>
+                          <span className={`text-xs px-2 py-0.5 rounded ${timeInfo.overdue ? 'bg-red-600 text-white' : timeInfo.urgent ? 'bg-red-500/30 text-red-200' : 'bg-gray-500/20 text-gray-300'}`}>{timeInfo.text}</span>
                         );
                       })()}
-                      <span className={`text-xs px-2 py-0.5 rounded badge ${t.status}`}>
-                        {t.status === "todo" ? "未着手" : t.status === "in_progress" ? "進行中" : "完了"}
-                      </span>
+                      <span className={`text-xs px-2 py-0.5 rounded badge ${t.status}`}>{t.status === "todo" ? "未着手" : t.status === "in_progress" ? "進行中" : "完了"}</span>
                     </div>
                   </div>
                   <p className="text-sm mb-3">{t.description}</p>
                   <div className="flex items-center gap-2 text-xs opacity-80 mb-3 flex-wrap">
                     <div>優先度: {t.priority}</div>
                     <div>作成日: {new Date(t.created_at).toLocaleString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
-                    {t.due_date && (() => {
-                      const d = parseLocalDateTime(t.due_date) ?? new Date(t.due_date);
-                      return (<div>期限: {formatDateTimeJa(d)}</div>);
-                    })()}
+                    {t.due_date && (() => { const d = parseLocalDateTime(t.due_date) ?? new Date(t.due_date); return (<div>期限: {formatDateTimeJa(d)}</div>); })()}
                   </div>
-                                  <div className="flex gap-2 flex-wrap">
-                  {t.status === "todo" && (
-                    <button 
-                      className="rounded border px-2 py-1 text-xs bg-blue-500/20 text-black hover:bg-blue-500/30" 
-                      onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "in_progress"); }}
-                    >
-                      ▶ 開始
-                    </button>
-                  )}
-                  {t.status === "in_progress" && (
-                    <>
-                      <button 
-                        className="rounded border px-2 py-1 text-xs bg-emerald-500/20 text-black hover:bg-emerald-500/30" 
-                        onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "done"); }}
-                      >
-                        ✓ 完了
-                      </button>
-                      <button 
-                        className="rounded border px-2 py-1 text-xs bg-gray-500/20 text-black hover:bg-gray-500/30" 
-                        onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}
-                      >
-                        ↩ 戻す
-                      </button>
-                    </>
-                  )}
-                  {t.status === "done" && (
-                    <button 
-                      className="rounded border px-2 py-1 text-xs bg-gray-500/20 text-black hover:bg-gray-500/30" 
-                      onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}
-                    >
-                      ↩ 未完了に戻す
-                    </button>
-                  )}
-                  <button 
-                    className="rounded border px-2 py-1 text-xs bg-red-500/20 text-black hover:bg-red-500/30" 
-                    onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteTaskById(t.id, t.title); }}
-                  >
-                    🗑️ 削除
-                  </button>
-                </div>
+                  <div className="flex gap-2 flex-wrap">
+                    {t.status === "todo" && (
+                      <button className="rounded border px-2 py-1 text-xs bg-blue-500/20 text-black hover:bg-blue-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "in_progress"); }}>▶ 開始</button>
+                    )}
+                    {t.status === "in_progress" && (
+                      <>
+                        <button className="rounded border px-2 py-1 text-xs bg-emerald-500/20 text-black hover:bg-emerald-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "done"); }}>✓ 完了</button>
+                        <button className="rounded border px-2 py-1 text-xs bg-gray-500/20 text-black hover:bg-gray-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}>↩ 戻す</button>
+                      </>
+                    )}
+                    {t.status === "done" && (
+                      <button className="rounded border px-2 py-1 text-xs bg-gray-500/20 text-black hover:bg-gray-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}>↩ 未完了に戻す</button>
+                    )}
+                    <button className="rounded border px-2 py-1 text-xs bg-red-500/20 text-black hover:bg-red-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteTaskById(t.id, t.title); }}>🗑️ 削除</button>
+                  </div>
                 </div>
               </div>
             </div>
