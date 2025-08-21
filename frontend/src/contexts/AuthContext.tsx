@@ -18,6 +18,9 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Use environment variable for API base URL
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkAuthState = async () => {
       setLoading(true);
       try {
-        const res = await authFetch('/api/users/me');
+        const res = await authFetch(`${API_BASE}/users/me`);
         if (res.ok) {
           setUser(await res.json());
         } else {
@@ -44,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (sessionId: string): Promise<boolean> => {
     setLoading(true);
     try {
-      const res = await authFetch('/api/users/me');
+      const res = await authFetch(`${API_BASE}/users/me`);
       if (res.ok) {
         setUser(await res.json());
         setLoading(false);
@@ -68,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const reloadUser = async () => {
       setLoading(true);
-      const res = await authFetch('/api/users/me');
+      const res = await authFetch(`${API_BASE}/users/me`);
       if (res.ok) {
         setUser(await res.json());
       } else {

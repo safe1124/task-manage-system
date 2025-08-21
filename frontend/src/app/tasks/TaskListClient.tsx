@@ -9,8 +9,8 @@ import { authFetch } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 import { useAuth } from "@/contexts/AuthContext";
 
-// Use Next.js rewrite proxy
-const API_BASE = "/api";
+// Use environment variable for API base URL
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 export default function TaskListClient() {
   const router = useRouter();

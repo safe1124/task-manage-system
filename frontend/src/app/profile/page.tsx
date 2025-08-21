@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation';
 import { authFetch } from "@/lib/auth";
 import { useAuth } from "@/contexts/AuthContext";
 
+// Use environment variable for API base URL
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+
 export default function ProfilePage() {
   const router = useRouter();
   const { user, loading: authLoading, reloadUser } = useAuth();
@@ -25,7 +28,7 @@ export default function ProfilePage() {
 
   async function saveProfile() {
     setMsg(null);
-    const res = await authFetch("/api/users/me", {
+    const res = await authFetch(`${API_BASE}/users/me`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, avatar_url: avatarUrl || undefined }),
@@ -40,7 +43,7 @@ export default function ProfilePage() {
       setMsg("両方のパスワードフィールドを入力してください。");
       return;
     }
-    const res = await authFetch("/api/users/change-password", {
+    const res = await authFetch(`${API_BASE}/users/change-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),

@@ -1,8 +1,11 @@
 import { Task } from '@/types/task';
 import { parseLocalDateTime, formatDateTimeJa } from '@/lib/date';
 
+// Use environment variable for API base URL
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+
 async function loadTask(id: string): Promise<Task | null> {
-  const res = await fetch(`/api/tasks/${id}`, { cache: "no-store" });
+  const res = await fetch(`${API_BASE}/tasks/${id}`, { cache: "no-store" });
   if (!res.ok) return null;
   return res.json();
 }
