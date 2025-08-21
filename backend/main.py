@@ -6,6 +6,9 @@ from backend.endpoints.users import router as users_router
 # 데이터베이스 초기화 
 from backend.database import Base, engine
 
+# 모델들을 import하여 테이블 정의를 등록
+from backend.models import User, Task
+
 # 테이블 생성
 Base.metadata.create_all(bind=engine)
 

@@ -1,7 +1,7 @@
 # backend/models/task.py
 from sqlalchemy import Column, Integer, String, Text, DateTime, func, ForeignKey
 from datetime import datetime
-from .base import Base
+from backend.database import Base
 import enum
 
 # 문자열 기반의 상태 Enum (FastAPI/Pydantic과 호환이 쉬움)

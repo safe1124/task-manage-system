@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-from .base import Base
+from backend.database import Base
 
 class User(Base):
     __tablename__ = "user_table"
