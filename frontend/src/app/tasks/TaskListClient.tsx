@@ -242,7 +242,7 @@ export default function TaskListClient() {
 
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+      <h1 className="text-2xl font-semibold mb-6 text-center">AiSHタスク管理システム</h1>
 
       {/* Urgent tasks */}
       {urgentTasks.length > 0 && (

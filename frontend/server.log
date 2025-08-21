@@ -7,49 +7,250 @@
    - Network:      http://0.0.0.0:3000
 
  ✓ Starting...
- ✓ Ready in 747ms
+ ✓ Ready in 1521ms
  ○ Compiling /tasks ...
- ✓ Compiled /tasks in 571ms (594 modules)
- GET /tasks 200 in 741ms
- ✓ Compiled in 56ms (285 modules)
-(node:24201) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+ ✓ Compiled /tasks in 863ms (605 modules)
+ GET /tasks 200 in 1051ms
+ ✓ Compiled in 60ms (290 modules)
+(node:52931) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
- ✓ Compiled / in 369ms (594 modules)
- GET / 307 in 443ms
- GET /tasks 200 in 9ms
- ✓ Compiled in 85ms (286 modules)
- GET /tasks 200 in 10ms
- GET /tasks 200 in 8ms
- GET /tasks 200 in 13ms
- ✓ Compiled /favicon.ico in 183ms (626 modules)
- ✓ Compiled in 0ms (338 modules)
- ✓ Compiled in 70ms (612 modules)
- GET /favicon.ico 200 in 370ms
- GET /favicon.ico 200 in 361ms
- GET /apple-touch-icon-precomposed.png 404 in 386ms
- GET /apple-touch-icon.png 404 in 381ms
- GET /tasks 200 in 204ms
- GET /tasks 200 in 205ms
- GET /tasks 200 in 15ms
- GET /tasks 200 in 8ms
- GET /tasks 200 in 22ms
- GET / 307 in 21ms
- GET /tasks 200 in 9ms
- GET / 307 in 19ms
- GET /tasks 200 in 11ms
- GET /tasks 200 in 35ms
- GET /tasks 200 in 9ms
- GET /tasks 200 in 21ms
- GET /apple-touch-icon.png 404 in 25ms
- GET /apple-touch-icon-precomposed.png 404 in 30ms
- GET /favicon.ico 200 in 35ms
- GET /favicon.ico 200 in 30ms
+ ✓ Compiled in 424ms (605 modules)
+ GET /tasks 200 in 50ms
+ GET /tasks 200 in 46ms
+ ✓ Compiled /profile in 235ms (598 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /profile 200 in 292ms
+ GET /tasks 200 in 12ms
+ GET /profile 200 in 14ms
  GET /tasks 200 in 19ms
- GET /favicon.ico 200 in 7ms
- ✓ Compiled in 367ms (617 modules)
- GET /tasks 200 in 52ms
- ✓ Compiled in 146ms (617 modules)
- GET /tasks 200 in 45ms
+ GET /tasks 200 in 40ms
+Failed to proxy http://localhost:8600/users/me [AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ○ Compiling /auth ...
+ ✓ Compiled /auth in 566ms (845 modules)
+ GET /auth 200 in 656ms
+ GET /auth 200 in 7ms
+ GET /auth 200 in 5ms
+ GET /auth 200 in 23ms
+ GET /auth 200 in 38ms
+ ✓ Compiled in 291ms (843 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /auth 200 in 68ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 223ms (857 modules)
+ GET /auth 200 in 94ms
+Failed to proxy http://localhost:8600/users/login [AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ✓ Compiled /_error in 136ms (845 modules)
+Failed to proxy http://localhost:8600/users/login [AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+Failed to proxy http://localhost:8600/users/login [AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+Failed to proxy http://localhost:8600/users/login [AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ GET /tasks 200 in 63ms
+ GET /auth 200 in 66ms
+ GET /tasks 200 in 10ms
+ ✓ Compiled /profile in 229ms (369 modules)
+ GET /profile 200 in 261ms
+ GET /tasks 200 in 25ms
+ GET /auth 200 in 24ms
+ GET /auth 200 in 30ms
+ GET /tasks 200 in 12ms
+ GET /tasks 200 in 46ms
+ GET /tasks 200 in 17ms
+ GET /tasks 200 in 16ms
+ GET /tasks 200 in 13ms
+ GET /tasks 200 in 12ms
+ GET /tasks 200 in 15ms
+ GET /tasks 200 in 13ms
+ GET /tasks 200 in 13ms
+ GET /tasks 200 in 13ms
+ GET /tasks 200 in 13ms
+ GET /tasks 200 in 46ms
+ GET /tasks 200 in 32ms
  GET /tasks 200 in 39ms
- ✓ Compiled in 371ms (599 modules)
+ GET /tasks 200 in 22ms
+ GET /tasks 200 in 11ms
  GET /tasks 200 in 61ms
+ GET /tasks 200 in 13ms
+ GET /tasks 200 in 13ms
+ GET /tasks 200 in 11ms
+ GET /tasks 200 in 17ms
+ GET /tasks 200 in 11ms
+ GET /tasks 200 in 14ms
+ GET /tasks 200 in 9ms
+ GET /tasks 200 in 27ms
+ GET /tasks 200 in 13ms
+ GET /tasks 200 in 18ms
+ GET /tasks 200 in 27ms
+Failed to proxy http://localhost:8600/tasks/7 [AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ✓ Compiled /_error in 224ms (845 modules)
+Failed to proxy http://localhost:8600/tasks/6 [AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+[AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ ⨯ unhandledRejection: [AggregateError: ] { code: 'ECONNREFUSED' }
+ GET /tasks 200 in 47ms
+ ✓ Compiled in 339ms (857 modules)
+ GET /tasks 200 in 42ms
+ GET /tasks 200 in 66ms
+ ✓ Compiled in 285ms (857 modules)
+ GET /tasks 200 in 76ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /tasks 200 in 30ms
+ GET /auth 200 in 20ms
+ GET /auth 200 in 28ms
+ ✓ Compiled in 124ms (843 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /auth 200 in 57ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 284ms (843 modules)
+ GET /auth 200 in 210ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 134ms (843 modules)
+ GET /auth 200 in 110ms
+ ✓ Compiled in 102ms (843 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /auth 200 in 40ms
+ ✓ Compiled in 234ms (857 modules)
+ GET /auth 200 in 17ms
+ ✓ Compiled in 119ms (857 modules)
+ GET /auth 200 in 16ms
+ ⨯ ./src/app/tasks/TaskListClient.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/shin/Downloads/EmploymentTest/frontend/src/app/tasks/TaskListClient.tsx[0m:249:1]
+ [2m246[0m |   }
+ [2m247[0m | 
+ [2m248[0m |   return (
+ [2m249[0m |     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+     : [35;1m     ^^^[0m
+ [2m250[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+ [2m251[0m | 
+ [2m252[0m |       {/* Urgent tasks */}
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/tasks/TaskListClient.tsx
+./src/app/tasks/page.tsx
+ ⨯ ./src/app/tasks/TaskListClient.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/shin/Downloads/EmploymentTest/frontend/src/app/tasks/TaskListClient.tsx[0m:249:1]
+ [2m246[0m |   }
+ [2m247[0m | 
+ [2m248[0m |   return (
+ [2m249[0m |     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+     : [35;1m     ^^^[0m
+ [2m250[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+ [2m251[0m | 
+ [2m252[0m |       {/* Urgent tasks */}
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/tasks/TaskListClient.tsx
+./src/app/tasks/page.tsx
+ GET /auth 500 in 1147ms
+ GET /auth 500 in 5ms
+ ○ Compiling /_error ...
+ ⨯ ./src/app/tasks/TaskListClient.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/shin/Downloads/EmploymentTest/frontend/src/app/tasks/TaskListClient.tsx[0m:244:1]
+ [2m241[0m |   }
+ [2m242[0m | 
+ [2m243[0m |   return (
+ [2m244[0m |     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+     : [35;1m     ^^^[0m
+ [2m245[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+ [2m246[0m | 
+ [2m247[0m |       {/* Urgent tasks */}
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/tasks/TaskListClient.tsx
+./src/app/tasks/page.tsx
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /_next/static/webpack/7cfa000867d70ed1.webpack.hot-update.json 500 in 347ms
+ GET /auth 500 in 19ms
+ GET /auth 500 in 7ms
+ ⨯ ./src/app/tasks/TaskListClient.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/shin/Downloads/EmploymentTest/frontend/src/app/tasks/TaskListClient.tsx[0m:244:1]
+ [2m241[0m |   }
+ [2m242[0m | 
+ [2m243[0m |   return (
+ [2m244[0m |     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+     : [35;1m     ^^^[0m
+ [2m245[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+ [2m246[0m | 
+ [2m247[0m |       {/* Urgent tasks */}
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/tasks/TaskListClient.tsx
+./src/app/tasks/page.tsx
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /_next/static/webpack/7cfa000867d70ed1.webpack.hot-update.json 500 in 301ms
+ GET /auth 500 in 8ms
+ GET /auth 500 in 37ms
+ ✓ Compiled /_not-found in 133ms (493 modules)
+ GET /auth 500 in 14ms
+ GET /auth 500 in 38ms
+ GET /auth 500 in 20ms
+ GET /auth 500 in 24ms
+ GET /auth 500 in 11ms
+ ⨯ ./src/app/tasks/TaskListClient.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/shin/Downloads/EmploymentTest/frontend/src/app/tasks/TaskListClient.tsx[0m:244:1]
+ [2m241[0m |   }
+ [2m242[0m | 
+ [2m243[0m |   return (
+ [2m244[0m |     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+     : [35;1m     ^^^[0m
+ [2m245[0m |       <h1       ?       className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+ [2m246[0m | 
+ [2m247[0m |       {/* Urgent tasks */}
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/tasks/TaskListClient.tsx
+./src/app/tasks/page.tsx
+ GET /_next/static/webpack/7cfa000867d70ed1.webpack.hot-update.json 500 in 317ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 500 in 338ms
+ GET /auth 500 in 5ms
+ ○ Compiling /_not-found ...
+[?25h

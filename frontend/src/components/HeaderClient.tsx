@@ -52,7 +52,7 @@ export default function HeaderClient() {
           
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <a href={user ? "/tasks" : "/auth"} className="text-lg sm:text-2xl font-semibold brand-gradient">
-              Airionタスク管理システム
+              AiSHタスク管理システム
             </a>
           </div>
           

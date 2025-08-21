@@ -1,0 +1,30 @@
+# 백엔드만 배포용 Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 시스템 패키지 설치  
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python 패키지 설치
+COPY backend/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 앱 코드 복사
+COPY backend/ ./backend/
+COPY db_manager.py ./
+
+# 데이터베이스 파일 생성
+RUN mkdir -p backend && touch backend/app.db
+
+# 환경변수 설정
+ENV PYTHONPATH=/app
+ENV DATABASE_URL=sqlite:///app/backend/app.db
+
+# 포트 노출
+EXPOSE 8600
+
+# 서버 실행
+CMD ["python", "backend/run_server.py"]
