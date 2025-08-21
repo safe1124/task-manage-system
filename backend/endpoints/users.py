@@ -80,7 +80,7 @@ def register(payload: RegisterPayload, db: Session = Depends(get_db)):
     return user
 
 
-@router.post("/login")
+@router.post("/login", response_model=ProfileOut)
 def login(payload: LoginPayload, response: Response, db: Session = Depends(get_db)):
     # The validator has already normalized the mail
     user = db.query(User).filter(User.mail == payload.mail).first()
@@ -102,7 +102,7 @@ def login(payload: LoginPayload, response: Response, db: Session = Depends(get_d
         secure=True
     )
     
-    return {"message": "로그인 성공", "session_id": session_id}
+    return user
 
 
 @router.post("/logout")

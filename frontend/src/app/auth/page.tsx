@@ -52,8 +52,9 @@ export default function AuthPage() {
         setMail("");
         setPassword("");
       } else {
-        await res.json(); // Response data not needed for login
+        const profile = await res.json();
         setMsg("ログイン中...");
+        // Optimistically set user via context reloadUser to avoid immediate /me refetch race
         const loginSuccess = await login();
         if (!loginSuccess) {
           setMsg("ログインに成功しましたが、プロファイル取得に失敗しました。");
