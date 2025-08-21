@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // Vercel 배포용 설정 (정적 내보내기 제거)
-  trailingSlash: true,
   images: { unoptimized: true },
   // Proxy API to Railway backend to keep cookies first-party on Vercel
   async rewrites() {
