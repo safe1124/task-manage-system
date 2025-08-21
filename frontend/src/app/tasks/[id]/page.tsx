@@ -7,8 +7,8 @@ async function loadTask(id: string): Promise<Task | null> {
   return res.json();
 }
 
-export default async function TaskDetail({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function TaskDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const task = await loadTask(id);
   if (!task) return <div className="p-8">タスクが見つかりません</div>;
 

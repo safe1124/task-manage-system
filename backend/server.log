@@ -233,3 +233,14 @@ INFO:     127.0.0.1:59038 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporar
 INFO:     127.0.0.1:59040 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
 INFO:     127.0.0.1:59247 - "GET /tasks?sort=created_desc HTTP/1.1" 307 Temporary Redirect
 INFO:     127.0.0.1:59249 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53899 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53899 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53899 - "POST /tasks/ HTTP/1.1" 201 Created
+INFO:     127.0.0.1:54362 - "POST /users/register HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:54698 - "POST /users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54698 - "POST /users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55417 - "POST /users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55417 - "POST /users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55417 - "POST /users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55417 - "POST /users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55417 - "POST /users/login HTTP/1.1" 200 OK
