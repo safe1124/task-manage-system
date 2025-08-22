@@ -44,11 +44,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (sessionId: string): Promise<boolean> => {
     setLoading(true);
     try {
+      console.log("Login attempt with sessionId:", sessionId);
       const res = await authFetch('/api/users/me');
+      console.log("Profile fetch response:", res.status, res.ok);
       if (res.ok) {
-        setUser(await res.json());
+        const userData = await res.json();
+        console.log("User data received:", userData);
+        setUser(userData);
         setLoading(false);
         return true;
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        console.error("Profile fetch failed:", res.status, errorData);
       }
     } catch (error) {
       console.error("Failed to fetch user after login:", error);

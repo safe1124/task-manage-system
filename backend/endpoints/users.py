@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request, Response
 from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic.types import UUID4
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-from backend.database import get_db
-from backend.models.user import User
-from backend.utils.security import (
+from database import get_db
+from models.user import User
+from utils.security import (
     get_password_hash,
     verify_password,
     create_session_id,
@@ -43,7 +44,7 @@ class LoginPayload(BaseModel):
 
 
 class ProfileOut(BaseModel):
-    id: str
+    id: UUID4
     name: str
     mail: EmailStr
     avatar_url: str | None = None
@@ -98,7 +99,9 @@ def login(payload: LoginPayload, response: Response, db: Session = Depends(get_d
         value=session_id,
         max_age=24*60*60,  # 24 hours
         httponly=True,
-        samesite="lax"
+        samesite="lax",
+        secure=False,  # Allow HTTP for local development
+        path="/"
     )
     
     return {"message": "로그인 성공", "session_id": session_id}

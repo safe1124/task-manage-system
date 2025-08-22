@@ -5,7 +5,7 @@ import os
 # Add the parent directory to Python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from backend.main import app
+from main import app
 import uvicorn
 
 if __name__ == "__main__":

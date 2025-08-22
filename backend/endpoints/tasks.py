@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status, Request, R
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from backend.database import get_db
-from backend.models.task import Task
-from backend.schemas.task import TaskCreate, TaskUpdate, TaskOut
-from backend.utils.security import get_current_user_optional, SESSION_COOKIE_NAME
-from backend.models.user import User
+from database import get_db
+from models.task import Task
+from schemas.task import TaskCreate, TaskUpdate, TaskOut
+from utils.security import get_current_user_optional, SESSION_COOKIE_NAME
+from models.user import User
 from datetime import datetime
 
 

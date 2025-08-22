@@ -4,10 +4,10 @@ import os
 # Add the project root to the python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from backend.database import engine
-from backend.models.base import Base
-from backend.models.task import Task
-from backend.models.user import User
+from database import engine
+from models.base import Base
+from models.task import Task
+from models.user import User
 
 def init_db():
     """
