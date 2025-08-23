@@ -1,0 +1,40 @@
+{
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/.next",
+  "framework": "nextjs",
+  "installCommand": "cd frontend && npm install",
+  "env": {
+    "NEXT_PUBLIC_BACKEND_URL": "https://aishtask-backend.up.railway.app"
+  },
+  "functions": {
+    "frontend/src/app/**": {
+      "memory": 1024
+    }
+  },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/auth",
+      "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-Requested-With, Content-Type, Accept, Authorization"
+        }
+      ]
+    }
+  ]
+}

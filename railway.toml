@@ -1,0 +1,18 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "backend/Dockerfile"
+
+[deploy]
+healthcheckPath = "/check"
+healthcheckTimeout = 100
+restartPolicyType = "always"
+
+[[services]]
+name = "fastapi-backend"
+
+[services.source]
+repo = "safe1124/coding-test"
+
+[services.variables]
+PORT = "8000"
+ENVIRONMENT = "production"
