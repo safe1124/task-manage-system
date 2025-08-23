@@ -8,6 +8,7 @@ import { parseLocalDateTime, formatDateTimeJa } from '@/lib/date';
 import { authFetch } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 // Use Next.js rewrite proxy
 const API_BASE = "/api";
@@ -15,6 +16,7 @@ const API_BASE = "/api";
 export default function TaskListClient() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
+  const { theme } = useTheme();
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [counts, setCounts] = useState<{todo:number; inProgress:number; done:number}>({todo:0, inProgress:0, done:0});
@@ -237,24 +239,36 @@ export default function TaskListClient() {
 
   // Show loading only during authentication check
   if (authLoading) {
-    return <div className="min-h-screen p-8 text-center text-white">認証中...</div>;
+    return <div className={`min-h-screen p-8 text-center ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>認証中...</div>;
   }
 
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-2xl font-semibold mb-6 text-center">Airionタスク管理システム</h1>
+      <h1 className="text-2xl font-semibold mb-6 text-center">フルスタックタスク管理システム制作演習</h1>
 
       {/* Urgent tasks */}
       {urgentTasks.length > 0 && (
-        <section className="mb-6 rounded border border-red-500/30 p-4 bg-red-500/10">
-          <h2 className="text-lg font-semibold mb-4 text-red-200 flex items-center gap-2">🚨 緊急タスク (24時間以内に完了しましょう)</h2>
+        <section className={`mb-6 rounded border p-4 ${
+          theme === 'light' 
+            ? 'border-red-500/30 bg-red-500/10' 
+            : 'border-red-500/30 bg-red-500/10'
+        }`}>
+          <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${
+            theme === 'light' ? 'text-red-800' : 'text-red-200'
+          }`}>🚨 緊急タスク (24時間以内に完了しましょう)</h2>
           <div className={isGridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" : "grid gap-3"}>
             {urgentTasks.map((t) => {
               const timeInfo = getTimeUntilDue(t.due_date);
               return (
-                <div key={`urgent-${t.id}`} className="glass p-3 border border-red-500/20">
+                <div key={`urgent-${t.id}`} className={`glass p-3 border ${
+                  theme === 'light' 
+                    ? 'border-red-500/20 text-gray-900' 
+                    : 'border-red-500/20 text-black'
+                }`}>
                   <div className="flex items-center justify-between mb-2">
-                    <a href={`/tasks/${t.id}`} className="font-medium text-black hover:underline flex-1">{t.title}</a>
+                    <a href={`/tasks/${t.id}`} className={`font-medium hover:underline flex-1 ${
+                      theme === 'light' ? 'text-gray-900' : 'text-black'
+                    }`}>{t.title}</a>
                     <div className="flex items-center gap-2">
                       {timeInfo && (
                         <span className={`text-xs px-2 py-1 rounded ${timeInfo.overdue ? 'bg-red-600 text-white' : 'bg-red-500/30 text-red-200'}`}>{timeInfo.text}</span>
@@ -262,7 +276,9 @@ export default function TaskListClient() {
                       <button className="text-xs px-2 py-1 bg-red-500/20 text-red-200 hover:bg-red-500/30 rounded" onClick={(e) => { e.preventDefault(); e.stopPropagation(); deleteTaskById(t.id, t.title); }} title="緊急タスクを削除">🗑️</button>
                     </div>
                   </div>
-                  <p className="text-sm text-black opacity-80">{t.description}</p>
+                  <p className={`text-sm opacity-80 ${
+                    theme === 'light' ? 'text-gray-700' : 'text-black'
+                  }`}>{t.description}</p>
                 </div>
               );
             })}
@@ -271,15 +287,35 @@ export default function TaskListClient() {
       )}
 
       {/* Controls */}
-      <section className="mb-4 rounded border border-white/15 p-4 bg-white/5">
+      <section className={`mb-4 rounded border p-4 ${
+        theme === 'light' 
+          ? 'border-gray-200 bg-gray-50' 
+          : 'border-white/15 bg-white/5'
+      }`}>
         <div className="flex items-center gap-4 mb-3 text-sm flex-wrap">
-          <div className="rounded-full px-3 py-1 bg-gray-500/20 text-gray-200">未着手: {counts.todo}</div>
-          <div className="rounded-full px-3 py-1 bg-blue-500/20 text-blue-200">進行中: {counts.inProgress}</div>
-          <div className="rounded-full px-3 py-1 bg-emerald-500/20 text-emerald-200">完了: {counts.done}</div>
+          <div className={`rounded-full px-3 py-1 ${
+            theme === 'light' 
+              ? 'bg-gray-200 text-gray-700' 
+              : 'bg-gray-500/20 text-gray-200'
+          }`}>未着手: {counts.todo}</div>
+          <div className={`rounded-full px-3 py-1 ${
+            theme === 'light' 
+              ? 'bg-blue-200 text-blue-700' 
+              : 'bg-blue-500/20 text-blue-200'
+          }`}>進行中: {counts.inProgress}</div>
+          <div className={`rounded-full px-3 py-1 ${
+            theme === 'light' 
+              ? 'bg-emerald-200 text-emerald-700' 
+              : 'bg-emerald-500/20 text-emerald-200'
+          }`}>完了: {counts.done}</div>
         </div>
-        <div className="flex flex-col sm:flex-row gap-3 mb-3">
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <input className="border rounded p-2 bg-transparent" placeholder="キーワード検索" value={keyword} onChange={(e)=>setKeyword(e.target.value)} />
+                  <div className="flex flex-col sm:flex-row gap-3 mb-3">
+            <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <input className={`border rounded p-2 ${
+                theme === 'light' 
+                  ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' 
+                  : 'bg-transparent border-white/20 text-white placeholder-white/50'
+              }`} placeholder="キーワード検索" value={keyword} onChange={(e)=>setKeyword(e.target.value)} />
             <ModernDropdown
               options={[
                 { value: "", label: "すべて" },
@@ -306,24 +342,46 @@ export default function TaskListClient() {
             />
           </div>
           <div className="flex gap-2 justify-end">
-            <button className={`rounded p-2 transition-colors ${isGridView ? 'bg-blue-500/30 text-blue-200' : 'bg-white/10 text-white'}`} onClick={() => setIsGridView(!isGridView)} title={isGridView ? 'リスト表示に切り替え' : 'グリッド表示に切り替え'}>
+            <button className={`rounded p-2 transition-colors ${
+              isGridView 
+                ? theme === 'light' ? 'bg-blue-500/30 text-blue-700' : 'bg-blue-500/30 text-blue-200'
+                : theme === 'light' ? 'bg-gray-200 text-gray-700' : 'bg-white/10 text-white'
+            }`} onClick={() => setIsGridView(!isGridView)} title={isGridView ? 'リスト表示に切り替え' : 'グリッド表示に切り替え'}>
               {isGridView ? (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
               ) : (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
               )}
             </button>
-            <button className="rounded bg-foreground text-background px-3 py-2" onClick={load}>検索</button>
+            <button className={`rounded px-3 py-2 ${
+              theme === 'light' 
+                ? 'bg-gray-900 text-white hover:bg-gray-800' 
+                : 'bg-white text-gray-900 hover:bg-gray-100'
+            } transition-colors`} onClick={load}>検索</button>
           </div>
         </div>
       </section>
 
       {/* Create form */}
-      <section className="mb-8 rounded border border-white/15 p-4 bg-white/5">
-        <h2 className="font-medium mb-3">タスクを追加</h2>
+      <section className={`mb-8 rounded border p-4 ${
+        theme === 'light' 
+          ? 'border-gray-200 bg-gray-50' 
+          : 'border-white/15 bg-white/5'
+      }`}>
+        <h2 className={`font-medium mb-3 ${
+          theme === 'light' ? 'text-gray-900' : 'text-white'
+        }`}>タスクを追加</h2>
         <div className="grid sm:grid-cols-6 gap-3 items-stretch">
-          <input className="border rounded-lg h-12 px-3 bg-transparent sm:col-span-1 min-w-0" placeholder="タイトル" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-          <input className="border rounded-lg h-12 px-3 bg-transparent sm:col-span-1 min-w-0" placeholder="詳細" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
+          <input className={`border rounded-lg h-12 px-3 sm:col-span-1 min-w-0 ${
+            theme === 'light' 
+              ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' 
+              : 'bg-transparent border-white/20 text-white placeholder-white/50'
+          }`} placeholder="タイトル" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+          <input className={`border rounded-lg h-12 px-3 sm:col-span-1 min-w-0 ${
+            theme === 'light' 
+              ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' 
+              : 'bg-transparent border-white/20 text-white placeholder-gray-300'
+          }`} placeholder="詳細" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
           <div className="sm:col-span-2 min-w-0">
             <SimpleDateTimePicker value={newDueDate} onChange={setNewDueDate} placeholder="期限(選択)" />
           </div>
@@ -342,11 +400,15 @@ export default function TaskListClient() {
               buttonClassName="h-12"
             />
           </div>
-          <button className="rounded-lg h-12 bg-foreground text-background px-3 disabled:opacity-50 sm:col-span-1" onClick={createTask} disabled={!hasForm}>追加</button>
+          <button className={`rounded-lg h-12 px-3 disabled:opacity-50 sm:col-span-1 transition-colors ${
+            theme === 'light' 
+              ? 'bg-gray-900 text-white hover:bg-gray-800 disabled:bg-gray-400' 
+              : 'bg-white text-gray-900 hover:bg-gray-100 disabled:bg-gray-400'
+          }`} onClick={createTask} disabled={!hasForm}>追加</button>
         </div>
       </section>
 
-      {loading && <div className="opacity-70">Loading...</div>}
+      {loading && <div className={`opacity-70 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>Loading...</div>}
       {error && <div className="text-red-500">{error}</div>}
 
       {/* Tasks */}

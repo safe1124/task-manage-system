@@ -3,10 +3,12 @@ import { useState } from "react";
 import ModernDropdown from './ModernDropdown';
 import { authFetch } from '@/lib/auth';
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function HeaderClient() {
   const [open, setOpen] = useState(false);
   const { user, logout, loading } = useAuth();
+  const { theme } = useTheme();
 
   // Drawer state
   const [q, setQ] = useState("");
@@ -44,7 +46,11 @@ export default function HeaderClient() {
 
   return (
     <>
-      <header className="sticky top-0 z-20 bg-[#0b1b3b]/90 backdrop-blur border-b border-white/10 text-white">
+      <header className={`sticky top-0 z-20 backdrop-blur border-b transition-colors duration-300 ${
+        theme === 'light' 
+          ? 'bg-white/90 border-gray-200 text-gray-900' 
+          : 'bg-[#0b1b3b]/90 border-white/10 text-white'
+      }`}>
         <nav className="max-w-5xl mx-auto flex items-center px-4 py-3 relative">
           <div className="flex items-center">
             <button className="font-semibold hover:opacity-80" onClick={() => setOpen(true)}>タスク</button>
@@ -52,7 +58,7 @@ export default function HeaderClient() {
           
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <a href={user ? "/tasks" : "/auth"} className="text-lg sm:text-2xl font-semibold brand-gradient">
-              Airionタスク管理システム
+              フルスタックタスク管理システム制作演習
             </a>
           </div>
           

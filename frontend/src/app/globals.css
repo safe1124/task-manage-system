@@ -7,11 +7,16 @@
   --foreground: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 라이트모드 */
+[data-theme="light"] {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+/* 다크모드 */
+[data-theme="dark"] {
+  --background: #0b1b3b;
+  --foreground: #ffffff;
 }
 
 body { 
@@ -20,6 +25,7 @@ body {
   font-family: -apple-system, Helvetica, Arial, sans-serif;
   position: relative;
   overflow-x: hidden;
+  transition: color 0.3s ease, background 0.3s ease;
 }
 
 /* Starry night background effect with neon glow */

@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import HeaderClient from "@/components/HeaderClient";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,11 +29,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased text-white bg-[#0b1b3b]`}>
-        <AuthProvider>
-          <HeaderClient />
-          <main className="max-w-5xl mx-auto">{children}</main>
-        </AuthProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ThemeProvider>
+          <AuthProvider>
+            <HeaderClient />
+            <main className="max-w-5xl mx-auto">{children}</main>
+            <ThemeToggle />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

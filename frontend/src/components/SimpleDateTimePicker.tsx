@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface DateTimePickerProps {
   value: string; // format: YYYY-MM-DDTHH:MM
@@ -9,6 +10,7 @@ interface DateTimePickerProps {
 }
 
 export default function SimpleDateTimePicker({ value, onChange }: DateTimePickerProps) {
+  const { theme } = useTheme();
   // Split into date/time parts for maximum browser compatibility
   const datePart = value ? value.slice(0, 10) : '';
   const timePart = value ? value.slice(11, 16) : '';
@@ -54,12 +56,20 @@ export default function SimpleDateTimePicker({ value, onChange }: DateTimePicker
         type="date"
         value={datePart}
         onChange={(e) => update(e.target.value, timePart)}
-        className="w-full h-12 px-3 rounded-lg bg-gray-800/90 text-white border border-white/30"
+        className={`w-full h-12 px-3 rounded-lg border ${
+          theme === 'light' 
+            ? 'bg-white text-gray-900 border-gray-300' 
+            : 'bg-gray-800/90 text-white border-white/30'
+        }`}
       />
       <div className="relative" ref={timeRef}>
         <button
           type="button"
-          className="w-full h-12 px-3 rounded-lg bg-gray-800/90 text-white border border-white/30 text-left flex items-center justify-between"
+          className={`w-full h-12 px-3 rounded-lg border text-left flex items-center justify-between ${
+            theme === 'light' 
+              ? 'bg-white text-gray-900 border-gray-300' 
+              : 'bg-gray-800/90 text-white border-white/30'
+          }`}
           onClick={() => setOpen((v) => !v)}
         >
           <span>{timePart || '時間を選択'}</span>
@@ -68,11 +78,19 @@ export default function SimpleDateTimePicker({ value, onChange }: DateTimePicker
           </svg>
         </button>
         {open && (
-          <div className="absolute z-50 mt-2 w-full max-h-56 overflow-auto rounded-lg bg-gray-900/95 text-white border border-white/30 shadow-2xl">
+          <div className={`absolute z-50 mt-2 w-full max-h-56 overflow-auto rounded-lg border shadow-2xl ${
+            theme === 'light' 
+              ? 'bg-white text-gray-900 border-gray-200' 
+              : 'bg-gray-900/95 text-white border-white/30'
+          }`}>
             {times.map((t) => (
               <div
                 key={t}
-                className={`px-3 py-2 cursor-pointer hover:bg-white/10 ${t === timePart ? 'bg-white/10' : ''}`}
+                className={`px-3 py-2 cursor-pointer ${
+                  t === timePart 
+                    ? theme === 'light' ? 'bg-gray-100' : 'bg-white/10'
+                    : theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-white/10'
+                }`}
                 onClick={() => { update(datePart, t); setOpen(false); }}
               >
                 {t}
@@ -83,7 +101,11 @@ export default function SimpleDateTimePicker({ value, onChange }: DateTimePicker
         {value && (
           <button
             type="button"
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
+            className={`absolute right-2 top-1/2 -translate-y-1/2 ${
+              theme === 'light' 
+                ? 'text-gray-500 hover:text-gray-700' 
+                : 'text-white/70 hover:text-white'
+            }`}
             onClick={() => onChange('')}
             aria-label="期限をクリア"
           >

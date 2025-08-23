@@ -1,0 +1,355 @@
+/* 로그인창 전용 뉴모피즘 스타일 - 전역 스타일 없음 */
+
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  /* 외부 배경은 건드리지 않음 - 기존 배경 유지 */
+}
+
+.authCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 
+    20px 20px 60px rgba(0, 0, 0, 0.2),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  animation: authFadeInUp 0.6s ease-out;
+}
+
+.authCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+.authTitle {
+  text-align: center;
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.authTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+  border-radius: 2px;
+}
+
+.authFormGroup {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.authLabel {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.authInput {
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 400;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 라이트모드 입력 필드 */
+[data-theme="light"] .authInput {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1a1a;
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 다크모드 입력 필드 */
+[data-theme="dark"] .authInput {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.authInput::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .authInput::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 라이트모드 포커스/호버 */
+[data-theme="light"] .authInput:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 0 0 3px rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .authInput:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+}
+
+/* 다크모드 포커스/호버 */
+[data-theme="dark"] .authInput:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 0 0 3px rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+[data-theme="dark"] .authInput:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.authButtonGroup {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.authBtn {
+  flex: 1;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.authBtnPrimary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 
+    0 8px 16px rgba(102, 126, 234, 0.4),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.authBtnPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 12px 24px rgba(102, 126, 234, 0.5),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.authBtnPrimary:active {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 8px rgba(102, 126, 234, 0.4),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 라이트모드 회원가입 버튼 */
+[data-theme="light"] .authBtnSecondary {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1a1a;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .authBtnSecondary:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* 다크모드 회원가입 버튼 */
+[data-theme="dark"] .authBtnSecondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .authBtnSecondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.authBtnSecondary:active {
+  transform: translateY(0);
+}
+
+.authMessage {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.authMessageSuccess {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  box-shadow: 
+    inset 1px 1px 0 rgba(76, 175, 80, 0.2),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.authMessageError {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  box-shadow: 
+    inset 1px 1px 0 rgba(244, 67, 54, 0.2),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.authMessageInfo {
+  background: rgba(33, 150, 243, 0.2);
+  color: #2196f3;
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  box-shadow: 
+    inset 1px 1px 0 rgba(33, 150, 243, 0.2),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.authLoadingContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 외부 배경은 건드리지 않음 - 기존 배경 유지 */
+}
+
+.authLoadingCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 
+    20px 20px 60px rgba(0, 0, 0, 0.2),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.authLoadingTitle {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.authLoadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: authSpin 1s linear infinite;
+  margin: 0 auto;
+}
+
+/* 애니메이션 */
+@keyframes authFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes authSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .authCard {
+    padding: 30px 20px;
+    margin: 20px;
+  }
+  
+  .authTitle {
+    font-size: 24px;
+  }
+  
+  .authButtonGroup {
+    flex-direction: column;
+  }
+  
+  .authBtn {
+    width: 100%;
+  }
+}

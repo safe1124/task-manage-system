@@ -5,7 +5,7 @@ from endpoints.users import router as users_router
 
 app = FastAPI()
 
-# 프론트 접근 허용 (3000, 4989)
+# 프론트 접근 허용 (로컬 + 배포 URL)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -13,6 +13,12 @@ app.add_middleware(
         "http://127.0.0.1:3000",
         "http://localhost:4989",
         "http://127.0.0.1:4989",
+        "https://*.vercel.app",
+        "https://*.netlify.app",
+        "https://*.railway.app",
+        "https://*.render.com",
+        "https://*.github.io",
+        "https://*.pages.dev",
     ],
     allow_credentials=True,
     allow_methods=["*"],

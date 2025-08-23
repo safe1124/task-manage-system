@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface DropdownOption {
   value: string;
@@ -26,6 +27,7 @@ export default function ModernDropdown({
 }: ModernDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   const selectedOption = options.find(opt => opt.value === value);
   const displayText = selectedOption ? selectedOption.label : placeholder;
@@ -50,7 +52,11 @@ export default function ModernDropdown({
     <div className={`modern-dropdown ${className}`} ref={dropdownRef}>
       <button
         type="button"
-        className={`dropdown-button ${isOpen ? 'open' : ''} ${buttonClassName}`}
+        className={`dropdown-button ${isOpen ? 'open' : ''} ${buttonClassName} ${
+          theme === 'light' 
+            ? 'bg-white border-gray-300 text-gray-900 hover:bg-gray-50' 
+            : 'bg-white/8 border-white/15 text-white hover:bg-white/12'
+        }`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="text-truncate">{displayText}</span>
@@ -59,11 +65,19 @@ export default function ModernDropdown({
         </svg>
       </button>
       
-      <div className={`dropdown-list ${isOpen ? 'open' : ''}`}>
+      <div className={`dropdown-list ${isOpen ? 'open' : ''} ${
+        theme === 'light' 
+          ? 'bg-white border-gray-200 shadow-lg' 
+          : 'bg-white/8 border-white/15'
+      }`}>
         {options.map((option) => (
           <div
             key={option.value}
-            className={`dropdown-item ${value === option.value ? 'selected' : ''}`}
+            className={`dropdown-item ${value === option.value ? 'selected' : ''} ${
+              theme === 'light' 
+                ? 'text-gray-900 hover:bg-gray-100' 
+                : 'text-white hover:bg-white/12'
+            }`}
             onClick={() => handleSelect(option.value)}
           >
             {option.label}
