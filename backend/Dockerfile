@@ -9,17 +9,17 @@ RUN apt-get update && apt-get install -y \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# 의존성 파일 복사
-COPY requirements.txt .
+# 의존성 파일 복사 (상대 경로로)
+COPY backend/requirements.txt ./requirements.txt
 
 # Python 의존성 설치
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 애플리케이션 코드 복사
-COPY . .
+# 애플리케이션 코드 복사 (backend 폴더 내용만)
+COPY backend/ .
 
-# 포트 노출
-EXPOSE 8000
+# 포트 노출 (Railway는 PORT 환경변수 사용)
+EXPOSE ${PORT:-8000}
 
-# 애플리케이션 실행
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# 애플리케이션 실행 (Railway의 PORT 환경변수 사용)
+CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
