@@ -17,8 +17,28 @@ export function setToken(token: string) {
 }
 
 export function clearToken() {
-  // Logout handled by server
+  // Logout handled by server  
   fetch(`${getBackendUrl()}/users/logout`, { method: 'POST', credentials: 'include' }).catch(() => {});
+  // 세션 ID도 클리어
+  clearSessionId();
+}
+
+// 세션 ID 저장을 위한 간단한 저장소
+let sessionId: string | null = null;
+
+export function setSessionId(id: string) {
+  sessionId = id;
+  // 쿠키에도 백업으로 저장
+  document.cookie = `session_id=${id}; path=/; max-age=${24*60*60}; samesite=none; secure`;
+}
+
+export function getSessionId(): string | null {
+  return sessionId;
+}
+
+export function clearSessionId() {
+  sessionId = null;
+  document.cookie = 'session_id=; path=/; max-age=0; samesite=none; secure';
 }
 
 export async function authFetch(input: RequestInfo | URL, init: RequestInit = {}) {
@@ -36,14 +56,21 @@ export async function authFetch(input: RequestInfo | URL, init: RequestInit = {}
     url = input.url;
   }
   
-  // Include cookies automatically for session-based auth
+  // 세션 ID를 Authorization 헤더로 전송 (CORS 환경에서 더 안정적)
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...(init.headers as Record<string, string>)
+  };
+  
+  if (sessionId) {
+    headers['Authorization'] = `Bearer ${sessionId}`;
+  }
+  
+  // Include cookies automatically for session-based auth (백업)
   return fetch(url, { 
     ...init, 
     credentials: 'include',
-    headers: { 
-      'Content-Type': 'application/json',
-      ...(init.headers as Record<string, string>) 
-    }
+    headers
   });
 }
 

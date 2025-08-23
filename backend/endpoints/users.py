@@ -90,14 +90,14 @@ def login(payload: LoginPayload, response: Response, db: Session = Depends(get_d
     
     if not user:
         print("❌ User not found")
-        raise HTTPException(status_code=401, detail="메일または패스워드가 정확하지 않습니다")
+        raise HTTPException(status_code=401, detail="メールまたはパスワードが正しくありません")
     
     password_valid = verify_password(payload.password, user.password)
     print(f"🔍 Password valid: {password_valid}")
     
     if not password_valid:
         print("❌ Invalid password")
-        raise HTTPException(status_code=401, detail="메일または패스워드가 정확하지 않습니다")
+        raise HTTPException(status_code=401, detail="メールまたはパスワードが正しくありません")
     
     # Create session
     session_id = create_session_id()

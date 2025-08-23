@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { setSessionId } from "@/lib/auth";
 import styles from "./auth.module.css";
 
 export default function AuthPage() {
@@ -75,10 +76,15 @@ export default function AuthPage() {
         const data = await res.json();
         setMsg("ログイン中...");
         
-        // 수동으로 쿠키 설정 (크로스 오리진 문제 해결)
-        document.cookie = `session_id=${data.session_id}; path=/; max-age=86400; SameSite=Lax`;
+        console.log("Login response data:", data);
         
-        // 쿠키 설정 후 잠시 대기
+        // 세션 ID를 헤더와 쿠키 둘 다에 저장 (이중 보안)
+        if (data.session_id) {
+          setSessionId(data.session_id);
+          console.log("Session ID saved:", data.session_id);
+        }
+        
+        // 세션 ID 설정 후 잠시 대기
         await new Promise(resolve => setTimeout(resolve, 500));
         const loginSuccess = await login(data.session_id || "success");
         

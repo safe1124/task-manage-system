@@ -31,11 +31,24 @@ def create_session_id() -> str:
 def get_current_user_from_session(
     request: Request, db: Session = Depends(get_db)
 ) -> Optional[User]:
-    session_id = request.cookies.get(SESSION_COOKIE_NAME)
+    # 먼저 Authorization 헤더에서 세션 ID 확인 (CORS 환경에서 더 안정적)
+    auth_header = request.headers.get("Authorization")
+    session_id = None
+    
+    if auth_header and auth_header.startswith("Bearer "):
+        session_id = auth_header.replace("Bearer ", "")
+        print(f"🔍 Session ID from header: {session_id}")
+    else:
+        # 쿠키에서 세션 ID 확인 (백업)
+        session_id = request.cookies.get(SESSION_COOKIE_NAME)
+        print(f"🔍 Session ID from cookie: {session_id}")
+    
     if not session_id:
+        print("❌ No session ID found")
         return None
     
     user = db.query(User).filter(User.session_id == session_id).first()
+    print(f"🔍 User found for session: {user is not None}")
     return user
 
 
