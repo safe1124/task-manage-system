@@ -4,12 +4,7 @@
   "framework": "nextjs",
   "installCommand": "cd frontend && npm install",
   "env": {
-    "NEXT_PUBLIC_BACKEND_URL": "https://aishtask-backend.up.railway.app"
-  },
-  "functions": {
-    "frontend/src/app/**": {
-      "memory": 1024
-    }
+    "NEXT_PUBLIC_BACKEND_URL": "https://unique-perception-production.up.railway.app"
   },
   "redirects": [
     {
