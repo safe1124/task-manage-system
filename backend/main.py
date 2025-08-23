@@ -15,32 +15,42 @@ allowed_origins = [
     "http://127.0.0.1:4989",
 ]
 
-# 프로덕션 환경에서는 특정 도메인만 허용
-if os.getenv("ENVIRONMENT") == "production":
-    frontend_url = os.getenv("FRONTEND_URL")
-    if frontend_url:
-        allowed_origins.append(frontend_url)
-    # 주요 배포 플랫폼 도메인 허용
-    allowed_origins.extend([
-        "https://aishtask.vercel.app",
-        "https://aishtask-frontend.netlify.app",
-    ])
-else:
-    # 개발 환경에서는 모든 vercel, netlify 등 허용
-    allowed_origins.extend([
-        "https://*.vercel.app",
-        "https://*.netlify.app",
-        "https://*.railway.app",
-        "https://*.render.com",
-        "https://*.github.io",
-        "https://*.pages.dev",
-    ])
+# 모든 Vercel 앱 URL 허용하기 위한 추가 설정
+vercel_domains = [
+    "https://coding-test-3minute.vercel.app",
+    "https://coding-test-sez2-9fw01ctcu-3minute.vercel.app", 
+    "https://aishtask.vercel.app",
+    "https://aishtask-frontend.netlify.app",
+]
+
+# 환경변수에서 추가 URL 허용
+frontend_url = os.getenv("FRONTEND_URL")
+if frontend_url:
+    allowed_origins.append(frontend_url)
+
+# 모든 Vercel 도메인 추가
+allowed_origins.extend(vercel_domains)
+
+# 동적 CORS origin 체크
+def is_allowed_origin(origin: str) -> bool:
+    if not origin:
+        return False
+    
+    # 허용된 정확한 도메인 체크
+    if origin in allowed_origins:
+        return True
+    
+    # Vercel 도메인 패턴 체크 (더 유연하게)
+    if origin.endswith('.vercel.app') and 'coding-test' in origin:
+        return True
+    
+    return False
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origin_regex=r"https://(coding-test.*\.vercel\.app|localhost:\d+)",
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allow_headers=["*"],
 )
 
