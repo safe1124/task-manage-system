@@ -92,15 +92,19 @@ def login(payload: LoginPayload, response: Response, db: Session = Depends(get_d
     user.session_id = session_id
     db.commit()
     
-    # Set session cookie (for same-origin requests)
+    # Set session cookie (for cross-origin requests)
+    import os
+    is_production = os.getenv("ENVIRONMENT") == "production"
+    
     response.set_cookie(
         key=SESSION_COOKIE_NAME,
         value=session_id,
         max_age=24*60*60,  # 24 hours
         httponly=False,  # Allow JS access for manual setting
-        samesite="lax",  # More permissive for local development
-        secure=False,  # Allow HTTP for local development
-        path="/"
+        samesite="none" if is_production else "lax",  # None for CORS, lax for local
+        secure=is_production,  # Secure for HTTPS in production
+        path="/",
+        domain=None  # Don't set domain for cross-origin
     )
     
     return {"message": "로그인 성공", "session_id": session_id}
@@ -117,7 +121,15 @@ def logout(request: Request, response: Response, db: Session = Depends(get_db)):
             db.commit()
     
     # Clear session cookie
-    response.delete_cookie(key=SESSION_COOKIE_NAME)
+    import os
+    is_production = os.getenv("ENVIRONMENT") == "production"
+    
+    response.delete_cookie(
+        key=SESSION_COOKIE_NAME,
+        path="/",
+        samesite="none" if is_production else "lax",
+        secure=is_production
+    )
     return {"message": "로그아웃 성공"}
 
 
