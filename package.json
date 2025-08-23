@@ -12,6 +12,7 @@
     "lint": "next lint",
     "deploy": "./deploy.sh",
     "deploy:vercel": "npx vercel --prod --confirm",
+    "deploy:netlify": "npm run build",
     "trigger-deploy": "node trigger-deploy.js"
   },
   "dependencies": {

@@ -48,7 +48,7 @@ def is_allowed_origin(origin: str) -> bool:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"https://(coding-test.*\.vercel\.app|localhost:\d+)",
+    allow_origin_regex=r"https://(coding-test.*\.vercel\.app|.*\.netlify\.app|localhost:\d+)",
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allow_headers=["*"],

@@ -2,19 +2,31 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Deployment Commands
 
-### Manual Vercel Deployment
+### Netlify Deployment (Recommended)
 ```bash
+# Build for Netlify
+npm run deploy:netlify
+
 # Deploy using script
 npm run deploy
 
-# Deploy directly with Vercel CLI
+# Deploy directly with Vercel CLI (if needed)
 npm run deploy:vercel
 
 # Trigger deployment via webhook (requires VERCEL_DEPLOY_HOOK_URL)
 npm run trigger-deploy
 ```
 
-### Setting up Auto-deployment
+### Setting up Netlify Deployment
+1. **GitHub 연동**: Netlify에서 GitHub 저장소 연결
+2. **빌드 설정**: 
+   - Build command: `npm run build`
+   - Publish directory: `out`
+3. **환경변수 설정**:
+   - `NEXT_PUBLIC_BACKEND_URL`: `https://unique-perception-production.up.railway.app`
+4. **자동 배포**: main 브랜치에 push하면 자동 배포
+
+### Setting up Vercel Auto-deployment (Alternative)
 1. Go to Vercel Dashboard → Your Project → Settings → Git
 2. Create a Deploy Hook and copy the URL
 3. Set environment variable: `VERCEL_DEPLOY_HOOK_URL=<your_hook_url>`
