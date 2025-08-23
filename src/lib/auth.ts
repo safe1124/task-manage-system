@@ -1,3 +1,8 @@
+// Get backend URL from environment variables
+function getBackendUrl(): string {
+  return process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8600';
+}
+
 // Session-based auth - no token management needed
 export function getToken(): string | null {
   // Deprecated but kept for compatibility
@@ -10,7 +15,7 @@ export function setToken(token: string) {
 
 export function clearToken() {
   // Logout handled by server
-  fetch('http://localhost:8600/users/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
+  fetch(`${getBackendUrl()}/users/logout`, { method: 'POST', credentials: 'include' }).catch(() => {});
 }
 
 export async function authFetch(input: RequestInfo | URL, init: RequestInit = {}) {
@@ -18,7 +23,7 @@ export async function authFetch(input: RequestInfo | URL, init: RequestInit = {}
   let url: string;
   if (typeof input === 'string') {
     if (input.startsWith('/api/')) {
-      url = `http://localhost:8600${input.replace('/api', '')}`;
+      url = `${getBackendUrl()}${input.replace('/api', '')}`;
     } else {
       url = input;
     }

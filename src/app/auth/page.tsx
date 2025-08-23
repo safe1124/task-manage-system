@@ -31,7 +31,8 @@ export default function AuthPage() {
 
   async function submit() {
     setMsg(null);
-    const endpoint = mode === 'register' ? 'http://localhost:8600/users/register' : 'http://localhost:8600/users/login';
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8600';
+    const endpoint = mode === 'register' ? `${backendUrl}/users/register` : `${backendUrl}/users/login`;
     const body = mode === 'register' ? { name, mail, password } : { mail, password };
 
     try {
