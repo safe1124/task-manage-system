@@ -82,9 +82,21 @@ def register(payload: RegisterPayload, db: Session = Depends(get_db)):
 
 @router.post("/login")
 def login(payload: LoginPayload, response: Response, db: Session = Depends(get_db)):
+    print(f"🔍 Login attempt - Email: {payload.mail}")
+    
     # The validator has already normalized the mail
     user = db.query(User).filter(User.mail == payload.mail).first()
-    if not user or not verify_password(payload.password, user.password):
+    print(f"🔍 User found: {user is not None}")
+    
+    if not user:
+        print("❌ User not found")
+        raise HTTPException(status_code=401, detail="메일または패스워드가 정확하지 않습니다")
+    
+    password_valid = verify_password(payload.password, user.password)
+    print(f"🔍 Password valid: {password_valid}")
+    
+    if not password_valid:
+        print("❌ Invalid password")
         raise HTTPException(status_code=401, detail="메일または패스워드가 정확하지 않습니다")
     
     # Create session
@@ -95,17 +107,21 @@ def login(payload: LoginPayload, response: Response, db: Session = Depends(get_d
     # Set session cookie (for cross-origin requests)
     import os
     is_production = os.getenv("ENVIRONMENT") == "production"
+    print(f"🔍 Environment: {os.getenv('ENVIRONMENT')}, is_production: {is_production}")
     
-    response.set_cookie(
-        key=SESSION_COOKIE_NAME,
-        value=session_id,
-        max_age=24*60*60,  # 24 hours
-        httponly=False,  # Allow JS access for manual setting
-        samesite="none" if is_production else "lax",  # None for CORS, lax for local
-        secure=is_production,  # Secure for HTTPS in production
-        path="/",
-        domain=None  # Don't set domain for cross-origin
-    )
+    cookie_settings = {
+        "key": SESSION_COOKIE_NAME,
+        "value": session_id,
+        "max_age": 24*60*60,  # 24 hours
+        "httponly": False,  # Allow JS access for manual setting
+        "samesite": "none" if is_production else "lax",  # None for CORS, lax for local
+        "secure": is_production,  # Secure for HTTPS in production
+        "path": "/",
+        "domain": None  # Don't set domain for cross-origin
+    }
+    print(f"🔍 Cookie settings: {cookie_settings}")
+    
+    response.set_cookie(**cookie_settings)
     
     return {"message": "로그인 성공", "session_id": session_id}
 
