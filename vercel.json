@@ -2,6 +2,11 @@
   "env": {
     "NEXT_PUBLIC_BACKEND_URL": "https://unique-perception-production.up.railway.app"
   },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_BACKEND_URL": "https://unique-perception-production.up.railway.app"
+    }
+  },
   "redirects": [
     {
       "source": "/",

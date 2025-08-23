@@ -31,7 +31,19 @@ export default function AuthPage() {
 
   async function submit() {
     setMsg(null);
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8600';
+    
+    // 환경변수 확인 및 프로덕션 환경 감지
+    const isProduction = typeof window !== 'undefined' && window.location.hostname !== 'localhost';
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 
+                      (isProduction ? 'https://unique-perception-production.up.railway.app' : 'http://localhost:8600');
+    
+    console.log('Environment check:', {
+      hostname: typeof window !== 'undefined' ? window.location.hostname : 'server',
+      isProduction,
+      backendUrl,
+      envVar: process.env.NEXT_PUBLIC_BACKEND_URL
+    });
+    
     const endpoint = mode === 'register' ? `${backendUrl}/users/register` : `${backendUrl}/users/login`;
     const body = mode === 'register' ? { name, mail, password } : { mail, password };
 

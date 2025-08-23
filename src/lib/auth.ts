@@ -1,6 +1,9 @@
 // Get backend URL from environment variables
 function getBackendUrl(): string {
-  return process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8600';
+  // 프로덕션 환경 감지
+  const isProduction = typeof window !== 'undefined' && window.location.hostname !== 'localhost';
+  return process.env.NEXT_PUBLIC_BACKEND_URL || 
+         (isProduction ? 'https://unique-perception-production.up.railway.app' : 'http://localhost:8600');
 }
 
 // Session-based auth - no token management needed
