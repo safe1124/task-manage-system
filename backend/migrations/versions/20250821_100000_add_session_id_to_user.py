@@ -16,24 +16,11 @@ branch_labels = None
 depends_on = None
 
 
-def upgrade() -> None:
-    # Add session_id column to user_table
-    op.add_column('user_table', sa.Column('session_id', sa.String(), nullable=True))
-    op.create_index('ix_user_table_session_id', 'user_table', ['session_id'], unique=True)
-    
-    # Remove unused token fields
-    try:
-        op.drop_column('user_table', 'token')
-        op.drop_column('user_table', 'token_expires')
-    except:
-        pass  # Columns may not exist
+def upgrade():
+    op.add_column('users', sa.Column('session_id', sa.String(), nullable=True))
+    op.create_index('ix_users_session_id', 'users', ['session_id'], unique=True)
 
 
-def downgrade() -> None:
-    # Remove session_id column
-    op.drop_index('ix_user_table_session_id', table_name='user_table')
-    op.drop_column('user_table', 'session_id')
-    
-    # Add back token fields
-    op.add_column('user_table', sa.Column('token', sa.String(), nullable=True))
-    op.add_column('user_table', sa.Column('token_expires', sa.DateTime(), nullable=True))
+def downgrade():
+    op.drop_index('ix_users_session_id', table_name='users')
+    op.drop_column('users', 'session_id')

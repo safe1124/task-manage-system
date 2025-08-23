@@ -10,15 +10,32 @@ export function setToken(token: string) {
 
 export function clearToken() {
   // Logout handled by server
-  fetch('/api/users/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
+  fetch('http://localhost:8600/users/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
 }
 
 export async function authFetch(input: RequestInfo | URL, init: RequestInit = {}) {
+  // Convert /api/ URLs to direct backend URLs
+  let url: string;
+  if (typeof input === 'string') {
+    if (input.startsWith('/api/')) {
+      url = `http://localhost:8600${input.replace('/api', '')}`;
+    } else {
+      url = input;
+    }
+  } else if (input instanceof URL) {
+    url = input.toString();
+  } else {
+    url = input.url;
+  }
+  
   // Include cookies automatically for session-based auth
-  return fetch(input, { 
+  return fetch(url, { 
     ...init, 
     credentials: 'include',
-    headers: { ...(init.headers as Record<string, string>) }
+    headers: { 
+      'Content-Type': 'application/json',
+      ...(init.headers as Record<string, string>) 
+    }
   });
 }
 

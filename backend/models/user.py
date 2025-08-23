@@ -4,7 +4,7 @@ import uuid
 from .base import Base
 
 class User(Base):
-    __tablename__ = "user_table"
+    __tablename__ = "users"
 
     # Use UUID for postgres, but string for sqlite.
     # The default lambda ensures a string-based UUID is generated.

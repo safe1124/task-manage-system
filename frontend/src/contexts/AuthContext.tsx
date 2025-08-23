@@ -44,23 +44,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (sessionId: string): Promise<boolean> => {
     setLoading(true);
     try {
+      // 세션 쿠키가 설정될 시간을 충분히 줍니다
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
       console.log("Login attempt with sessionId:", sessionId);
-      const res = await authFetch('/api/users/me');
-      console.log("Profile fetch response:", res.status, res.ok);
-      if (res.ok) {
-        const userData = await res.json();
-        console.log("User data received:", userData);
-        setUser(userData);
-        setLoading(false);
-        return true;
-      } else {
-        const errorData = await res.json().catch(() => ({}));
-        console.error("Profile fetch failed:", res.status, errorData);
+      console.log("Current cookies:", document.cookie);
+      
+      // 여러 번 시도 (최대 5회)
+      for (let attempt = 0; attempt < 5; attempt++) {
+        const res = await authFetch('/api/users/me');
+        console.log(`Profile fetch attempt ${attempt + 1} response:`, res.status, res.ok);
+        
+        if (res.ok) {
+          const userData = await res.json();
+          console.log("User data received:", userData);
+          setUser(userData);
+          setLoading(false);
+          return true;
+        } else {
+          // 실패 시 잠시 대기 후 재시도
+          if (attempt < 4) {
+            console.log(`Retrying in ${(attempt + 1) * 700}ms...`);
+            await new Promise(resolve => setTimeout(resolve, (attempt + 1) * 700));
+          } else {
+            const errorData = await res.json().catch(() => ({}));
+            console.error("All profile fetch attempts failed:", res.status, errorData);
+          }
+        }
       }
     } catch (error) {
       console.error("Failed to fetch user after login:", error);
     }
-    // If login process fails, reset to a clean logged-out state.
+    
+    // 모든 프로필 가져오기 시도가 실패한 경우
     setUser(null);
     setLoading(false);
     return false;

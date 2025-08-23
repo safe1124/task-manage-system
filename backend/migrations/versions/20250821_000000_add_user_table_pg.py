@@ -17,17 +17,16 @@ depends_on = None
 
 def upgrade():
     op.create_table(
-        'user_table',
-        sa.Column('id', sa.dialects.postgresql.UUID(as_uuid=True), primary_key=True),
+        'users',
+        sa.Column('id', sa.String(), primary_key=True),
         sa.Column('name', sa.String(), nullable=False),
         sa.Column('mail', sa.String(), nullable=False, unique=True),
         sa.Column('password', sa.String(), nullable=False),
-        sa.Column('token', sa.String()),
-        sa.Column('token_expires', sa.DateTime()),
+        sa.Column('avatar_url', sa.String(), nullable=True),
     )
 
 
 def downgrade():
-    op.drop_table('user_table')
+    op.drop_table('users')
 
 

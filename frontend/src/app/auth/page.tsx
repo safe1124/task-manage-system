@@ -31,13 +31,14 @@ export default function AuthPage() {
 
   async function submit() {
     setMsg(null);
-    const endpoint = mode === 'register' ? '/api/users/register' : '/api/users/login';
+    const endpoint = mode === 'register' ? 'http://localhost:8600/users/register' : 'http://localhost:8600/users/login';
     const body = mode === 'register' ? { name, mail, password } : { mail, password };
 
     try {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(body),
       });
 
@@ -60,9 +61,17 @@ export default function AuthPage() {
       } else {
         const data = await res.json();
         setMsg("ログイン中...");
+        
+        // 수동으로 쿠키 설정 (크로스 오리진 문제 해결)
+        document.cookie = `session_id=${data.session_id}; path=/; max-age=86400; SameSite=Lax`;
+        
+        // 쿠키 설정 후 잠시 대기
+        await new Promise(resolve => setTimeout(resolve, 500));
         const loginSuccess = await login(data.session_id || "success");
+        
         if (!loginSuccess) {
-          setMsg("ログインに成功しましたが、プロファイル取得に失敗しました。");
+          setMsg("ログインに成功しましたが、プロファイル取得に失敗しました。プログラムを確인中です。");
+          return; // 실패 시 여기서 멈춤
         }
         // Redirect is now handled by the login function's state update triggering
         // the useEffect in this component. No need to call router.replace here.

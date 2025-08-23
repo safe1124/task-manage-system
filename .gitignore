@@ -1,3 +1,29 @@
 .DS_Store
 .vscode
 *.sql
+
+# Database files
+*.db
+app.db
+backend/app.db
+
+# Cookie files
+cookies.txt
+test_cookies.txt
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Build files
+frontend/.next/
+frontend/node_modules/
+backend/__pycache__/
+backend/**/__pycache__/
+
+# Logs
+*.log
+server.log
+backend/server.log
+frontend/server.log

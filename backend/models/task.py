@@ -22,7 +22,7 @@ class Task(Base):
     due_date = Column(DateTime, nullable=True)
     
     # ForeignKey to link to the user who owns the task
-    user_id = Column(String, ForeignKey("user_table.id"), nullable=False, index=True)
+    user_id = Column(String, ForeignKey("users.id"), nullable=False, index=True)
 
     # 서버(데이터베이스)에서 자동으로 현재시각을 채움
     created_at = Column(DateTime, nullable=False, server_default=func.now())

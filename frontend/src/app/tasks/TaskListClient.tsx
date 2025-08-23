@@ -47,7 +47,11 @@ export default function TaskListClient() {
       if (sort) params.set("sort", sort);
       
       const url = `${API_BASE}/tasks/?${params.toString()}`;
-      const res = await authFetch(url, { cache: "no-store" });
+      // 명시적으로 GET 메서드를 지정하여 HEAD 메서드 사용 방지
+      const res = await authFetch(url, { 
+        method: "GET",
+        cache: "no-store" 
+      });
 
       if (!res.ok) {
         // A 401 here means the token became invalid. The context should handle the redirect.

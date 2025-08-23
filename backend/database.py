@@ -3,10 +3,9 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 
-# Default to local SQLite for dev. Override with env var DATABASE_URL when needed.
-DEFAULT_SQLITE_PATH = os.path.join(os.path.dirname(__file__), "app.db")
-DEFAULT_SQLALCHEMY_URL = f"sqlite:///{DEFAULT_SQLITE_PATH}"
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_SQLALCHEMY_URL)
+# DATABASE_URL environment variable is required.
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///app.db")
+# If DATABASE_URL is not set, use SQLite as fallback
 
 connect_args = {"check_same_thread": False} if SQLALCHEMY_DATABASE_URL.startswith("sqlite") else {}
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args=connect_args)

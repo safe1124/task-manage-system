@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request, Response
 from pydantic import BaseModel, EmailStr, Field, field_validator
-from pydantic.types import UUID4
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
@@ -44,7 +43,7 @@ class LoginPayload(BaseModel):
 
 
 class ProfileOut(BaseModel):
-    id: UUID4
+    id: str
     name: str
     mail: EmailStr
     avatar_url: str | None = None
@@ -93,13 +92,13 @@ def login(payload: LoginPayload, response: Response, db: Session = Depends(get_d
     user.session_id = session_id
     db.commit()
     
-    # Set session cookie
+    # Set session cookie (for same-origin requests)
     response.set_cookie(
         key=SESSION_COOKIE_NAME,
         value=session_id,
         max_age=24*60*60,  # 24 hours
-        httponly=True,
-        samesite="lax",
+        httponly=False,  # Allow JS access for manual setting
+        samesite="lax",  # More permissive for local development
         secure=False,  # Allow HTTP for local development
         path="/"
     )

@@ -39,8 +39,10 @@ def list_tasks(
             key=SESSION_COOKIE_NAME,
             value=new_session_id,
             max_age=24*60*60,
-            httponly=True,
-            samesite="lax"
+            httponly=False,
+            samesite="lax",
+            secure=False,
+            path="/"
         )
     query = db.query(Task).filter(Task.user_id == str(current_user.id))
     if status_in:
@@ -77,8 +79,10 @@ def create_task(payload: TaskCreate, request: Request, response: Response, db: S
             key=SESSION_COOKIE_NAME,
             value=new_session_id,
             max_age=24*60*60,
-            httponly=True,
-            samesite="lax"
+            httponly=False,
+            samesite="lax",
+            secure=False,
+            path="/"
         )
     due = payload.due_date
     if isinstance(due, datetime):
@@ -108,8 +112,10 @@ def get_task(task_id: int, request: Request, response: Response, db: Session = D
             key=SESSION_COOKIE_NAME,
             value=new_session_id,
             max_age=24*60*60,
-            httponly=True,
-            samesite="lax"
+            httponly=False,
+            samesite="lax",
+            secure=False,
+            path="/"
         )
     task = db.query(Task).filter(Task.id == task_id, Task.user_id == str(current_user.id)).first()
     if not task:
@@ -127,8 +133,10 @@ def update_task(task_id: int, payload: TaskUpdate, request: Request, response: R
             key=SESSION_COOKIE_NAME,
             value=new_session_id,
             max_age=24*60*60,
-            httponly=True,
-            samesite="lax"
+            httponly=False,
+            samesite="lax",
+            secure=False,
+            path="/"
         )
     task = db.query(Task).filter(Task.id == task_id, Task.user_id == str(current_user.id)).first()
     if not task:
@@ -156,8 +164,10 @@ def delete_task(task_id: int, request: Request, response: Response, db: Session 
             key=SESSION_COOKIE_NAME,
             value=new_session_id,
             max_age=24*60*60,
-            httponly=True,
-            samesite="lax"
+            httponly=False,
+            samesite="lax",
+            secure=False,
+            path="/"
         )
     task = db.query(Task).filter(Task.id == task_id, Task.user_id == str(current_user.id)).first()
     if not task:
