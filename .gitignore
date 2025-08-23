@@ -16,9 +16,12 @@ test_cookies.txt
 .env.local
 .env.production
 
-# Build files
-frontend/.next/
-frontend/node_modules/
+# Next.js build files
+.next/
+out/
+node_modules/
+
+# Backend files
 backend/__pycache__/
 backend/**/__pycache__/
 
@@ -26,4 +29,3 @@ backend/**/__pycache__/
 *.log
 server.log
 backend/server.log
-frontend/server.log

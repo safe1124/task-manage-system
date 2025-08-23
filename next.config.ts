@@ -4,11 +4,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Vercel 배포 시 소스 디렉토리 지정
-  experimental: {
-    outputFileTracingRoot: __dirname,
-  },
-  // 소스 디렉토리가 frontend 폴더에 있음을 명시
   async rewrites() {
     const backendUrl = process.env.BACKEND_URL || "http://localhost:8600";
     return [
