@@ -1,5 +1,24 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Deployment Commands
+
+### Manual Vercel Deployment
+```bash
+# Deploy using script
+npm run deploy
+
+# Deploy directly with Vercel CLI
+npm run deploy:vercel
+
+# Trigger deployment via webhook (requires VERCEL_DEPLOY_HOOK_URL)
+npm run trigger-deploy
+```
+
+### Setting up Auto-deployment
+1. Go to Vercel Dashboard → Your Project → Settings → Git
+2. Create a Deploy Hook and copy the URL
+3. Set environment variable: `VERCEL_DEPLOY_HOOK_URL=<your_hook_url>`
+
 ## Getting Started
 
 First, run the development server:
