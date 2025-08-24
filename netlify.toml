@@ -4,30 +4,32 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  NEXT_TELEMETRY_DISABLED = "1"
+  NPM_FLAGS = "--legacy-peer-deps"
 
-# Next.js redirects and rewrites
+# Next.js 앱용 redirects
 [[redirects]]
   from = "/api/*"
   to = "https://unique-perception-production.up.railway.app/:splat"
   status = 200
   force = true
 
+# Next.js 앱 라우팅
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# 캐시 설정
 [[headers]]
-  for = "/*"
+  for = "/static/*"
   [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "/api/*"
+  for = "/_next/static/*"
   [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, PATCH, OPTIONS"
     Access-Control-Allow-Headers = "X-Requested-With, Content-Type, Accept, Authorization"

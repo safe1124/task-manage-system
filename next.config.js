@@ -1,9 +1,9 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  output: 'standalone',
   // Netlify 배포 최적화
   outputFileTracingRoot: __dirname,
   async rewrites() {
@@ -25,4 +25,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
