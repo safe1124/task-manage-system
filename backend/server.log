@@ -3728,3 +3728,22 @@ INFO:     Started server process [72418]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+🔍 Session ID from header: ec61438f-ec8e-44ed-8981-4be2dee2b680
+🔍 User found for session: True
+INFO:     127.0.0.1:46292 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: ec61438f-ec8e-44ed-8981-4be2dee2b680
+🔍 User found for session: True
+INFO:     127.0.0.1:46292 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46292 - "OPTIONS /tasks/24 HTTP/1.1" 200 OK
+🔍 Session ID from header: ec61438f-ec8e-44ed-8981-4be2dee2b680
+🔍 User found for session: True
+INFO:     127.0.0.1:46292 - "DELETE /tasks/24 HTTP/1.1" 204 No Content
+🔍 Session ID from header: ec61438f-ec8e-44ed-8981-4be2dee2b680
+🔍 User found for session: True
+INFO:     127.0.0.1:46292 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: ec61438f-ec8e-44ed-8981-4be2dee2b680
+🔍 User found for session: True
+INFO:     127.0.0.1:46292 - "POST /tasks/ HTTP/1.1" 201 Created
+🔍 Session ID from header: ec61438f-ec8e-44ed-8981-4be2dee2b680
+🔍 User found for session: True
+INFO:     127.0.0.1:46292 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK

@@ -5,7 +5,6 @@
 [build.environment]
   NODE_VERSION = "18"
   NEXT_TELEMETRY_DISABLED = "1"
-  NPM_FLAGS = "--legacy-peer-deps"
 
 # Next.js 앱용 redirects
 [[redirects]]
@@ -14,22 +13,11 @@
   status = 200
   force = true
 
-# Next.js 앱 라우팅
+# Next.js SPA 라우팅 지원
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# 캐시 설정
-[[headers]]
-  for = "/static/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/_next/static/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, PATCH, OPTIONS"
     Access-Control-Allow-Headers = "X-Requested-With, Content-Type, Accept, Authorization"

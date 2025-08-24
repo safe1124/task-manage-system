@@ -3,7 +3,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  output: 'standalone',
+  // Netlify는 standalone 대신 기본 출력 사용
+  // output: 'standalone',
   // Netlify 배포 최적화
   outputFileTracingRoot: __dirname,
   async rewrites() {
