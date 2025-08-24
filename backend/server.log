@@ -1262,3 +1262,525 @@ INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
 Sun Aug 24 04:44:05 UTC 2025: Backend server stopped with exit code: 1
 Sun Aug 24 04:44:05 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:10 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:10 UTC 2025: Backend server started with PID: 59171
+INFO:     Started server process [59171]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:44:10 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:44:10 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:15 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:15 UTC 2025: Backend server started with PID: 59220
+INFO:     Started server process [59220]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:44:16 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:44:16 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:21 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:21 UTC 2025: Backend server started with PID: 59288
+INFO:     Started server process [59288]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:44:21 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:44:21 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:26 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:26 UTC 2025: Backend server started with PID: 59392
+INFO:     Started server process [59392]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:44:27 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:44:27 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:32 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:32 UTC 2025: Backend server started with PID: 59450
+INFO:     Started server process [59450]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:44:32 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:44:32 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:37 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:37 UTC 2025: Backend server started with PID: 59486
+INFO:     Started server process [59486]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:44:37 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:44:37 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:42 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:42 UTC 2025: Backend server started with PID: 59514
+INFO:     Started server process [59514]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:44:43 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:44:43 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:48 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:48 UTC 2025: Backend server started with PID: 59546
+INFO:     Started server process [59546]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:44:49 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:44:49 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:54 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:54 UTC 2025: Backend server started with PID: 59577
+INFO:     Started server process [59577]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:44:54 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:44:54 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:44:59 UTC 2025: Starting backend server...
+Sun Aug 24 04:44:59 UTC 2025: Backend server started with PID: 59661
+INFO:     Started server process [59661]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:00 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:00 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:05 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:05 UTC 2025: Backend server started with PID: 59698
+INFO:     Started server process [59698]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:05 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:05 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:10 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:10 UTC 2025: Backend server started with PID: 59728
+INFO:     Started server process [59728]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:11 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:11 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:16 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:16 UTC 2025: Backend server started with PID: 59764
+INFO:     Started server process [59764]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:16 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:16 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:21 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:21 UTC 2025: Backend server started with PID: 59797
+INFO:     Started server process [59797]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:22 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:22 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:27 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:27 UTC 2025: Backend server started with PID: 59826
+INFO:     Started server process [59826]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:27 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:27 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:32 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:32 UTC 2025: Backend server started with PID: 59858
+INFO:     Started server process [59858]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:32 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:32 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:38 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:38 UTC 2025: Backend server started with PID: 59886
+INFO:     Started server process [59886]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:38 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:38 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:43 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:43 UTC 2025: Backend server started with PID: 59922
+INFO:     Started server process [59922]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:44 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:44 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:49 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:49 UTC 2025: Backend server started with PID: 59959
+INFO:     Started server process [59959]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:49 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:49 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:54 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:54 UTC 2025: Backend server started with PID: 59990
+INFO:     Started server process [59990]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:45:54 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:45:54 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:45:59 UTC 2025: Starting backend server...
+Sun Aug 24 04:45:59 UTC 2025: Backend server started with PID: 60026
+INFO:     Started server process [60026]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:00 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:00 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:05 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:05 UTC 2025: Backend server started with PID: 60059
+INFO:     Started server process [60059]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:05 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:05 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:10 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:10 UTC 2025: Backend server started with PID: 60092
+INFO:     Started server process [60092]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:11 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:11 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:16 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:16 UTC 2025: Backend server started with PID: 60128
+INFO:     Started server process [60128]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:16 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:16 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:21 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:21 UTC 2025: Backend server started with PID: 60158
+INFO:     Started server process [60158]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:22 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:22 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:27 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:27 UTC 2025: Backend server started with PID: 60206
+INFO:     Started server process [60206]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:27 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:27 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:32 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:32 UTC 2025: Backend server started with PID: 60286
+INFO:     Started server process [60286]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:32 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:32 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:38 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:38 UTC 2025: Backend server started with PID: 60327
+INFO:     Started server process [60327]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:38 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:38 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:43 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:43 UTC 2025: Backend server started with PID: 60378
+INFO:     Started server process [60378]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:43 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:43 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:48 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:48 UTC 2025: Backend server started with PID: 60540
+INFO:     Started server process [60540]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:49 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:49 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:46:54 UTC 2025: Starting backend server...
+Sun Aug 24 04:46:54 UTC 2025: Backend server started with PID: 60634
+INFO:     Started server process [60634]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:46:55 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:46:55 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:00 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:00 UTC 2025: Backend server started with PID: 60666
+INFO:     Started server process [60666]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:00 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:00 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:05 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:05 UTC 2025: Backend server started with PID: 60696
+INFO:     Started server process [60696]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:06 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:06 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:11 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:11 UTC 2025: Backend server started with PID: 60732
+INFO:     Started server process [60732]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:11 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:11 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:16 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:16 UTC 2025: Backend server started with PID: 60764
+INFO:     Started server process [60764]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:17 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:17 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:22 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:22 UTC 2025: Backend server started with PID: 60794
+INFO:     Started server process [60794]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:22 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:22 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:27 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:27 UTC 2025: Backend server started with PID: 60830
+INFO:     Started server process [60830]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:28 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:28 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:33 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:33 UTC 2025: Backend server started with PID: 60866
+INFO:     Started server process [60866]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:33 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:33 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:38 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:38 UTC 2025: Backend server started with PID: 60900
+INFO:     Started server process [60900]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:39 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:39 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:44 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:44 UTC 2025: Backend server started with PID: 60936
+INFO:     Started server process [60936]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:44 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:44 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:49 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:49 UTC 2025: Backend server started with PID: 60977
+INFO:     Started server process [60977]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:49 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:49 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:47:54 UTC 2025: Starting backend server...
+Sun Aug 24 04:47:54 UTC 2025: Backend server started with PID: 61073
+INFO:     Started server process [61073]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:47:55 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:47:55 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:00 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:00 UTC 2025: Backend server started with PID: 61121
+INFO:     Started server process [61121]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:00 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:00 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:05 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:05 UTC 2025: Backend server started with PID: 61151
+INFO:     Started server process [61151]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:06 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:06 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:11 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:11 UTC 2025: Backend server started with PID: 61187
+INFO:     Started server process [61187]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:11 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:11 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:16 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:16 UTC 2025: Backend server started with PID: 61223
+INFO:     Started server process [61223]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:17 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:17 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:22 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:22 UTC 2025: Backend server started with PID: 61253
+INFO:     Started server process [61253]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:22 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:22 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:27 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:27 UTC 2025: Backend server started with PID: 61289
+INFO:     Started server process [61289]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:27 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:27 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:32 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:32 UTC 2025: Backend server started with PID: 61319
+INFO:     Started server process [61319]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:33 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:33 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:38 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:38 UTC 2025: Backend server started with PID: 61357
+INFO:     Started server process [61357]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:38 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:38 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:43 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:43 UTC 2025: Backend server started with PID: 61438
+INFO:     Started server process [61438]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:44 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:44 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:49 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:49 UTC 2025: Backend server started with PID: 61468
+INFO:     Started server process [61468]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Sun Aug 24 04:48:49 UTC 2025: Backend server stopped with exit code: 1
+Sun Aug 24 04:48:49 UTC 2025: Server crashed, restarting in 5 seconds...
+Sun Aug 24 04:48:54 UTC 2025: Starting backend server...
+Sun Aug 24 04:48:54 UTC 2025: Backend server started with PID: 61531
