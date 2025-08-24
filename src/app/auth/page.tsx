@@ -16,6 +16,10 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
   const [isClient, setIsClient] = useState(false);
+  
+  // 계정 정보 모달 상태
+  const [showAccountInfo, setShowAccountInfo] = useState(false);
+  const [accountInfo, setAccountInfo] = useState<{ id: string; password: string } | null>(null);
 
   // Check for client-side
   useEffect(() => {
@@ -89,20 +93,31 @@ export default function AuthPage() {
     setMsg(null);
     
     try {
-      setMsg("体験モードを開始中...");
-      const loginSuccess = await loginAsGuest();
+      setMsg("체험 모드를 시작중...");
+      const result = await loginAsGuest();
       
-      if (!loginSuccess) {
-        setMsg("体験モードの開始に失敗しました。もう一度お試しください。");
+      if (!result.success) {
+        setMsg("체험 모드 시작에 실패했습니다. 다시 시도해주세요.");
         return;
       }
       
-      setMsg("体験モードを開始しました！");
-      // Redirect is handled by the loginAsGuest function's state update triggering
-      // the useEffect in this component.
+      if (result.accountInfo) {
+        setAccountInfo(result.accountInfo);
+        setShowAccountInfo(true);
+        setMsg(null);
+      }
+      
+      // 리다이렉트는 계정 정보 모달을 닫을 때 처리
     } catch (e: any) {
-      setMsg("体験モードの開始中にエラーが発生しました。");
+      setMsg("체험 모드 시작 중 오류가 발생했습니다.");
     }
+  }
+
+  // 계정 정보 모달 닫기 및 태스크 페이지로 이동
+  function closeAccountInfoModal() {
+    setShowAccountInfo(false);
+    setAccountInfo(null);
+    router.replace('/tasks');
   }
 
   // Prevents flashing the login form for an already authenticated user.
@@ -201,9 +216,9 @@ export default function AuthPage() {
         
         {msg && (
           <div className={`${styles.authMessage} ${
-            msg.includes("成功") || msg.includes("完了") 
+            msg.includes("성공") || msg.includes("완료") 
               ? styles.authMessageSuccess
-              : msg.includes("エラー") || msg.includes("失敗")
+              : msg.includes("오류") || msg.includes("실패")
               ? styles.authMessageError
               : styles.authMessageInfo
           }`}>
@@ -211,6 +226,48 @@ export default function AuthPage() {
           </div>
         )}
       </div>
+      
+      {/* 계정 정보 모달 */}
+      {showAccountInfo && accountInfo && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTitle}>체험 계정이 생성되었습니다</h2>
+              <button 
+                className={styles.modalCloseBtn}
+                onClick={closeAccountInfoModal}
+                title="닫기"
+              >
+                ×
+              </button>
+            </div>
+            <div className={styles.modalBody}>
+              <p className={styles.modalText}>당신의 ID, PW는 다음과 같습니다</p>
+              <div className={styles.accountInfoBox}>
+                <div className={styles.accountInfoItem}>
+                  <label>ID:</label>
+                  <span className={styles.accountInfoValue}>{accountInfo.id}</span>
+                </div>
+                <div className={styles.accountInfoItem}>
+                  <label>Password:</label>
+                  <span className={styles.accountInfoValue}>{accountInfo.password}</span>
+                </div>
+              </div>
+              <p className={styles.modalWarning}>
+                만일을 대비해서 보존해 주세요
+              </p>
+            </div>
+            <div className={styles.modalFooter}>
+              <button 
+                className={styles.modalConfirmBtn}
+                onClick={closeAccountInfoModal}
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

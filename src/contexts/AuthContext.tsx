@@ -15,7 +15,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   login: (username: string, password: string) => Promise<boolean>;
-  loginAsGuest: () => Promise<boolean>;
+  loginAsGuest: () => Promise<{ success: boolean; accountInfo?: { id: string; password: string } }>;
   logout: () => void;
   isLoading: boolean;
   reloadUser: () => Promise<void>;
@@ -139,7 +139,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const loginAsGuest = async (): Promise<boolean> => {
+  const loginAsGuest = async (): Promise<{ success: boolean; accountInfo?: { id: string; password: string } }> => {
     try {
       setIsLoading(true);
       console.log('Attempting guest login');
@@ -178,15 +178,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           console.error('Failed to fetch user data after guest login:', userError);
         }
         
-        return true;
+        return { 
+          success: true, 
+          accountInfo: data.account_info 
+        };
       } else {
         const errorData = await response.json();
         console.error('Guest login failed:', errorData);
-        return false;
+        return { success: false };
       }
     } catch (error) {
       console.error('Guest login error:', error);
-      return false;
+      return { success: false };
     } finally {
       setIsLoading(false);
     }

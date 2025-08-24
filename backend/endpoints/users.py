@@ -133,14 +133,14 @@ def guest_login(response: Response, db: Session = Depends(get_db)):
     """게스트 계정을 생성하고 로그인"""
     print("🔍 Guest login attempt")
     
-    # 고유한 게스트 이메일 생성
-    guest_id = str(uuid.uuid4())[:8]
-    timestamp = str(int(time.time()))
-    guest_email = f"guest_{guest_id}_{timestamp}@guest.com"
-    guest_name = f"ゲスト_{guest_id}"
+    # 숫자 4자리 ID 생성 (1000-9999)
+    import random
+    guest_id = str(random.randint(1000, 9999))
+    guest_email = f"{guest_id}@tcu.ac.jp"
+    guest_name = f"체험사용자_{guest_id}"
     
-    # 임시 비밀번호 생성
-    guest_password = str(uuid.uuid4())
+    # 숫자 6자리 비밀번호 생성 (100000-999999)
+    guest_password = str(random.randint(100000, 999999))
     
     print(f"🔍 Creating guest user: {guest_email}")
     
@@ -159,7 +159,7 @@ def guest_login(response: Response, db: Session = Depends(get_db)):
     except IntegrityError:
         db.rollback()
         print("❌ Failed to create guest user")
-        raise HTTPException(status_code=500, detail="体験アカウントの作成に失敗しました")
+        raise HTTPException(status_code=500, detail="체험 계정 생성에 실패했습니다")
     
     # 세션 생성
     session_id = create_session_id()
@@ -186,7 +186,14 @@ def guest_login(response: Response, db: Session = Depends(get_db)):
     response.set_cookie(**cookie_settings)
     
     print(f"✅ Guest login successful: {session_id}")
-    return {"message": "体験モード開始", "session_id": session_id}
+    return {
+        "message": "체험 계정이 생성되었습니다", 
+        "session_id": session_id,
+        "account_info": {
+            "id": guest_email,
+            "password": guest_password
+        }
+    }
 
 
 @router.post("/logout")
