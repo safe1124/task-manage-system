@@ -7,7 +7,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 
 export default function HeaderClient() {
   const [open, setOpen] = useState(false);
-  const { user, logout, loading } = useAuth();
+  const { user, logout, isLoading } = useAuth();
   const { theme } = useTheme();
 
   // Drawer state
@@ -63,7 +63,7 @@ export default function HeaderClient() {
           </div>
           
           <div className="flex items-center gap-3 ml-auto">
-            {loading ? (
+            {isLoading ? (
               <div className="h-6 w-24 bg-gray-700 animate-pulse rounded"></div>
             ) : !user ? (
               <a href="/auth" className="text-sm opacity-80 hover:underline">ログイン/登録</a>
@@ -86,7 +86,11 @@ export default function HeaderClient() {
       {open && (
         <div className="fixed inset-0 z-40">
           <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} />
-          <aside className="absolute left-0 top-0 h-full w-[320px] bg-white text-black shadow-xl p-4 overflow-y-auto">
+          <aside className={`absolute left-0 top-0 h-full w-[320px] shadow-xl p-4 overflow-y-auto ${
+            theme === 'light' 
+              ? 'bg-white text-gray-900' 
+              : 'bg-gray-900 text-white'
+          }`}>
             <div className="flex items-center justify-between mb-2">
               <div className="font-semibold">メニュー</div>
               <button onClick={() => setOpen(false)} className="text-sm opacity-70">閉じる</button>
@@ -94,7 +98,11 @@ export default function HeaderClient() {
 
             <section className="mb-6">
               <h3 className="font-medium mb-2">キーワード検索</h3>
-              <input className="border rounded p-2 w-full mb-2" placeholder="キーワード" value={q} onChange={(e)=>setQ(e.target.value)} />
+              <input className={`border rounded p-2 w-full mb-2 ${
+                theme === 'light' 
+                  ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' 
+                  : 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
+              }`} placeholder="キーワード" value={q} onChange={(e)=>setQ(e.target.value)} />
               <div className="mb-2">
                 <ModernDropdown
                   options={[
@@ -125,13 +133,25 @@ export default function HeaderClient() {
                   className="w-full"
                 />
               </div>
-              <button onClick={doSearch} className="w-full rounded bg-black text-white py-2">検索</button>
+              <button onClick={doSearch} className={`w-full rounded py-2 ${
+                theme === 'light' 
+                  ? 'bg-gray-900 text-white hover:bg-gray-800' 
+                  : 'bg-white text-gray-900 hover:bg-gray-100'
+              }`}>検索</button>
             </section>
 
             <section>
               <h3 className="font-medium mb-2">タスク追加</h3>
-              <input className="border rounded p-2 w-full mb-2" placeholder="タイトル" value={title} onChange={(e)=>setTitle(e.target.value)} />
-              <input className="border rounded p-2 w-full mb-2" placeholder="詳細" value={desc} onChange={(e)=>setDesc(e.target.value)} />
+              <input className={`border rounded p-2 w-full mb-2 ${
+                theme === 'light' 
+                  ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' 
+                  : 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
+              }`} placeholder="タイトル" value={title} onChange={(e)=>setTitle(e.target.value)} />
+              <input className={`border rounded p-2 w-full mb-2 ${
+                theme === 'light' 
+                  ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' 
+                  : 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
+              }`} placeholder="詳細" value={desc} onChange={(e)=>setDesc(e.target.value)} />
               <div className="mb-3">
                 <ModernDropdown
                   options={[
@@ -147,7 +167,11 @@ export default function HeaderClient() {
                   className="w-full"
                 />
               </div>
-              <button onClick={createTask} className="w-full rounded bg-black text-white py-2">追加</button>
+              <button onClick={createTask} className={`w-full rounded py-2 ${
+                theme === 'light' 
+                  ? 'bg-gray-900 text-white hover:bg-gray-800' 
+                  : 'bg-white text-gray-900 hover:bg-gray-100'
+              }`}>追加</button>
             </section>
           </aside>
         </div>

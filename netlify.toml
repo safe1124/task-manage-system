@@ -5,6 +5,13 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Next.js redirects and rewrites
+[[redirects]]
+  from = "/api/*"
+  to = "https://unique-perception-production.up.railway.app/:splat"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

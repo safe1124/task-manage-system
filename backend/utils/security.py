@@ -72,8 +72,8 @@ def get_current_user_optional(
         # Create anonymous user for this session
         session_id = create_session_id()
         user = User(
-            name=f"익명사용자_{session_id[:8]}",
-            mail=f"anon_{session_id[:8]}@local",
+            name="体験モード",
+            mail=f"anon_{session_id[:8]}@local.temp",
             password=get_password_hash("anonymous"),
             session_id=session_id
         )

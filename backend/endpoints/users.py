@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Request, Response
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
+import uuid
+import time
 
 from database import get_db
 from models.user import User
@@ -126,9 +128,77 @@ def login(payload: LoginPayload, response: Response, db: Session = Depends(get_d
     return {"message": "로그인 성공", "session_id": session_id}
 
 
+@router.post("/guest")
+def guest_login(response: Response, db: Session = Depends(get_db)):
+    """게스트 계정을 생성하고 로그인"""
+    print("🔍 Guest login attempt")
+    
+    # 고유한 게스트 이메일 생성
+    guest_id = str(uuid.uuid4())[:8]
+    timestamp = str(int(time.time()))
+    guest_email = f"guest_{guest_id}_{timestamp}@guest.com"
+    guest_name = f"ゲスト_{guest_id}"
+    
+    # 임시 비밀번호 생성
+    guest_password = str(uuid.uuid4())
+    
+    print(f"🔍 Creating guest user: {guest_email}")
+    
+    # 게스트 사용자 생성
+    user = User(
+        name=guest_name,
+        mail=guest_email,
+        password=get_password_hash(guest_password)
+    )
+    db.add(user)
+    
+    try:
+        db.commit()
+        db.refresh(user)
+        print(f"🔍 Guest user created successfully: {user.id}")
+    except IntegrityError:
+        db.rollback()
+        print("❌ Failed to create guest user")
+        raise HTTPException(status_code=500, detail="体験アカウントの作成に失敗しました")
+    
+    # 세션 생성
+    session_id = create_session_id()
+    user.session_id = session_id
+    db.commit()
+    
+    # 쿠키 설정
+    import os
+    is_production = os.getenv("ENVIRONMENT") == "production"
+    print(f"🔍 Environment: {os.getenv('ENVIRONMENT')}, is_production: {is_production}")
+    
+    cookie_settings = {
+        "key": SESSION_COOKIE_NAME,
+        "value": session_id,
+        "max_age": 24*60*60,  # 24 hours
+        "httponly": False,  # Allow JS access for manual setting
+        "samesite": "none" if is_production else "lax",  # None for CORS, lax for local
+        "secure": is_production,  # Secure for HTTPS in production
+        "path": "/",
+        "domain": None  # Don't set domain for cross-origin
+    }
+    print(f"🔍 Cookie settings: {cookie_settings}")
+    
+    response.set_cookie(**cookie_settings)
+    
+    print(f"✅ Guest login successful: {session_id}")
+    return {"message": "体験モード開始", "session_id": session_id}
+
+
 @router.post("/logout")
 def logout(request: Request, response: Response, db: Session = Depends(get_db)):
-    session_id = request.cookies.get(SESSION_COOKIE_NAME)
+    # 세션 ID를 헤더 또는 쿠키에서 가져오기
+    session_id = None
+    auth_header = request.headers.get("Authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        session_id = auth_header.replace("Bearer ", "")
+    else:
+        session_id = request.cookies.get(SESSION_COOKIE_NAME)
+    
     if session_id:
         # Clear session from database
         user = db.query(User).filter(User.session_id == session_id).first()

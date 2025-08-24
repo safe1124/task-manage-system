@@ -47,11 +47,15 @@ export default function TaskListClient() {
       if (sort) params.set("sort", sort);
       
       const url = `${API_BASE}/tasks/?${params.toString()}`;
+      console.log("Fetching tasks from:", url);
+      
       // 명시적으로 GET 메서드를 지정하여 HEAD 메서드 사용 방지
       const res = await authFetch(url, { 
         method: "GET",
         cache: "no-store" 
       });
+
+      console.log("Response status:", res.status);
 
       if (!res.ok) {
         // A 401 here means the token became invalid. The context should handle the redirect.
@@ -62,9 +66,11 @@ export default function TaskListClient() {
         throw new Error(`タスクの読み込みに失敗しました: ${res.status}`);
       }
       const data = (await res.json()) as Task[];
+      console.log("Tasks loaded:", data);
       setTasks(data);
     } catch (e: any) {
-      setError(e.message ?? "不明なエラーが発生しました。");
+      console.error("Task loading error:", e);
+      setError(e.message ?? "不明なエラーが発生しました。サーバーとの接続を確認してください。");
     } finally {
       setLoading(false);
     }
@@ -248,7 +254,9 @@ export default function TaskListClient() {
 
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-2xl font-semibold mb-6 text-center">都市大課題管理</h1>
+      <h1 className={`text-2xl font-semibold mb-6 text-center ${
+        theme === 'light' ? 'text-gray-900' : 'text-white'
+      }`}>都市大課題管理</h1>
 
       {/* Urgent tasks */}
       {urgentTasks.length > 0 && (
@@ -266,12 +274,12 @@ export default function TaskListClient() {
               return (
                 <div key={`urgent-${t.id}`} className={`glass p-3 border ${
                   theme === 'light' 
-                    ? 'border-red-500/20 text-gray-900' 
-                    : 'border-red-500/20 text-black'
+                    ? 'border-red-500/20 text-gray-900 bg-red-50/80' 
+                    : 'border-red-500/20 text-gray-900'
                 }`}>
                   <div className="flex items-center justify-between mb-2">
                     <a href={`/tasks/${t.id}`} className={`font-medium hover:underline flex-1 ${
-                      theme === 'light' ? 'text-gray-900' : 'text-black'
+                      theme === 'light' ? 'text-gray-900' : 'text-gray-900'
                     }`}>{t.title}</a>
                     <div className="flex items-center gap-2">
                       {timeInfo && (
@@ -281,7 +289,7 @@ export default function TaskListClient() {
                     </div>
                   </div>
                   <p className={`text-sm opacity-80 ${
-                    theme === 'light' ? 'text-gray-700' : 'text-black'
+                    theme === 'light' ? 'text-gray-700' : 'text-gray-700'
                   }`}>{t.description}</p>
                 </div>
               );
@@ -424,10 +432,14 @@ export default function TaskListClient() {
               <div className="swipe-delete-bg">
                 <span className="text-white text-lg swipe-delete-icon">🗑️ 削除</span>
               </div>
-              <div className={`swipe-track glass text-black task-box-${t.status}`}>
+              <div className={`swipe-track glass task-box-${t.status} ${
+                theme === 'light' ? 'text-gray-900' : 'text-gray-900'
+              }`}>
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-1">
-                    <a href={`/tasks/${t.id}`} className="font-medium hover:underline">{t.title}</a>
+                    <a href={`/tasks/${t.id}`} className={`font-medium hover:underline ${
+                      theme === 'light' ? 'text-gray-900' : 'text-gray-900'
+                    }`}>{t.title}</a>
                     <div className="flex items-center gap-2">
                       {t.due_date && (() => {
                         const timeInfo = getTimeUntilDue(t.due_date);
@@ -438,26 +450,50 @@ export default function TaskListClient() {
                       <span className={`text-xs px-2 py-0.5 rounded badge ${t.status}`}>{t.status === "todo" ? "未着手" : t.status === "in_progress" ? "進行中" : "完了"}</span>
                     </div>
                   </div>
-                  <p className="text-sm mb-3">{t.description}</p>
-                  <div className="flex items-center gap-2 text-xs opacity-80 mb-3 flex-wrap">
+                  <p className={`text-sm mb-3 ${
+                    theme === 'light' ? 'text-gray-700' : 'text-gray-700'
+                  }`}>{t.description}</p>
+                  <div className={`flex items-center gap-2 text-xs mb-3 flex-wrap ${
+                    theme === 'light' ? 'text-gray-600 opacity-80' : 'text-gray-600 opacity-80'
+                  }`}>
                     <div>優先度: {t.priority}</div>
                     <div>作成日: {new Date(t.created_at).toLocaleString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
                     {t.due_date && (() => { const d = parseLocalDateTime(t.due_date) ?? new Date(t.due_date); return (<div>期限: {formatDateTimeJa(d)}</div>); })()}
                   </div>
                   <div className="flex gap-2 flex-wrap">
                     {t.status === "todo" && (
-                      <button className="rounded border px-2 py-1 text-xs bg-blue-500/20 text-black hover:bg-blue-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "in_progress"); }}>▶ 開始</button>
+                      <button className={`rounded border px-2 py-1 text-xs hover:bg-blue-500/30 ${
+                        theme === 'light' 
+                          ? 'bg-blue-500/20 text-blue-800 border-blue-300' 
+                          : 'bg-blue-500/20 text-blue-200 border-blue-500/30'
+                      }`} onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "in_progress"); }}>▶ 開始</button>
                     )}
                     {t.status === "in_progress" && (
                       <>
-                        <button className="rounded border px-2 py-1 text-xs bg-emerald-500/20 text-black hover:bg-emerald-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "done"); }}>✓ 完了</button>
-                        <button className="rounded border px-2 py-1 text-xs bg-gray-500/20 text-black hover:bg-gray-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}>↩ 戻す</button>
+                        <button className={`rounded border px-2 py-1 text-xs hover:bg-emerald-500/30 ${
+                          theme === 'light' 
+                            ? 'bg-emerald-500/20 text-emerald-800 border-emerald-300' 
+                            : 'bg-emerald-500/20 text-emerald-200 border-emerald-500/30'
+                        }`} onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "done"); }}>✓ 完了</button>
+                        <button className={`rounded border px-2 py-1 text-xs hover:bg-gray-500/30 ${
+                          theme === 'light' 
+                            ? 'bg-gray-500/20 text-gray-800 border-gray-300' 
+                            : 'bg-gray-500/20 text-gray-200 border-gray-500/30'
+                        }`} onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}>↩ 戻す</button>
                       </>
                     )}
                     {t.status === "done" && (
-                      <button className="rounded border px-2 py-1 text-xs bg-gray-500/20 text-black hover:bg-gray-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}>↩ 未完了に戻す</button>
+                      <button className={`rounded border px-2 py-1 text-xs hover:bg-gray-500/30 ${
+                        theme === 'light' 
+                          ? 'bg-gray-500/20 text-gray-800 border-gray-300' 
+                          : 'bg-gray-500/20 text-gray-200 border-gray-500/30'
+                      }`} onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateStatus(t, "todo"); }}>↩ 未完了に戻す</button>
                     )}
-                    <button className="rounded border px-2 py-1 text-xs bg-red-500/20 text-black hover:bg-red-500/30" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteTaskById(t.id, t.title); }}>🗑️ 削除</button>
+                    <button className={`rounded border px-2 py-1 text-xs hover:bg-red-500/30 ${
+                      theme === 'light' 
+                        ? 'bg-red-500/20 text-red-800 border-red-300' 
+                        : 'bg-red-500/20 text-red-200 border-red-500/30'
+                    }`} onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteTaskById(t.id, t.title); }}>🗑️ 削除</button>
                   </div>
                 </div>
               </div>

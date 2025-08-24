@@ -15,7 +15,11 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg hover:bg-white/20 transition-all duration-300 group"
+      className={`fixed bottom-6 right-6 z-50 p-4 rounded-full backdrop-blur-md border shadow-lg transition-all duration-300 group ${
+        theme === 'light' 
+          ? 'bg-gray-800/90 border-gray-700/50 text-white hover:bg-gray-700/90' 
+          : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+      }`}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       <div className="relative w-6 h-6">
@@ -52,8 +56,12 @@ export default function ThemeToggle() {
       </div>
       
       {/* 툴팁 */}
-      <div className="absolute bottom-full right-0 mb-2 px-3 py-2 text-sm bg-black/80 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-        {theme === 'light' ? 'light ' : 'dark'}
+      <div className={`absolute bottom-full right-0 mb-2 px-3 py-2 text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none ${
+        theme === 'light' 
+          ? 'bg-gray-900/90 text-white' 
+          : 'bg-black/80 text-white'
+      }`}>
+        {theme === 'light' ? 'ダークモードに切り替え' : 'ライトモードに切り替え'}
       </div>
     </button>
   );

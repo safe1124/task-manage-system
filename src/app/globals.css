@@ -118,6 +118,11 @@ body::before {
 .badge.in_progress { background: rgba(37,99,235,0.15); color: #1d4ed8; }
 .badge.done { background: rgba(16,185,129,0.18); color: #047857; }
 
+/* Light theme badge adjustments */
+[data-theme="light"] .badge.todo { background: rgba(107,114,128,0.2); color: #1f2937; }
+[data-theme="light"] .badge.in_progress { background: rgba(37,99,235,0.2); color: #1e40af; }
+[data-theme="light"] .badge.done { background: rgba(16,185,129,0.2); color: #065f46; }
+
 /* Clean glassmorphism */
 .glass {
   background: rgba(255, 255, 255, 0.55);
@@ -126,6 +131,13 @@ body::before {
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
+}
+
+/* Light theme glass adjustments */
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 /* Swipe-to-delete helpers */
@@ -166,6 +178,15 @@ body::before {
   --dropdown-focus-color: #3b82f6;
   --dropdown-radius: 12px;
   --dropdown-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Light theme dropdown variables */
+[data-theme="light"] {
+  --dropdown-bg-color: rgba(229, 231, 235, 0.8);
+  --dropdown-border-color: rgba(156, 163, 175, 0.3);
+  --dropdown-text-color: #374151;
+  --dropdown-text-muted: rgba(107, 114, 128, 0.8);
+  --dropdown-hover-bg: rgba(243, 244, 246, 0.9);
 }
 
 .modern-dropdown {
@@ -228,6 +249,11 @@ body::before {
   margin-top: 4px;
 }
 
+/* Light theme dropdown list shadow */
+[data-theme="light"] .dropdown-list {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
 .dropdown-list.open {
   max-height: 300px;
 }
@@ -247,6 +273,12 @@ body::before {
 .dropdown-item.selected {
   background: rgba(59, 130, 246, 0.2);
   color: #60a5fa;
+}
+
+/* Light theme selected item */
+[data-theme="light"] .dropdown-item.selected {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563eb;
 }
 
 /* Width adjustments for full-width dropdowns */
@@ -276,6 +308,22 @@ body::before {
 .task-box-done {
   background: rgba(139, 195, 74, 0.9); /* 연한 연두색 90% */
   border: 1px solid rgba(139, 195, 74, 1);
+}
+
+/* Light theme task box adjustments */
+[data-theme="light"] .task-box-todo {
+  background: rgba(248, 250, 252, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+[data-theme="light"] .task-box-in_progress {
+  background: rgba(254, 240, 138, 0.7);
+  border: 1px solid rgba(251, 191, 36, 0.5);
+}
+
+[data-theme="light"] .task-box-done {
+  background: rgba(187, 247, 208, 0.7);
+  border: 1px solid rgba(34, 197, 94, 0.5);
 }
 
 /* Grid view optimizations */

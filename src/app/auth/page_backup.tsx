@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { setSessionId } from "@/lib/auth";
 import styles from "./auth.module.css";
 
 export default function AuthPage() {
@@ -33,54 +34,73 @@ export default function AuthPage() {
     console.log("Submit function called");
     setMsg(null);
     
-    if (mode === 'register') {
-      // 회원가입 로직
-      const isProduction = typeof window !== 'undefined' && window.location.hostname !== 'localhost';
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 
-                        (isProduction ? 'https://unique-perception-production.up.railway.app' : 'http://localhost:8000');
-      
-      try {
-        const res = await fetch(`${backendUrl}/users/register`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ name, mail, password }),
-        });
+    // 환경변수 확인 및 프로덕션 환경 감지
+    const isProduction = typeof window !== 'undefined' && window.location.hostname !== 'localhost';
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 
+                      (isProduction ? 'https://unique-perception-production.up.railway.app' : 'http://localhost:8000');
+    
+    console.log('Environment check:', {
+      hostname: typeof window !== 'undefined' ? window.location.hostname : 'server',
+      isProduction,
+      backendUrl,
+      envVar: process.env.NEXT_PUBLIC_BACKEND_URL
+    });
+    
+    const endpoint = mode === 'register' ? `${backendUrl}/users/register` : `${backendUrl}/users/login`;
+    const body = mode === 'register' ? { name, mail, password } : { mail, password };
 
-        if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
-          const detail = data.detail || `エラーコード: ${res.status}`;
-          if (res.status === 409) setMsg(`登録失敗: ${detail}`);
-          else if (res.status === 422) setMsg("入力形式が正しくありません。");
-          else setMsg(`サーバーエラー: ${detail}`);
-          return;
-        }
+    console.log('Making request to:', endpoint);
+    console.log('Request body:', body);
 
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const detail = data.detail || `エラーコード: ${res.status}`;
+        if (res.status === 409) setMsg(`登録失敗: ${detail}`);
+        else if (res.status === 422) setMsg("入力形式が正しくありません。");
+        else if (res.status === 401) setMsg("ログイン失敗: " + detail);
+        else setMsg(`サーバーエラー: ${detail}`);
+        return;
+      }
+
+      if (mode === 'register') {
         setMsg("登録が完了しました。ログインしてください。");
         setMode("login");
         setName("");
         setMail("");
         setPassword("");
-      } catch (e: any) {
-        setMsg("ネットワークエラーが発生しました。");
-      }
-    } else {
-      // 로그인 로직 - AuthContext의 login 함수 사용
-      setMsg("ログイン中...");
-      
-      try {
-        const loginSuccess = await login(mail, password);
+      } else {
+        const data = await res.json();
+        setMsg("ログイン中...");
         
-        if (loginSuccess) {
-          setMsg("ログイン成功！");
-          // AuthContext의 user 상태 변경으로 인해 useEffect에서 자동으로 리다이렉트됨
-        } else {
-          setMsg("ログインに失敗しました。メールアドレスとパスワードを確認してください。");
+        console.log("Login response data:", data);
+        
+        // 세션 ID를 헤더와 쿠키 둘 다에 저장 (이중 보안)
+        if (data.session_id) {
+          setSessionId(data.session_id);
+          console.log("Session ID saved:", data.session_id);
         }
-      } catch (e: any) {
-        console.error("Login error:", e);
-        setMsg("ネットワークエラーが発生しました。");
+        
+        // 세션 ID 설정 후 잠시 대기
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const loginSuccess = await login(data.session_id || "success");
+        
+        if (!loginSuccess) {
+          setMsg("ログインに成功しましたが、プロファイル取得に失敗しました。プログラムを確인中です。");
+          return; // 실패 시 여기서 멈춤
+        }
+        // Redirect is now handled by the login function's state update triggering
+        // the useEffect in this component. No need to call router.replace here.
       }
+    } catch (e: any) {
+      setMsg("ネットワークエラーが発生しました。");
     }
   }
 
@@ -214,3 +234,5 @@ export default function AuthPage() {
     </div>
   );
 }
+
+

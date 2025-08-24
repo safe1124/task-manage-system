@@ -3,7 +3,7 @@ function getBackendUrl(): string {
   // 프로덕션 환경 감지
   const isProduction = typeof window !== 'undefined' && window.location.hostname !== 'localhost';
   return process.env.NEXT_PUBLIC_BACKEND_URL || 
-         (isProduction ? 'https://unique-perception-production.up.railway.app' : 'http://localhost:8600');
+         (isProduction ? 'https://unique-perception-production.up.railway.app' : 'http://localhost:8000');
 }
 
 // Session-based auth - no token management needed
@@ -23,22 +23,55 @@ export function clearToken() {
   clearSessionId();
 }
 
-// 세션 ID 저장을 위한 간단한 저장소
+// 세션 ID 저장을 위한 로컬스토리지와 쿠키 통합 관리
 let sessionId: string | null = null;
 
 export function setSessionId(id: string) {
   sessionId = id;
+  // 로컬스토리지에 저장 (새로고침 시에도 유지)
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('session_id', id);
+  }
   // 쿠키에도 백업으로 저장
-  document.cookie = `session_id=${id}; path=/; max-age=${24*60*60}; samesite=none; secure`;
+  document.cookie = `session_id=${id}; path=/; max-age=${24*60*60}; samesite=lax`;
 }
 
 export function getSessionId(): string | null {
-  return sessionId;
+  // 메모리에 있으면 그것을 사용
+  if (sessionId) {
+    return sessionId;
+  }
+  
+  // 브라우저 환경에서만 실행
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  
+  // 로컬스토리지에서 복원 시도
+  const storedSessionId = localStorage.getItem('session_id');
+  if (storedSessionId) {
+    sessionId = storedSessionId;
+    return sessionId;
+  }
+  
+  // 쿠키에서 복원 시도 (백업)
+  const cookieMatch = document.cookie.match(/session_id=([^;]+)/);
+  if (cookieMatch) {
+    sessionId = cookieMatch[1];
+    // 로컬스토리지에도 동기화
+    localStorage.setItem('session_id', sessionId);
+    return sessionId;
+  }
+  
+  return null;
 }
 
 export function clearSessionId() {
   sessionId = null;
-  document.cookie = 'session_id=; path=/; max-age=0; samesite=none; secure';
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('session_id');
+  }
+  document.cookie = 'session_id=; path=/; max-age=0; samesite=lax';
 }
 
 export async function authFetch(input: RequestInfo | URL, init: RequestInit = {}) {
