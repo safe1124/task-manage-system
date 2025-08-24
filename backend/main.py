@@ -24,6 +24,7 @@ vercel_domains = [
     "https://coding-test-sez2-9fw01ctcu-3minute.vercel.app", 
     "https://aishtask.vercel.app",
     "https://aishtask-frontend.netlify.app",
+    "https://tcutask.netlify.app",  # 실제 Netlify 도메인 추가
     "https://unique-perception-production.up.railway.app",
 ]
 
@@ -48,8 +49,8 @@ def is_allowed_origin(origin: str) -> bool:
     if origin.endswith('.vercel.app') and 'coding-test' in origin:
         return True
     
-    # Netlify 도메인 패턴 체크
-    if origin.endswith('.netlify.app') and 'aishtask' in origin:
+    # Netlify 도메인 패턴 체크 (더 유연하게)
+    if origin.endswith('.netlify.app') and ('aishtask' in origin or 'tcutask' in origin):
         return True
     
     return False
