@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from endpoints.tasks import router as tasks_router
@@ -24,6 +24,7 @@ vercel_domains = [
     "https://coding-test-sez2-9fw01ctcu-3minute.vercel.app", 
     "https://aishtask.vercel.app",
     "https://aishtask-frontend.netlify.app",
+    "https://unique-perception-production.up.railway.app",
 ]
 
 # 환경변수에서 추가 URL 허용
@@ -47,29 +48,51 @@ def is_allowed_origin(origin: str) -> bool:
     if origin.endswith('.vercel.app') and 'coding-test' in origin:
         return True
     
+    # Netlify 도메인 패턴 체크
+    if origin.endswith('.netlify.app') and 'aishtask' in origin:
+        return True
+    
     return False
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 개발용으로 모든 origin 허용
+    allow_origins=allowed_origins,  # 정확한 origin 목록 사용
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allow_headers=["*"],
+    allow_headers=[
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "Accept",
+        "Origin",
+        "User-Agent",
+        "Referer",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile",
+        "sec-ch-ua-platform",
+        "Access-Control-Allow-Credentials"
+    ],
     expose_headers=["*"],
 )
 
 # OPTIONS 요청을 명시적으로 처리
 @app.options("/{full_path:path}")
-async def options_handler(full_path: str):
-    return Response(
-        status_code=200,
-        headers={
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Credentials": "true",
-        }
-    )
+async def options_handler(full_path: str, request: Request):
+    origin = request.headers.get("origin")
+    # 허용된 origin인지 확인
+    if is_allowed_origin(origin):
+        return Response(
+            status_code=200,
+            headers={
+                "Access-Control-Allow-Origin": origin,
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, Accept, Origin, User-Agent, Referer, sec-ch-ua, sec-ch-ua-mobile, sec-ch-ua-platform, Access-Control-Allow-Credentials",
+                "Access-Control-Allow-Credentials": "true",
+                "Vary": "Origin",
+            }
+        )
+    else:
+        return Response(status_code=403)
 
 @app.get("/check")
 def health():
