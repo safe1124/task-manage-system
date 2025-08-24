@@ -253,8 +253,8 @@ export default function TaskListClient() {
   }
 
   return (
-    <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className={`text-2xl font-semibold mb-6 text-center ${
+    <div className="min-h-screen p-4 sm:p-8 pb-20 sm:pb-20 font-[family-name:var(--font-geist-sans)]">
+      <h1 className={`text-xl sm:text-2xl font-semibold mb-6 text-center px-2 ${
         theme === 'light' ? 'text-gray-900' : 'text-white'
       }`}>都市大課題管理</h1>
 
@@ -383,13 +383,13 @@ export default function TaskListClient() {
         <h2 className={`font-medium mb-3 ${
           theme === 'light' ? 'text-gray-900' : 'text-white'
         }`}>タスクを追加</h2>
-        <div className="grid sm:grid-cols-6 gap-3 items-stretch">
-          <input className={`border rounded-lg h-12 px-3 sm:col-span-1 min-w-0 ${
+        <div className="grid gap-3 sm:grid-cols-6 items-stretch">
+          <input className={`border rounded-lg h-10 sm:h-12 px-2 sm:px-3 text-sm sm:text-base sm:col-span-1 min-w-0 ${
             theme === 'light' 
               ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' 
               : 'bg-transparent border-white/20 text-white placeholder-white/50'
           }`} placeholder="タイトル" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-          <input className={`border rounded-lg h-12 px-3 sm:col-span-1 min-w-0 ${
+          <input className={`border rounded-lg h-10 sm:h-12 px-2 sm:px-3 text-sm sm:text-base sm:col-span-1 min-w-0 ${
             theme === 'light' 
               ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500' 
               : 'bg-transparent border-white/20 text-white placeholder-gray-300'
@@ -409,10 +409,10 @@ export default function TaskListClient() {
               value={newPriority.toString()}
               onChange={(value) => setNewPriority(Number(value))}
               placeholder="優先度"
-              buttonClassName="h-12"
+              buttonClassName="h-10 sm:h-12 text-sm sm:text-base"
             />
           </div>
-          <button className={`rounded-lg h-12 px-3 disabled:opacity-50 sm:col-span-1 transition-colors ${
+          <button className={`rounded-lg h-10 sm:h-12 px-2 sm:px-3 text-sm sm:text-base disabled:opacity-50 sm:col-span-1 transition-colors ${
             theme === 'light' 
               ? 'bg-gray-900 text-white hover:bg-gray-800 disabled:bg-gray-400' 
               : 'bg-white text-gray-900 hover:bg-gray-100 disabled:bg-gray-400'

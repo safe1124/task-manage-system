@@ -209,6 +209,16 @@ body::before {
   justify-content: space-between;
   min-width: 140px;
   backdrop-filter: blur(10px);
+  width: 100%;
+}
+
+/* Mobile-optimized dropdown button */
+@media (max-width: 640px) {
+  .dropdown-button {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-width: 120px;
+  }
 }
 
 .dropdown-button:hover {
@@ -263,6 +273,14 @@ body::before {
   color: var(--dropdown-text-color);
   cursor: pointer;
   transition: var(--dropdown-transition);
+}
+
+/* Mobile-optimized dropdown items */
+@media (max-width: 640px) {
+  .dropdown-item {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
 }
 
 .dropdown-item:hover {

@@ -13,11 +13,11 @@ export default async function TaskDetail({ params }: { params: Promise<{ id: str
   if (!task) return <div className="p-8">タスクが見つかりません</div>;
 
   return (
-    <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen p-4 sm:p-8 pb-20 sm:pb-20 font-[family-name:var(--font-geist-sans)]">
       <a href="/tasks" className="text-sm opacity-70 hover:underline">← タスク一覧へ</a>
-      <h1 className="text-2xl font-semibold mt-4 mb-2">{task.title}</h1>
-      <div className="text-sm opacity-80 mb-4">{task.description}</div>
-      <div className="grid gap-2 text-sm">
+      <h1 className="text-xl sm:text-2xl font-semibold mt-4 mb-2 px-1">{task.title}</h1>
+      <div className="text-sm opacity-80 mb-4 px-1">{task.description}</div>
+      <div className="grid gap-2 text-sm px-1">
         <div>状態: {task.status}</div>
         <div>優先度: {task.priority}</div>
         <div>期限: {(() => { const d = parseLocalDateTime(task.due_date) ?? (task.due_date ? new Date(task.due_date) : null); return formatDateTimeJa(d); })()}</div>

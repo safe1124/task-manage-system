@@ -116,13 +116,13 @@ export default function HeaderClient() {
           </button>
           
           {/* 중앙: 로고 */}
-          <div className="flex-1 text-center">
+          <div className="flex-1 flex items-center justify-center px-2">
             {user ? (
-              <a href="/tasks" className="text-lg sm:text-xl font-semibold brand-gradient">
+              <a href="/tasks" className="text-base sm:text-lg md:text-xl font-semibold brand-gradient text-center">
                 都市大課題管理
               </a>
             ) : (
-              <span className="text-lg sm:text-xl font-semibold brand-gradient cursor-default">
+              <span className="text-base sm:text-lg md:text-xl font-semibold brand-gradient text-center cursor-default">
                 都市大課題管理
               </span>
             )}
