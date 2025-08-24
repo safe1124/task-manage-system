@@ -38,21 +38,29 @@ allowed_origins.extend(vercel_domains)
 
 # 동적 CORS origin 체크
 def is_allowed_origin(origin: str) -> bool:
+    print(f"🔍 Checking origin: {origin}")
+    print(f"📋 Allowed origins: {allowed_origins}")
+    
     if not origin:
+        print("❌ No origin provided")
         return False
     
     # 허용된 정확한 도메인 체크
     if origin in allowed_origins:
+        print(f"✅ Origin {origin} found in allowed_origins")
         return True
     
     # Vercel 도메인 패턴 체크 (더 유연하게)
     if origin.endswith('.vercel.app') and 'coding-test' in origin:
+        print(f"✅ Origin {origin} matches Vercel pattern")
         return True
     
     # Netlify 도메인 패턴 체크 (더 유연하게)
     if origin.endswith('.netlify.app') and ('aishtask' in origin or 'tcutask' in origin):
+        print(f"✅ Origin {origin} matches Netlify pattern")
         return True
     
+    print(f"❌ Origin {origin} not allowed")
     return False
 
 app.add_middleware(
