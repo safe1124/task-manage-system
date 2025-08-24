@@ -97,7 +97,7 @@ async def options_handler(full_path: str, request: Request):
 
 @app.get("/check")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "cors_updated": "2025-08-24"}
 
 app.include_router(tasks_router)
 app.include_router(users_router)
