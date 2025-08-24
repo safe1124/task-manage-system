@@ -3754,3 +3754,460 @@ INFO:     127.0.0.1:49362 - "DELETE /tasks/25 HTTP/1.1" 204 No Content
 🔍 Session ID from header: ec61438f-ec8e-44ed-8981-4be2dee2b680
 🔍 User found for session: True
 INFO:     127.0.0.1:49362 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34736 - "OPTIONS /users/guest HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_ee36f388_1756012933@guest.com
+🔍 Guest user created successfully: f9ef9d99-3d54-424f-857d-801a5ae020ab
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': 'bea43884-be71-408f-a9b3-fb5fe3acc1c1', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: bea43884-be71-408f-a9b3-fb5fe3acc1c1
+INFO:     127.0.0.1:34736 - "POST /users/guest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34736 - "OPTIONS /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: bea43884-be71-408f-a9b3-fb5fe3acc1c1
+🔍 User found for session: True
+INFO:     127.0.0.1:34736 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46576 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46576 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39310 - "GET /check HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39318 - "OPTIONS /users/guest HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_cd856853_1756013022@guest.com
+🔍 Guest user created successfully: 57ec6dc1-8e07-4acd-956b-c6abafce85a0
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': '20099bf9-8a19-40f4-8a19-fff5ba7b9a6a', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: 20099bf9-8a19-40f4-8a19-fff5ba7b9a6a
+INFO:     127.0.0.1:39334 - "POST /users/guest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39318 - "OPTIONS /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 20099bf9-8a19-40f4-8a19-fff5ba7b9a6a
+🔍 User found for session: True
+INFO:     127.0.0.1:39334 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32862 - "GET /check HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_f0ced144_1756013099@guest.com
+🔍 Guest user created successfully: a72e82ce-2df7-4d6c-9ddd-c4a184c518de
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': '6cb4c42e-3928-4b76-8a62-d369f55e21f1', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: 6cb4c42e-3928-4b76-8a62-d369f55e21f1
+INFO:     127.0.0.1:49664 - "POST /users/guest HTTP/1.1" 200 OK
+🔍 Session ID from header: 6cb4c42e-3928-4b76-8a62-d369f55e21f1
+🔍 User found for session: True
+INFO:     127.0.0.1:49664 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49664 - "OPTIONS /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 6cb4c42e-3928-4b76-8a62-d369f55e21f1
+🔍 User found for session: True
+INFO:     127.0.0.1:49664 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49678 - "OPTIONS /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 6cb4c42e-3928-4b76-8a62-d369f55e21f1
+🔍 User found for session: True
+INFO:     127.0.0.1:49664 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 6cb4c42e-3928-4b76-8a62-d369f55e21f1
+🔍 User found for session: True
+INFO:     127.0.0.1:49678 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 6cb4c42e-3928-4b76-8a62-d369f55e21f1
+🔍 User found for session: True
+INFO:     127.0.0.1:49664 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49678 - "OPTIONS /users/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49664 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:49678 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_1784fb60_1756013106@guest.com
+🔍 Guest user created successfully: f0698a86-e520-4e22-94b9-044c8c1a6a63
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': 'e028ddfc-b8dd-4e75-87c9-a2fd61aaaac4', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: e028ddfc-b8dd-4e75-87c9-a2fd61aaaac4
+INFO:     127.0.0.1:49664 - "POST /users/guest HTTP/1.1" 200 OK
+🔍 Session ID from header: e028ddfc-b8dd-4e75-87c9-a2fd61aaaac4
+🔍 User found for session: True
+INFO:     127.0.0.1:49678 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: e028ddfc-b8dd-4e75-87c9-a2fd61aaaac4
+🔍 Session ID from header: e028ddfc-b8dd-4e75-87c9-a2fd61aaaac4
+🔍 User found for session: True
+INFO:     127.0.0.1:49664 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 User found for session: True
+INFO:     127.0.0.1:49678 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49664 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:49678 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_e3365c44_1756013116@guest.com
+🔍 Guest user created successfully: dda11aa6-e26c-4b56-9771-c44822392891
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': '38b8800c-c185-423e-b2e9-72e8dc8e9359', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: 38b8800c-c185-423e-b2e9-72e8dc8e9359
+INFO:     127.0.0.1:46798 - "POST /users/guest HTTP/1.1" 200 OK
+🔍 Session ID from header: 38b8800c-c185-423e-b2e9-72e8dc8e9359
+🔍 User found for session: True
+INFO:     127.0.0.1:46798 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 38b8800c-c185-423e-b2e9-72e8dc8e9359
+🔍 User found for session: True
+INFO:     127.0.0.1:46798 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 38b8800c-c185-423e-b2e9-72e8dc8e9359
+🔍 User found for session: True
+INFO:     127.0.0.1:46806 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46798 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:46806 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39996 - "OPTIONS /users/login HTTP/1.1" 200 OK
+🔍 Login attempt - Email: safe1124@naver.com
+🔍 User found: True
+🔍 Password valid: True
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': '4d44b021-ab17-4d77-9f6c-1f19adedc467', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+INFO:     127.0.0.1:39996 - "POST /users/login HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:39996 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:39996 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:37966 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:37966 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:37980 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:34316 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:34316 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:34316 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:34316 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42018 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42018 - "GET /openapi.json HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:39198 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:39198 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:39204 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 20099bf9-8a19-40f4-8a19-fff5ba7b9a6a
+🔍 User found for session: True
+INFO:     127.0.0.1:41780 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41782 - "OPTIONS /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41792 - "OPTIONS /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 20099bf9-8a19-40f4-8a19-fff5ba7b9a6a
+🔍 User found for session: True
+INFO:     127.0.0.1:41780 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 20099bf9-8a19-40f4-8a19-fff5ba7b9a6a
+🔍 User found for session: True
+INFO:     127.0.0.1:41798 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44212 - "OPTIONS /tasks/15 HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:44212 - "DELETE /tasks/15 HTTP/1.1" 204 No Content
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:44212 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:44212 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 4d44b021-ab17-4d77-9f6c-1f19adedc467
+🔍 User found for session: True
+INFO:     127.0.0.1:44212 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44212 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:44212 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_53b9e8c7_1756013528@guest.com
+🔍 Guest user created successfully: 3661cc4e-dac4-42c8-b4ba-b13f047b2b77
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': '337f0a9b-c5b5-4695-b63c-8b895fa5886d', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: 337f0a9b-c5b5-4695-b63c-8b895fa5886d
+INFO:     127.0.0.1:44212 - "POST /users/guest HTTP/1.1" 200 OK
+🔍 Session ID from header: 337f0a9b-c5b5-4695-b63c-8b895fa5886d
+🔍 User found for session: True
+INFO:     127.0.0.1:44212 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 337f0a9b-c5b5-4695-b63c-8b895fa5886d
+🔍 User found for session: True
+INFO:     127.0.0.1:44212 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 337f0a9b-c5b5-4695-b63c-8b895fa5886d
+🔍 User found for session: True
+INFO:     127.0.0.1:39724 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57582 - "OPTIONS /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 337f0a9b-c5b5-4695-b63c-8b895fa5886d
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 337f0a9b-c5b5-4695-b63c-8b895fa5886d
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57582 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: ce5f2e9d-5541-430e-804c-4ff8f8657cf3
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: ce5f2e9d-5541-430e-804c-4ff8f8657cf3
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: ce5f2e9d-5541-430e-804c-4ff8f8657cf3
+🔍 User found for session: True
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57582 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 026d1fbe-119d-45f3-b25a-d419db6a2e4d
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 026d1fbe-119d-45f3-b25a-d419db6a2e4d
+🔍 Session ID from header: 026d1fbe-119d-45f3-b25a-d419db6a2e4d
+🔍 User found for session: True
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57582 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 0983a139-502b-4852-8992-90bd8e0f6de9
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 0983a139-502b-4852-8992-90bd8e0f6de9
+🔍 Session ID from header: 0983a139-502b-4852-8992-90bd8e0f6de9
+🔍 User found for session: True
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57592 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: c25b72fe-2999-410b-b9f8-01a8dd124613
+🔍 User found for session: True
+INFO:     127.0.0.1:57592 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: c25b72fe-2999-410b-b9f8-01a8dd124613
+🔍 Session ID from header: c25b72fe-2999-410b-b9f8-01a8dd124613
+🔍 User found for session: True
+🔍 User found for session: True
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57592 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 8333a7c3-86b9-4786-994e-58aa53442b54
+🔍 User found for session: True
+INFO:     127.0.0.1:57592 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 8333a7c3-86b9-4786-994e-58aa53442b54
+🔍 Session ID from header: 8333a7c3-86b9-4786-994e-58aa53442b54
+🔍 User found for session: True
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 8333a7c3-86b9-4786-994e-58aa53442b54
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 8333a7c3-86b9-4786-994e-58aa53442b54
+🔍 User found for session: True
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57582 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:57582 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+🔍 User found for session: True
+INFO:     127.0.0.1:57592 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57582 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:58522 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:58522 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:49460 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:49460 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:49460 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:49460 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:49460 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:49460 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: e0ef050e-6f12-4863-a9e5-f61b888ec944
+🔍 User found for session: True
+INFO:     127.0.0.1:49460 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49460 - "POST /users/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49460 - "OPTIONS /users/guest HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_0caefeda_1756013674@guest.com
+🔍 Guest user created successfully: cbf7b4c5-d10c-4e1c-8431-2b66cb0788ee
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': 'bdaf086e-66c8-4bb8-8dc3-a23e4af79136', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: bdaf086e-66c8-4bb8-8dc3-a23e4af79136
+INFO:     127.0.0.1:49460 - "POST /users/guest HTTP/1.1" 200 OK
+🔍 Session ID from header: bdaf086e-66c8-4bb8-8dc3-a23e4af79136
+🔍 User found for session: True
+INFO:     127.0.0.1:49460 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: bdaf086e-66c8-4bb8-8dc3-a23e4af79136
+🔍 User found for session: True
+INFO:     127.0.0.1:49460 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: bdaf086e-66c8-4bb8-8dc3-a23e4af79136
+🔍 User found for session: True
+INFO:     127.0.0.1:37562 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: bdaf086e-66c8-4bb8-8dc3-a23e4af79136
+🔍 User found for session: True
+INFO:     127.0.0.1:56018 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56018 - "OPTIONS /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: bdaf086e-66c8-4bb8-8dc3-a23e4af79136
+🔍 User found for session: True
+INFO:     127.0.0.1:56018 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56022 - "OPTIONS /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: bdaf086e-66c8-4bb8-8dc3-a23e4af79136
+🔍 User found for session: True
+INFO:     127.0.0.1:56018 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56022 - "OPTIONS /users/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56018 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:56022 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_b4573be8_1756014051@guest.com
+🔍 Guest user created successfully: e6eeb8e5-b704-47e0-94e0-0c199e17b8e2
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': 'b16c8c60-bae6-4efe-a5d3-e114cf628e5c', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+INFO:     127.0.0.1:56018 - "POST /users/guest HTTP/1.1" 200 OK
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 User found for session: True
+INFO:     127.0.0.1:56022 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 User found for session: True
+🔍 User found for session: True
+INFO:     127.0.0.1:56018 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56022 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 User found for session: True
+INFO:     127.0.0.1:36956 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 User found for session: True
+INFO:     127.0.0.1:36956 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 User found for session: True
+INFO:     127.0.0.1:36956 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 User found for session: True
+INFO:     127.0.0.1:36956 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 User found for session: True
+INFO:     127.0.0.1:36956 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 User found for session: True
+INFO:     127.0.0.1:36956 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: b16c8c60-bae6-4efe-a5d3-e114cf628e5c
+🔍 User found for session: True
+INFO:     127.0.0.1:36956 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36956 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:36956 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_916a6602_1756014080@guest.com
+🔍 Guest user created successfully: f87d9e07-d92a-4382-abc2-17cc3293a854
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': 'f90b1008-4579-4646-9167-f3564c556529', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: f90b1008-4579-4646-9167-f3564c556529
+INFO:     127.0.0.1:36956 - "POST /users/guest HTTP/1.1" 200 OK
+🔍 Session ID from header: f90b1008-4579-4646-9167-f3564c556529
+🔍 User found for session: True
+INFO:     127.0.0.1:36956 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: f90b1008-4579-4646-9167-f3564c556529
+🔍 User found for session: True
+INFO:     127.0.0.1:36956 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: f90b1008-4579-4646-9167-f3564c556529
+🔍 User found for session: True
+INFO:     127.0.0.1:51446 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55868 - "GET /check HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47718 - "OPTIONS /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 20099bf9-8a19-40f4-8a19-fff5ba7b9a6a
+🔍 User found for session: True
+INFO:     127.0.0.1:47730 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47718 - "OPTIONS /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 20099bf9-8a19-40f4-8a19-fff5ba7b9a6a
+🔍 User found for session: True
+INFO:     127.0.0.1:47730 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47734 - "OPTIONS /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 20099bf9-8a19-40f4-8a19-fff5ba7b9a6a
+🔍 User found for session: True
+INFO:     127.0.0.1:47730 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46440 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:46440 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46440 - "OPTIONS /users/guest HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_c3201c54_1756014305@guest.com
+🔍 Guest user created successfully: 578262d1-b700-4869-a22f-687847c1b4d5
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': 'b7bb8fd5-938a-4a6b-991e-ff1f608b1912', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: b7bb8fd5-938a-4a6b-991e-ff1f608b1912
+INFO:     127.0.0.1:46440 - "POST /users/guest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46440 - "OPTIONS /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: b7bb8fd5-938a-4a6b-991e-ff1f608b1912
+🔍 User found for session: True
+INFO:     127.0.0.1:46440 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: b7bb8fd5-938a-4a6b-991e-ff1f608b1912
+🔍 User found for session: True
+INFO:     127.0.0.1:46440 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: b7bb8fd5-938a-4a6b-991e-ff1f608b1912
+🔍 User found for session: True
+INFO:     127.0.0.1:47550 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46440 - "POST /users/logout HTTP/1.1" 200 OK
+🔍 Session ID from cookie: None
+❌ No session ID found
+INFO:     127.0.0.1:47550 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Guest login attempt
+🔍 Creating guest user: guest_df8b8e52_1756014502@guest.com
+🔍 Guest user created successfully: f466168b-8d26-43a1-bceb-4b658e755bcb
+🔍 Environment: None, is_production: False
+🔍 Cookie settings: {'key': 'session_id', 'value': '024e23d3-bb92-4b4e-9481-45a78c7f6917', 'max_age': 86400, 'httponly': False, 'samesite': 'lax', 'secure': False, 'path': '/', 'domain': None}
+✅ Guest login successful: 024e23d3-bb92-4b4e-9481-45a78c7f6917
+INFO:     127.0.0.1:52294 - "POST /users/guest HTTP/1.1" 200 OK
+🔍 Session ID from header: 024e23d3-bb92-4b4e-9481-45a78c7f6917
+🔍 User found for session: True
+INFO:     127.0.0.1:52294 - "GET /users/me HTTP/1.1" 200 OK
+🔍 Session ID from header: 024e23d3-bb92-4b4e-9481-45a78c7f6917
+🔍 User found for session: True
+INFO:     127.0.0.1:52294 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+🔍 Session ID from header: 024e23d3-bb92-4b4e-9481-45a78c7f6917
+🔍 User found for session: True
+INFO:     127.0.0.1:52308 - "GET /tasks/?sort=created_desc HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [72418]
+Sun Aug 24 05:48:28 UTC 2025: Backend server stopped with exit code: 143
+Sun Aug 24 05:48:28 UTC 2025: Server stopped normally, exiting...
+Sun Aug 24 05:48:28 UTC 2025: Backend monitor script stopped

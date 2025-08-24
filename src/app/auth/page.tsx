@@ -7,7 +7,7 @@ import styles from "./auth.module.css";
 
 export default function AuthPage() {
   const router = useRouter();
-  const { login, loginAsGuest, user, isLoading } = useAuth();
+  const { login, loginAsGuest, user, isLoading, setUser } = useAuth();
   const { theme } = useTheme();
   const [mode, setMode] = useState<"login" | "register">("login");
 
@@ -20,6 +20,8 @@ export default function AuthPage() {
   // 계정 정보 모달 상태
   const [showAccountInfo, setShowAccountInfo] = useState(false);
   const [accountInfo, setAccountInfo] = useState<{ id: string; password: string } | null>(null);
+  const [preventRedirect, setPreventRedirect] = useState(false);
+  const [loadingGuest, setLoadingGuest] = useState(false);
 
   // Check for client-side
   useEffect(() => {
@@ -28,10 +30,10 @@ export default function AuthPage() {
 
   // Redirect if already authenticated
   useEffect(() => {
-    if (!isLoading && user) {
+    if (!isLoading && user && !preventRedirect) {
       router.replace('/tasks');
     }
-  }, [user, isLoading, router]);
+  }, [user, isLoading, router, preventRedirect]);
 
   async function submit() {
     console.log("Submit function called");
@@ -88,35 +90,69 @@ export default function AuthPage() {
     }
   }
 
-  async function startGuestMode() {
-    console.log("Guest mode function called");
-    setMsg(null);
-    
+  const [guestUserData, setGuestUserData] = useState<any>(null);
+
+  const startGuestMode = async () => {
+    console.log("Starting guest mode...");
+    setLoadingGuest(true);
+    setPreventRedirect(true);
+
     try {
-      setMsg("체험 모드를 시작중...");
       const result = await loginAsGuest();
+      console.log("Guest login result:", result);
       
-      if (!result.success) {
-        setMsg("체험 모드 시작에 실패했습니다. 다시 시도해주세요.");
-        return;
-      }
-      
-      if (result.accountInfo) {
+      if (result.success && result.accountInfo) {
         setAccountInfo(result.accountInfo);
         setShowAccountInfo(true);
-        setMsg(null);
+        console.log("Account info set, modal should be visible:", {
+          accountInfo: result.accountInfo,
+          showAccountInfo: true
+        });
+      } else {
+        throw new Error("Failed to create guest account");
       }
-      
-      // 리다이렉트는 계정 정보 모달을 닫을 때 처리
-    } catch (e: any) {
-      setMsg("체험 모드 시작 중 오류가 발생했습니다.");
+    } catch (error) {
+      console.error("Guest mode error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      alert(`체험 모드 시작에 실패했습니다: ${errorMessage}`);
+      setPreventRedirect(false);
+    } finally {
+      setLoadingGuest(false);
     }
-  }
+  };
 
   // 계정 정보 모달 닫기 및 태스크 페이지로 이동
-  function closeAccountInfoModal() {
+  async function closeAccountInfoModal() {
     setShowAccountInfo(false);
     setAccountInfo(null);
+    
+    // 모달이 닫힐 때 사용자 정보를 직접 가져와서 설정
+    try {
+      const sessionId = localStorage.getItem('session_id');
+      if (sessionId) {
+        const isProduction = typeof window !== 'undefined' && window.location.hostname !== 'localhost';
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 
+                          (isProduction ? 'https://unique-perception-production.up.railway.app' : 'http://localhost:8000');
+        
+        const userResponse = await fetch(`${backendUrl}/users/me`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${sessionId}`,
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+        
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          setUser({ ...userData, isGuest: true });
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
+    }
+    
+    setPreventRedirect(false);
     router.replace('/tasks');
   }
 
@@ -204,9 +240,10 @@ export default function AuthPage() {
             <button
               type="button"
               onClick={startGuestMode}
-              className={`${styles.authBtn} ${styles.authBtnGuest}`}
+              disabled={loadingGuest}
+              className={`${styles.authBtn} ${styles.authBtnGuest} ${loadingGuest ? styles.authBtnLoading : ''}`}
             >
-              体験モード
+              {loadingGuest ? "作成中..." : "体験モード"}
             </button>
             <p className={styles.authGuestNote}>
               アカウント登録なしでタスク管理機能をお試しいただけます
@@ -232,29 +269,29 @@ export default function AuthPage() {
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <div className={styles.modalHeader}>
-              <h2 className={styles.modalTitle}>체험 계정이 생성되었습니다</h2>
+              <h2 className={styles.modalTitle}>体験アカウントが作成されました</h2>
               <button 
                 className={styles.modalCloseBtn}
                 onClick={closeAccountInfoModal}
-                title="닫기"
+                title="閉じる"
               >
                 ×
               </button>
             </div>
             <div className={styles.modalBody}>
-              <p className={styles.modalText}>당신의 ID, PW는 다음과 같습니다</p>
+              <p className={styles.modalText}>あなたのID、パスワードは以下の通りです</p>
               <div className={styles.accountInfoBox}>
                 <div className={styles.accountInfoItem}>
                   <label>ID:</label>
                   <span className={styles.accountInfoValue}>{accountInfo.id}</span>
                 </div>
                 <div className={styles.accountInfoItem}>
-                  <label>Password:</label>
+                  <label>パスワード:</label>
                   <span className={styles.accountInfoValue}>{accountInfo.password}</span>
                 </div>
               </div>
               <p className={styles.modalWarning}>
-                만일을 대비해서 보존해 주세요
+                万が一に備えて保存してください
               </p>
             </div>
             <div className={styles.modalFooter}>
@@ -262,7 +299,7 @@ export default function AuthPage() {
                 className={styles.modalConfirmBtn}
                 onClick={closeAccountInfoModal}
               >
-                확인
+                確認
               </button>
             </div>
           </div>

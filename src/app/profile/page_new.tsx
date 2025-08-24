@@ -7,7 +7,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user, isLoading: authLoading, reloadUser, setUser } = useAuth();
+  const { user, isLoading: authLoading, reloadUser } = useAuth();
   const { theme } = useTheme();
   
   const [name, setName] = useState("");
@@ -36,11 +36,7 @@ export default function ProfilePage() {
       
       if (res.ok) {
         setMsg("プロフィールを保存しました");
-        
-        // reloadUser 대신 현재 user 상태에서 이름만 업데이트
-        if (user) {
-          setUser({ ...user, name, avatar_url: avatarUrl || undefined });
-        }
+        await reloadUser(); // Reload user data in context to update header
       } else {
         const errorData = await res.json().catch(() => ({}));
         setMsg(`保存に失敗しました: ${errorData.detail || 'Unknown error'}`);
@@ -58,6 +54,7 @@ export default function ProfilePage() {
       return;
     }
     
+    // 체험 사용자는 비밀번호 변경 불가
     if (user?.isGuest || user?.name?.includes('体験ユーザー')) {
       setMsg("体験アカウントではパスワードを変更できません。");
       return;

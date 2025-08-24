@@ -137,7 +137,7 @@ def guest_login(response: Response, db: Session = Depends(get_db)):
     import random
     guest_id = str(random.randint(1000, 9999))
     guest_email = f"{guest_id}@tcu.ac.jp"
-    guest_name = f"체험사용자_{guest_id}"
+    guest_name = f"体験ユーザー{guest_id}"
     
     # 숫자 6자리 비밀번호 생성 (100000-999999)
     guest_password = str(random.randint(100000, 999999))
